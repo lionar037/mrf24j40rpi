@@ -235,7 +235,18 @@ void handle_rx() {
       for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
         //monitor->set(" Packet data (PHY Payload) :",files,col);
-          std::cout <<std::hex<< zigbee->get_rxbuf()[i];
+        if (i<16){
+            std::cout << std::to_string(zigbee->get_rxbuf()[i]);
+        }
+        elseif (i>16)
+        {
+            std::cout <<std::hex<< zigbee->get_rxbuf()[i];
+        }
+        else {
+            std::cout <<".";
+        }
+
+          
       }
       #endif
     }
