@@ -29,7 +29,7 @@ namespace SPI{
     void init();
     void settings_spi();
     void spi_close();
-    const uint8_t Transfer1bytes(const uint16_t cmd);
+    const uint8_t Transfer1bytes(const uint8_t cmd);
     const uint8_t Transfer2bytes(const uint16_t address);
     const uint8_t Transfer3bytes(const uint32_t address);
     void printDBGSpi();
@@ -38,14 +38,14 @@ namespace SPI{
 
   private:
 
-    uint8_t tx_buffer[MAX_BUFFER]{0x00};
-    uint8_t rx_buffer[MAX_BUFFER]{0x00};
+    uint8_t m_tx_buffer[MAX_BUFFER]{0x00};
+    uint8_t m_rx_buffer[MAX_BUFFER]{0x00};
 
-    const uint32_t len_data { 32 };
-    const uint32_t spi_speed { 0 };
+    const uint32_t m_len_data { 32 };
+    const uint32_t m_spi_speed { 0 };
     
-    int fs{0};
-    int ret{0};
+    int m_fs{0};
+    int m_ret{0};
     uint8_t looper{0};
     uint32_t scratch32{0};
     std::unique_ptr<struct spi_ioc_transfer >spi{nullptr};

@@ -19,10 +19,10 @@
 namespace SPI {
 
   void Spi_t::settings_spi(){
-      spi->tx_buf = (unsigned long)tx_buffer;
-      spi->rx_buf = (unsigned long)rx_buffer;
+      spi->tx_buf = (unsigned long)m_tx_buffer;
+      spi->rx_buf = (unsigned long)m_rx_buffer;
       spi->bits_per_word = 0;
-      spi->speed_hz = spi_speed;
+      spi->speed_hz = m_spi_speed;
       spi->delay_usecs = 1;
       spi->len = 3;        
 /*          
@@ -35,52 +35,52 @@ namespace SPI {
           rx_buffer[2] = 0xFF;
           rx_buffer[3] = 0xff;
 */
-          std::memcpy(tx_buffer,0x00,sizeof(tx_buffer));
-          std::memcpy(rx_buffer,0xff,sizeof(rx_buffer));
+          std::memcpy(m_tx_buffer,0x00,sizeof(m_tx_buffer));
+          std::memcpy(m_rx_buffer,0xff,sizeof(m_rx_buffer));
     return;
   }
 
   void Spi_t::init(){
-  fs = open(SPI_DEVICE, O_RDWR);
-  if(fs < 0) {
+  m_fs = open(SPI_DEVICE, O_RDWR);
+  if(m_fs < 0) {
       msj_fail();
       exit(EXIT_FAILURE);
     }
-    ret = ioctl(fs, SPI_IOC_RD_MODE, &scratch32);
-  if(ret != 0) {
+    m_ret = ioctl(m_fs, SPI_IOC_RD_MODE, &scratch32);
+  if(m_ret != 0) {
         msj_fail();
-        if(fs)close(fs);
+        if(m_fs)close(m_fs);
         exit(EXIT_FAILURE);
     }
     scratch32 |= SPI_MODE_0;
-    ret = ioctl(fs, SPI_IOC_WR_MODE, &scratch32);   //SPI_IOC_WR_MODE32
-  if(ret != 0) {
+    m_ret = ioctl(m_fs, SPI_IOC_WR_MODE, &scratch32);   //SPI_IOC_WR_MODE32
+  if(m_ret != 0) {
       msj_fail();
-      close(fs);
+      close(m_fs);
       exit(EXIT_FAILURE);
     }
-    ret = ioctl(fs, SPI_IOC_RD_MAX_SPEED_HZ, &scratch32);
-  if(ret != 0) {
-      close(fs);
+    m_ret = ioctl(m_fs, SPI_IOC_RD_MAX_SPEED_HZ, &scratch32);
+  if(m_ret != 0) {
+      close(m_fs);
       exit(EXIT_FAILURE);
     }
-      scratch32 = spi_speed;
-      ret = ioctl(fs, SPI_IOC_WR_MAX_SPEED_HZ, &scratch32);
+      scratch32 = m_spi_speed;
+      m_ret = ioctl(m_fs, SPI_IOC_WR_MAX_SPEED_HZ, &scratch32);
 
-      if(ret != 0) {
+      if(m_ret != 0) {
           msj_fail();
-          close(fs);
+          close(m_fs);
           exit(EXIT_FAILURE);
       }
       return;
   }
 
   const uint32_t Spi_t::getSpeed(){
-    return static_cast<uint32_t>(SPI_SPEED);
+    return m_spi_speed;//static_cast<uint32_t>(SPI_SPEED);
   }
 
   const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd){
-      if (fs < 0) {
+      if (m_fs < 0) {
         std::cerr << "SPI device not open." << std::endl;
         return -1;
       }
@@ -96,7 +96,7 @@ namespace SPI {
         spi->cs_change = 0;
         spi->delay_usecs = 0;
 
-        int ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
+        int ret = ioctl(m_fs, SPI_IOC_MESSAGE(1), spi.get());
         if (ret < 0) {
             std::cerr << "Error en Transfer1bytes: " << strerror(errno) << std::endl;
             return -1;
@@ -106,38 +106,38 @@ namespace SPI {
 
   const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
       spi->len = sizeof(cmd);
-      rx_buffer[0]=rx_buffer[1]=0xff;
-      rx_buffer[2]=rx_buffer[3]=0x00;
-      memcpy(tx_buffer, &cmd, sizeof(cmd));
-      ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
+      m_rx_buffer[0]=m_rx_buffer[1]=0xff;
+      m_rx_buffer[2]=m_rx_buffer[3]=0x00;
+      memcpy(m_tx_buffer, &cmd, sizeof(cmd));
+      m_ret = ioctl(m_fs, SPI_IOC_MESSAGE(1), spi.get());
       if((cmd>>8&0xff)==0x00)
           printDBGSpi(); 
         //if(ret != 0) return rx_buffer[1];  
-    return rx_buffer[1];
+    return m_rx_buffer[1];
     }
 
   const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd){
     spi->len = 3;
-    rx_buffer[0]=rx_buffer[1]=rx_buffer[2]==0xff;
-    rx_buffer[3]=0x00;
-    memcpy(tx_buffer, &cmd, sizeof(cmd));
-    ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
+    m_rx_buffer[0]=m_rx_buffer[1]=m_rx_buffer[2]==0xff;
+    m_rx_buffer[3]=0x00;
+    memcpy(m_tx_buffer, &cmd, sizeof(cmd));
+    m_ret = ioctl(m_fs, SPI_IOC_MESSAGE(1), spi.get());
       if((cmd>>16&0xff)==0x00) 
         printDBGSpi();
         //if(ret != 0) return rx_buffer[2];       
-    return rx_buffer[2];
+    return m_rx_buffer[2];
     }
 
   void Spi_t::spi_close(){
-          if(fs)close(fs);
+          if(m_fs)close(m_fs);
         return;
       }
 
   Spi_t::Spi_t()
       :      
-        tx_buffer { 0x00 },
-        rx_buffer { 0x00 },
-        spi_speed { SPI_SPEED }, 
+        m_tx_buffer { 0x00 },
+        m_rx_buffer { 0x00 },
+        m_spi_speed { SPI_SPEED }, 
         spi       { std::make_unique<struct spi_ioc_transfer >() } 
       {
             #ifdef DBG_SPI
