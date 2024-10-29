@@ -9,12 +9,12 @@
 #include <work/rfflush.hpp>
 
 //#include <app/src/data_analisis.h>
-//#include <vector>
+#include <memory>
 #include <string_view>
 
 namespace MRF24J40{ 
 
-Mrf24j mrf24j40_spi ;
+std::unique_ptr<Mrf24j> mrf24j40_spi ;
 
 Radio_t::Radio_t() 
 #ifdef ENABLE_INTERRUPT_MRF24
@@ -45,33 +45,33 @@ Radio_t::Radio_t()
     #ifdef DBG
     std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
     #endif
-
-    mrf24j40_spi.init();
-    mrf24j40_spi.interrupt_handler();
-    mrf24j40_spi.set_pan(PAN_ID);
+    mrf24j40_spi = std::make_unique<Mrf24j>();
+    mrf24j40_spi->init();
+    mrf24j40_spi->interrupt_handler();
+    mrf24j40_spi->set_pan(PAN_ID);
     // This is _our_ address
 
     #ifdef MACADDR16
-        mrf24j40_spi.address16_write(ADDRESS); 
+        mrf24j40_spi->address16_write(ADDRESS); 
     #elif defined (MACADDR64)
-        mrf24j40_spi.address64_write(ADDRESS_LONG);
+        mrf24j40_spi->address64_write(ADDRESS_LONG);
     #endif
 
     // uncomment if you want to receive any packet on this channel
-  //mrf24j40_spi.set_promiscuous(true);
-  mrf24j40_spi.settings_mrf();
+  //mrf24j40_spi->set_promiscuous(true);
+  mrf24j40_spi->settings_mrf();
   
     // uncomment if you want to enable PA/LNA external control
-  mrf24j40_spi.set_palna(true);
+  mrf24j40_spi->set_palna(true);
   
     // uncomment if you want to buffer all PHY Payload
-  mrf24j40_spi.set_bufferPHY(true);
+  mrf24j40_spi->set_bufferPHY(true);
 
     //attachInterrupt(0, interrupt_routine, CHANGE); // interrupt 0 equivalent to pin 2(INT0) on ATmega8/168/328
     //last_time = millis();
 
     //Single send cmd
-    //mrf24j40_spi.Transfer3bytes(0xE0C1);
+    //mrf24j40_spi->Transfer3bytes(0xE0C1);
     
     flag=true;
    // Run();
@@ -87,7 +87,7 @@ void Radio_t::Run(void){
         gpio->app(flag);
         //system("clear"); 
 
-        mrf24j40_spi.interrupt_handler();
+        mrf24j40_spi->interrupt_handler();
         Init(flag);        
     }
 }
@@ -95,7 +95,7 @@ void Radio_t::Run(void){
 
 void Radio_t::Init(bool& flag) {
 
-    flag = mrf24j40_spi.check_flags(&handle_rx, &handle_tx);
+    flag = mrf24j40_spi->check_flags(&handle_rx, &handle_tx);
     const unsigned long current_time = 10000;//1000000 original
     if (current_time - last_time > tx_interval) {
         last_time = current_time;
@@ -123,20 +123,20 @@ void Radio_t::Init(bool& flag) {
         std::cout<<"\n" ;         
         
         #ifdef MACADDR64
-            mrf24j40_spi.send(ADDRESS_LONG_SLAVE, msj);
-           // mrf24j40_spi.send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
-           //mrf24j40_spi.send(ADDRESS_LONG_SLAVE, msj);
+            mrf24j40_spi->send(ADDRESS_LONG_SLAVE, msj);
+           // mrf24j40_spi->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
+           //mrf24j40_spi->send(ADDRESS_LONG_SLAVE, msj);
         #elif defined(MACADDR16)
-            mrf24j40_spi.send(ADDR_SLAVE, msj);
-            //mrf24j40_spi.send(ADDR_SLAVE, pf );
-            //mrf24j40_spi.send16(ADDR_SLAVE, MSJ );//send data//original//mrf24j40_spi.send16(0x4202, "abcd")
+            mrf24j40_spi->send(ADDR_SLAVE, msj);
+            //mrf24j40_spi->send(ADDR_SLAVE, pf );
+            //mrf24j40_spi->send16(ADDR_SLAVE, MSJ );//send data//original//mrf24j40_spi.send16(0x4202, "abcd")
         #endif
     #endif
     }
 }
 
 void Radio_t::interrupt_routine() {
-    mrf24j40_spi.interrupt_handler(); // mrf24 object interrupt routine
+    mrf24j40_spi->interrupt_handler(); // mrf24 object interrupt routine
 }
 
 void update(std::string_view str_view){
@@ -182,12 +182,12 @@ return ;
 
 void handle_tx() {
     #ifdef MRF24_TRANSMITER_ENABLE
-    const auto status = mrf24j40_spi.get_txinfo()->tx_ok;
+    const auto status = mrf24j40_spi->get_txinfo()->tx_ok;
          if (status) {
              std::cout<<"TX went ok, got ack \n";
          } else {
              std::cout<<"\nTX failed after \n";
-             std::cout<<mrf24j40_spi.get_txinfo()->retries;
+             std::cout<<mrf24j40_spi->get_txinfo()->retries;
              std::cout<<" retries\n";
          }
     #endif     
