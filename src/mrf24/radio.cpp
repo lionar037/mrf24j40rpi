@@ -254,7 +254,7 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
         auto bs = (!buffer_receiver->size)&0xffff;
         std::cout<< "buffer_receiver->size : " << reinterpret_cast<const int *>(bs)<<"\n";
         std::cout<< "data_receiver->data : " <<reinterpret_cast<const char *>(buffer_receiver->data)<<"\n";
-        std::cout<<"\nbuff: \n"<<buff;
+        std::cout<<"\nbuff: \n"<<buffer_receiver->size;
         std::cout<<"\r\n";
     #endif
     
