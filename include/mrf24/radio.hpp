@@ -28,9 +28,11 @@
 #endif
 
 #ifdef USE_MRF24_RX
+    #ifdef USE_OLED
     namespace OLED{
         struct Oled_t;
     }
+    #endif
 #endif
 
 #define POSITIOM_INIT_PRINTS 2

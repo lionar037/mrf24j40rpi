@@ -137,10 +137,12 @@ void update(std::string_view str_view){
     
     const int positionAdvance{15};
     auto            fs          { std::make_unique<FILESYSTEM::File_t> () };
+    #ifdef USE_QR
     auto            qr_img      { std::make_unique<QR::Qr_img_t>() };
     //auto            qr_tmp      { std::make_unique<QR::QrOled_t>() };
+    #endif
     auto            monitor     { std::make_unique <FFLUSH::Fflush_t>()};
-    #ifdef MRF24_RECEIVER_ENABLE
+    #ifdef USE_OLED
         static auto     oled        { std::make_unique<OLED::Oled_t>() };    //inicializar una sola vez 
     #endif
     const auto*     packet_data = reinterpret_cast<const char*>(str_view.data());
@@ -151,7 +153,7 @@ void update(std::string_view str_view){
     SET_COLOR(SET_COLOR_GRAY_TEXT);
   
 
-    #ifdef MRF24_RECEIVER_ENABLE
+    #ifdef USE_OLED
         oled->create(PacketDataTmp.c_str());  
     #endif
     //auto qr = std::make_unique<QR::QrOled_t>();
@@ -165,7 +167,9 @@ void update(std::string_view str_view){
     
     fs->create(packet_data);
     std::cout<<"\n";
-   qr_img->create(packet_data);
+    #ifdef USE_QR
+        qr_img->create(packet_data);
+   #endif
 return ;    
 }
 
@@ -255,8 +259,8 @@ monitor->print("RSSI : " + std::to_string(mrf24j40_spi.get_rxinfo()->rssi) ,file
     //RST_COLOR() ;
     //std::cout<<"\r\n";
     #endif
-RST_COLOR() ;   
-SET_COLOR(SET_COLOR_RED_TEXT);
+    RST_COLOR() ;   
+    SET_COLOR(SET_COLOR_RED_TEXT);
      update(reinterpret_cast<const char*>(mrf24j40_spi.get_rxinfo()->rx_data));
  
 }
