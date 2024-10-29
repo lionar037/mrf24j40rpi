@@ -35,8 +35,8 @@ namespace SPI {
           rx_buffer[2] = 0xFF;
           rx_buffer[3] = 0xff;
 */
-          std::memcpy(m_tx_buffer,0x00,sizeof(m_tx_buffer));
-          std::memcpy(m_rx_buffer,0xff,sizeof(m_rx_buffer));
+          std::memset(m_tx_buffer,0x00,sizeof(m_tx_buffer));
+          std::memset(m_rx_buffer,0xff,sizeof(m_rx_buffer));
     return;
   }
 
@@ -75,8 +75,8 @@ namespace SPI {
       return;
   }
 
-  const uint32_t Spi_t::getSpeed(){
-    return m_spi_speed;//static_cast<uint32_t>(SPI_SPEED);
+  const uint32_t Spi_t::get_spi_speed(){
+    return m_spi_speed;
   }
 
   const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd){
@@ -84,8 +84,8 @@ namespace SPI {
         std::cerr << "SPI device not open." << std::endl;
         return -1;
       }
-        std::memset(m_rx_buffer, 0xff, LARGE_SECTOR_SIZE);
-        std::memset(m_tx_buffer, 0xff, LARGE_SECTOR_SIZE);
+        std::memset(m_rx_buffer, 0xff,sizeof(m_tx_buffer));
+        std::memset(m_tx_buffer, 0xff,sizeof(m_rx_buffer));
         std::memset(spi.get(), 0, sizeof(struct spi_ioc_transfer));  // Limpiar la estructura a la que apunta spi
         spi->len = 1;
         m_tx_buffer[0] = cmd;
