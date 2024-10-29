@@ -259,7 +259,10 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
         //std::cout << "\t\tdata_length : "<<std::dec<< recevive_data_length<<"\n\t";
 
 
-    for (auto& byte : zigbee->get_rxinfo()->rx_data)std::cout<<byte;
+    for (auto& byte : zigbee->get_rxinfo()->rx_data)
+    {
+        std::cout<<"0x"<<std::hex<<byte <<" , ";
+    }
     std::cout<<"\n";
 
    
