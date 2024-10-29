@@ -210,11 +210,11 @@ files=POSITIOM_INIT_PRINTS;
 monitor->print("received a packet ... ",files++,col);
     //std::cout << " \nreceived a packet ... ";
     sprintf(bufferMonitor,"0x%x\n",mrf24j40_spi->get_rxinfo()->frame_length);
-monitor->print(bufferMonitor,files++,col);
+    monitor->print(bufferMonitor,files++,col);
 //    std::cout << " bytes long " ;
     
-    if(mrf24j40_spi.get_bufferPHY()){
-monitor->print(" Packet data (PHY Payload) :",files++,col);
+    if(mrf24j40_spi->get_bufferPHY()){
+    monitor->print(" Packet data (PHY Payload) :",files++,col);
     //  std::cout << " Packet data (PHY Payload) :";
       #ifdef DBG_PRINT_GET_INFO
       for (int i = 0; i < mrf24j40_spi->get_rxinfo()->frame_length; i++) 
