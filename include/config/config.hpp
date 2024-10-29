@@ -9,11 +9,12 @@
     #define USE_MRF24_TX
 #endif
 
-#define USE_MAC_ADDRESS_LONG
-//#define USE_MAC_ADDRESS_SHORT
+//#define USE_MAC_ADDRESS_LONG
+#define USE_MAC_ADDRESS_SHORT
 
     //Enable database 
 //#define ENABLE_DATABASE
+//#define USE_QR
 
 #define CHANNEL 24
 #define HEAD 0x40
@@ -28,9 +29,10 @@
 
 #ifdef USE_MAC_ADDRESS_SHORT
     //#define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQRS" 
-    #define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNO_____________"
+    //#define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNO_____________"
+     #define MSJ "@ABCDE"
 #else 
-    #define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________"
+    #define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"
     //#define MSJ "ABCDEFGHIJKLMKNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQ" 
 #endif
 
@@ -70,8 +72,10 @@
 //config QR string 
 //Linea de configuracion para codigo Qr de una red wifi
 //#define QR_CODE_SRT "WIFI:T:WPA;S:MiRedWiFi;P:MiContraseña123;;";
-#ifdef USE_QR
-    #define QR_CODE_SRT MSJ   
+#ifdef MODULE_TX
+    #ifdef USE_QR
+        #define QR_CODE_SRT MSJ   
+    #endif
 #endif
 
 #ifdef MODULE_RX
