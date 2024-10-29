@@ -15,8 +15,8 @@
 namespace MRF24J40{ 
 
 std::unique_ptr<Mrf24j> mrf24j40_spi ;
-
-
+//struct DATA::packet_rx  buffer_receiver{};
+DATA::PACKET_RX buffer_receiver{};
 
 Radio_t::Radio_t() 
 #ifdef ENABLE_INTERRUPT_MRF24
