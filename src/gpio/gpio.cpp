@@ -150,7 +150,9 @@ void Gpio_t::set(){
         int m_num_fdpoll { 1 };        
         int m_looper { 0 };
         char *buf[64];
-          
+        
+        set();
+
         m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);
         //m_gpio_in_fd = gpio_in_fd;
         // We will wait for button press here for 10s or exit anyway
