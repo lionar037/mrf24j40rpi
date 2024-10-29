@@ -204,14 +204,17 @@ void handle_rx() {
     #ifdef MRF24_RECEIVER_ENABLE
     int files {POSITIOM_INIT_PRINTS};
     int col {0};
-    char bufferMonitor[128];
+    //char bufferMonitor[128];
+    
 
     auto  monitor{std::make_unique <FFLUSH::Fflush_t>()};
 
     files=POSITIOM_INIT_PRINTS;
 
     monitor->print("received a packet ... ",files++,col);
-    sprintf(bufferMonitor,"0x%x\n",mrf24j40_spi->get_rxinfo()->frame_length);
+    //sprintf(bufferMonitor,"0x%x\n",zigbee->get_rxinfo()->frame_length);
+    std::string bufferMonitor;//(128);
+    bufferMonitor = "0x" + zigbee->get_rxinfo()->frame_length + "\n";
     monitor->print(bufferMonitor,files++,col);
     
     if(zigbee->get_bufferPHY()){
@@ -220,7 +223,7 @@ void handle_rx() {
       for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
         //monitor->set(" Packet data (PHY Payload) :",files,col);
-          std::cout <<" "<<std::hex<< zigbee->get_rxbuf()[i];
+          std::cout <<std::hex<< zigbee->get_rxbuf()[i];
       }
       #endif
     }
@@ -248,7 +251,7 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
         std::cout<< "\nmac no es igual\n" ;
     }
         std::cout<< "\ndata_receiver->mac : " << std::hex<< add<<"\n";
-        std::cout<< "buffer_receiver->head : " << buffer_receiver.head <<"\n";
+        std::cout<< "buffer_receiver->head : " << std::hex << buffer_receiver.head <<"\n";
         auto bs = (!buffer_receiver.size)&0xffff;
         std::cout<< "buffer_receiver->size : " << reinterpret_cast<const int *>(bs)<<"\n";
         std::cout<< "data_receiver->data : " <<reinterpret_cast<const char *>(buffer_receiver.data)<<"\n";
