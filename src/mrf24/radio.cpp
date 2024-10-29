@@ -128,7 +128,7 @@ void Radio_t::Init(bool& flag) {
         std::cout<<"\n" ;         
         
         #ifdef MACADDR64
-            zigbee->send(ADDRESS_LONG_SLAVE, msj);
+            //zigbee->send(ADDRESS_LONG_SLAVE, msj);
            zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
            
         #elif defined(MACADDR16)
