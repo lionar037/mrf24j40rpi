@@ -5,7 +5,7 @@
 */
 
 //#include "SSD1306_OLED_Print.hpp"
-#include <display/include/SSD1306_OLED_Print.hpp>
+#include <oled/SSD1306_OLED_Print.hpp>
 // Public Methods //////////////////////////
 
 /* default implementation: may be overridden */

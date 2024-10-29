@@ -6,7 +6,7 @@
 */
 
 //#include "SSD1306_OLED_font.hpp"
-#include <display/include/SSD1306_OLED_font.hpp>
+#include <oled/SSD1306_OLED_font.hpp>
 
 // Standard ASCII 5x8 font , Column padding added by software
 static const unsigned char Font_One[]  = {
