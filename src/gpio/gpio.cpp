@@ -23,13 +23,12 @@ namespace GPIO{
       Gpio_t::Gpio_t(bool& st)
       : m_state   { st }
       {
-
+            settings( m_gpio_in  , DIR_IN  ,filenameGpio);
+            settings( m_gpio_out , DIR_OUT ,filenameGpio);
       }
 
 void Gpio_t::set(){
 
-            settings( m_gpio_in  , DIR_IN  ,filenameGpio);
-        settings( m_gpio_out , DIR_OUT ,filenameGpio);
         
         gpio_set_edge (m_gpio_in,EDGE_FALLING);
         gpio_set_value(m_gpio_out,VALUE_HIGH);
