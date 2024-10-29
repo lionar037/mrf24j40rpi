@@ -404,7 +404,8 @@ void Mrf24j::settings_mrf(void){
         //write_long(i++,(buf.head>>8)&0xff);
 
         for(const auto& byte : buf.data )write_long(i++,byte);
-        
+        write_long(i++,buf.checksum>>8);
+        write_long(i++,buf.checksum&0xff);
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
     }
