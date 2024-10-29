@@ -225,34 +225,29 @@ void handle_rx() {
     monitor->print(bufferMonitor,files++,col);
     
     if(zigbee->get_bufferPHY()){
-    monitor->print(" Packet data (PHY Payload) :",files++,col);
-      #ifdef DBG_PRINT_GET_INFO
-      for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
-      {
-        if (i<21){
-            std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
-        }
-        else
+        monitor->print(" Packet data (PHY Payload) :",files++,col);
+        #ifdef DBG_PRINT_GET_INFO
+        for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
         {
-            std::cout <<std::hex<< zigbee->get_rxbuf()[i];
+          if (i<21){
+              std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
+          }
+          else
+          {
+              std::cout <<std::hex<< zigbee->get_rxbuf()[i];
+          }
         }
-      }
-      #endif
+        #endif
     }
         std::cout << "\n";
-    SET_COLOR(SET_COLOR_CYAN_TEXT);
-monitor->print("ASCII data (relevant data) :",files++,col);
-        //std::cout<<"\r\nASCII data (relevant data) :\n";
+        SET_COLOR(SET_COLOR_CYAN_TEXT);
+        monitor->print("ASCII data (relevant data) :",files++,col);
+
         const auto recevive_data_length = zigbee->rx_datalength();
-monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files++,col);
-        //std::cout << "\t\tdata_length : "<<std::dec<< recevive_data_length<<"\n\t";
+        monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files++,col);        
 
-
-    for (auto& byte : zigbee->get_rxinfo()->rx_data)
-    {
-        //std::cout<<""<<std::hex<<byte <<":";
+    for (auto& byte : zigbee->get_rxinfo()->rx_data){
             std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
-
     }
     std::cout<<"\n";
 
@@ -261,12 +256,8 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n
 
     #ifdef DBG_PRINT_GET_INFO 
       
-    if(ADDRESS_LONG_SLAVE == add){
-        std::cout<< "\nmac es igual\n" ;
-    }
-    else{
-        std::cout<< "\nmac no es igual\n" ;
-    }
+    if(ADDRESS_LONG_SLAVE == add){ std::cout<< "\nmac es igual\n"; }
+    else { std::cout<< "\nmac no es igual\n" ; }
         std::cout<< "\ndata_receiver->mac : " << std::hex<< add<<"\n";
         std::cout<< "buffer_receiver->head : " << std::hex << buffer_receiver.head <<"\n";
         auto bs = (!buffer_receiver.size)&0xffff;
@@ -283,15 +274,13 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n
     monitor->print("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,files++,col);
     //printf("\nLQI : %d , ",zigbee->get_rxinfo()->lqi);
     //printf("RSSI : %d \n",zigbee->get_rxinfo()->rssi);
-    //RST_COLOR() ;
-    //std::cout<<"\r\n";
+
     #endif
     RST_COLOR() ;   
     SET_COLOR(SET_COLOR_RED_TEXT);
-     update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
+    update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
  
 }
-
 
     Radio_t::~Radio_t() {
         #ifdef DBG
