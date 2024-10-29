@@ -1,10 +1,10 @@
-#include <mrf24/mrf24j40_cmd.h>
-#include <mrf24/mrf24j40_settings.h>
-#include <mrf24/mrf24j40.h>
-#include <tyme/tyme.h>
-#include <config/config.h>
-#include <work/data_analisis.h>
-#include <spi/spi.h>
+#include <mrf24/mrf24j40_cmd.hpp>
+#include <mrf24/mrf24j40_settings.hpp>
+#include <mrf24/mrf24j40.hpp>
+#include <tyme/tyme.hpp>
+#include <config/config.hpp>
+#include <work/data_analisis.hpp>
+#include <spi/spi.hpp>
 
 
 namespace MRF24J40{
