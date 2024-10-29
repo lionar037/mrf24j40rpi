@@ -216,14 +216,14 @@ void handle_rx() {
     monitor->print(bufferMonitor,files++,col);
 //    std::cout << " bytes long " ;
     
-    if(mrf24j40_spi->get_bufferPHY()){
+    if(zigbee->get_bufferPHY()){
     monitor->print(" Packet data (PHY Payload) :",files++,col);
     //  std::cout << " Packet data (PHY Payload) :";
       #ifdef DBG_PRINT_GET_INFO
-      for (int i = 0; i < mrf24j40_spi->get_rxinfo()->frame_length; i++) 
+      for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
         //monitor->set(" Packet data (PHY Payload) :",files,col);
-          std::cout <<" "<<std::hex<< mrf24j40_spi->get_rxbuf()[i];
+          std::cout <<" "<<std::hex<< zigbee->get_rxbuf()[i];
       }
       #endif
     }
@@ -231,12 +231,12 @@ void handle_rx() {
     SET_COLOR(SET_COLOR_CYAN_TEXT);
 monitor->print("ASCII data (relevant data) :",files++,col);
         //std::cout<<"\r\nASCII data (relevant data) :\n";
-        const auto recevive_data_length = mrf24j40_spi->rx_datalength();
+        const auto recevive_data_length = zigbee->rx_datalength();
 monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,files++,col);
         //std::cout << "\t\tdata_length : "<<std::dec<< recevive_data_length<<"\n\t";
 
 
-    for (auto& byte : mrf24j40_spi->get_rxinfo()->rx_data)std::cout<<byte;
+    for (auto& byte : zigbee->get_rxinfo()->rx_data)std::cout<<byte;
     std::cout<<"\n";
 
    
@@ -262,10 +262,10 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
        RST_COLOR() ; 
         SET_COLOR(SET_COLOR_RED_TEXT);
         files++;  files++; // files++;
-monitor->print("LQI : " + std::to_string(mrf24j40_spi->get_rxinfo()->lqi) ,files++,col);
-monitor->print("RSSI : " + std::to_string(mrf24j40_spi->get_rxinfo()->rssi) ,files++,col);
-    //printf("\nLQI : %d , ",mrf24j40_spi->get_rxinfo()->lqi);
-    //printf("RSSI : %d \n",mrf24j40_spi->get_rxinfo()->rssi);
+    monitor->print("LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,files++,col);
+    monitor->print("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,files++,col);
+    //printf("\nLQI : %d , ",zigbee->get_rxinfo()->lqi);
+    //printf("RSSI : %d \n",zigbee->get_rxinfo()->rssi);
     //RST_COLOR() ;
     //std::cout<<"\r\n";
     #endif
