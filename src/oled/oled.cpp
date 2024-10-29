@@ -1,4 +1,4 @@
-#include <oled/oled.h>
+#include <oled/oled.hpp>
 
 #ifdef USE_MRF24_RX
 #include <SSD1306_OLED.hpp>
