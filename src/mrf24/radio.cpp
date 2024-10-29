@@ -33,7 +33,9 @@ Radio_t::Radio_t()
     #ifdef ENABLE_INTERRUPT_MRF24
     
     #else
+        #ifdef USR_QR
             qr->create(QR_CODE_SRT);
+        #endif
     #endif
           
     #ifdef DBG
