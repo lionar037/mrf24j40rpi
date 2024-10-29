@@ -93,8 +93,8 @@ else
 endif
 
 
-LIBS += -pthread -lbcm2835 
-#LIBS += -lmosquitto -lrt  -lcrypto -lmysqlcppconn -lqrencode -lpng -lz
+LIBS += -pthread -lbcm2835 -lcrypto -lmysqlcppconn -lqrencode
+#LIBS += -lmosquitto -lrt   -lpng -lz
 
 # Detectar la arquitectura del sistema
 
