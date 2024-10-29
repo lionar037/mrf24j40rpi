@@ -24,6 +24,7 @@
 
 
 namespace OLED{
+#ifdef USE_OLED
 
     Oled_t::Oled_t(const uint16_t width, const uint16_t height , const uint16_t i2c_speed , const uint8_t i2c_address)
         : 
@@ -251,5 +252,5 @@ namespace OLED{
                 //myOLED.print(reinterpret_cast<int>(count++));                
                 myOLED.OLEDupdate();
         }
-
+#endif
 }

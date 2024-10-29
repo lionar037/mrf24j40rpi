@@ -70,4 +70,10 @@
 //config QR string 
 //Linea de configuracion para codigo Qr de una red wifi
 //#define QR_CODE_SRT "WIFI:T:WPA;S:MiRedWiFi;P:MiContraseña123;;";
-#define QR_CODE_SRT MSJ   
+#ifdef USE_QR
+    #define QR_CODE_SRT MSJ   
+#endif
+
+#ifdef MODULE_RX
+    //#define USE_OLED
+#endif
