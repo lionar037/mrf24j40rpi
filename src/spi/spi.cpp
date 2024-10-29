@@ -1,6 +1,15 @@
 #include <spi/spi.hpp>
 #include <config/config.hpp>
 
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #define SPI_DEVICE  "/dev/spidev0.0"
 
 #define CMD_WRITE 0x2

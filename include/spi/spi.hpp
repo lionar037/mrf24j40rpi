@@ -1,13 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <unistd.h>
+#include <cstdint>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <linux/ioctl.h>
@@ -27,6 +20,7 @@ namespace SPI{
     void init();
     void settings_spi();
     void spi_close();
+    const uint8_t Transfer1bytes(const uint16_t address){}
     const uint8_t Transfer2bytes(const uint16_t address);
     const uint8_t Transfer3bytes(const uint32_t address);
     void printDBGSpi();
@@ -45,7 +39,6 @@ namespace SPI{
     uint8_t looper{0};
     uint32_t scratch32{0};
     std::unique_ptr<struct spi_ioc_transfer >spi{nullptr};
-
   };
 
 }//END namespace SPI_H
