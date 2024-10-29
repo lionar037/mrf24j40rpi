@@ -213,8 +213,8 @@ void handle_rx() {
 
     monitor->print("received a packet ... ",files++,col);
     //sprintf(bufferMonitor,"0x%x\n",zigbee->get_rxinfo()->frame_length);
-    std::string bufferMonitor;//(128);
-    bufferMonitor = "0x" + zigbee->get_rxinfo()->frame_length + "\n";
+    //std::string bufferMonitor;//(128);
+    std::string bufferMonitor = "0x" + zigbee->get_rxinfo()->frame_length + "\n";
     monitor->print(bufferMonitor,files++,col);
     
     if(zigbee->get_bufferPHY()){
