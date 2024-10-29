@@ -255,13 +255,13 @@ void handle_rx() {
 monitor->print("ASCII data (relevant data) :",files++,col);
         //std::cout<<"\r\nASCII data (relevant data) :\n";
         const auto recevive_data_length = zigbee->rx_datalength();
-monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,files++,col);
+monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files++,col);
         //std::cout << "\t\tdata_length : "<<std::dec<< recevive_data_length<<"\n\t";
 
 
     for (auto& byte : zigbee->get_rxinfo()->rx_data)
     {
-        std::cout<<"0x"<<std::hex<<byte <<" , ";
+        std::cout<<""<<std::hex<<byte <<":";
     }
     std::cout<<"\n";
 
