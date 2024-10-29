@@ -369,36 +369,40 @@ void Mrf24j::settings_mrf(void){
         #ifdef DBG
             printf("\npanid: 0x%X\n",panid);
         #endif
-        write_long(i++, panid & 0xff);  // dest panid
         write_long(i++, panid >> 8);
-
-        write_long(i++, dest64  & 0xff); // uint64_t
-        write_long(i++, (dest64 >> 8  ) & 0xff);
-        write_long(i++, (dest64 >> 16 ) & 0xff);
-        write_long(i++, (dest64 >> 24 ) & 0xff);
-        write_long(i++, (dest64 >> 32 ) & 0xff);
-        write_long(i++, (dest64 >> 40 ) & 0xff);
-        write_long(i++, (dest64 >> 48 ) & 0xff);
+        write_long(i++, panid & 0xff);  // dest panid
+        
         write_long(i++, (dest64 >> 56 ) & 0xff);
+        write_long(i++, (dest64 >> 48 ) & 0xff);
+        write_long(i++, (dest64 >> 40 ) & 0xff);
+        write_long(i++, (dest64 >> 32 ) & 0xff);
+        write_long(i++, (dest64 >> 24 ) & 0xff);
+        write_long(i++, (dest64 >> 16 ) & 0xff);
+        write_long(i++, (dest64 >> 8  ) & 0xff);
+        write_long(i++, dest64  & 0xff); // uint64_t
+       
 
-        const uint64_t src64 = address64_read();
-        write_long(i++, src64  & 0xff ); // uint64_t
-        write_long(i++, (src64 >> 8  ) & 0xff); 
-        write_long(i++, (src64 >> 16 ) & 0xff); 
-        write_long(i++, (src64 >> 24 ) & 0xff); 
-        write_long(i++, (src64 >> 32 ) & 0xff); 
-        write_long(i++, (src64 >> 40 ) & 0xff); 
-        write_long(i++, (src64 >> 48 ) & 0xff); 
-        write_long(i++, (src64 >> 56 ) & 0xff); 
+        const uint64_t origin_64 = address64_read();
+
+        write_long(i++, origin_64  & 0xff ); // uint64_t
+        write_long(i++, (origin_64 >> 8  ) & 0xff); 
+        write_long(i++, (origin_64 >> 16 ) & 0xff); 
+        write_long(i++, (origin_64 >> 24 ) & 0xff); 
+        write_long(i++, (origin_64 >> 32 ) & 0xff); 
+        write_long(i++, (origin_64 >> 40 ) & 0xff); 
+        write_long(i++, (origin_64 >> 48 ) & 0xff); 
+        write_long(i++, (origin_64 >> 56 ) & 0xff); 
 
                 // All testing seems to indicate that the next two bytes are ignored.
                 //2 bytes on FCS appended by TXMAC
         i+=ignoreBytes;
+
         //for(const auto& byte : static_cast<const char *>(buf.head) )
-        write_long(i++,buf.head);
         // for(const auto& byte : static_cast<const char *>(buf.size) )
-        write_long(i++,buf.head&0xff);
-        write_long(i++,(buf.head>>8)&0xff);
+        //write_long(i++,buf.head);        
+        //write_long(i++,buf.head&0xff);
+        //write_long(i++,(buf.head>>8)&0xff);
+
         for(const auto& byte : buf.data )write_long(i++,byte);
         
         // ack on, and go!
