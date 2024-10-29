@@ -9,6 +9,15 @@
 #include <vector>
 #include <memory>
 
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #define SPI_SPEED   100000 
 
 namespace SPI{

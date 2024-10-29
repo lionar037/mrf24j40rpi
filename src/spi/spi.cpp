@@ -1,14 +1,7 @@
 #include <spi/spi.hpp>
 #include <config/config.hpp>
 
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <unistd.h>
+
 #include <cstring>
 
 #define SPI_DEVICE  "/dev/spidev0.0"
