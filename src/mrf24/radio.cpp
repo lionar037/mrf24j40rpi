@@ -7,6 +7,8 @@
 #include <display/color.hpp>
 #include <oled/oled.hpp>
 #include <work/rfflush.hpp>
+#include <sstream>  // Para std::ostringstream
+#include <iomanip>  // Para std::hex y std::setfill
 
 //#include <app/src/data_analisis.h>
 #include <memory>
@@ -214,7 +216,17 @@ void handle_rx() {
     monitor->print("received a packet ... ",files++,col);
     //sprintf(bufferMonitor,"0x%x\n",zigbee->get_rxinfo()->frame_length);
     //std::string bufferMonitor;//(128);
-    std::string bufferMonitor = "0x"<< zigbee->get_rxinfo()->frame_length << "\n";
+
+    // Suponiendo que get_rxinfo()->frame_length devuelve un uint8_t
+    const uint8_t frame_length = zigbee->get_rxinfo()->frame_length;
+
+    // Usar std::ostringstream para construir el string en formato hexadecimal
+    std::ostringstream oss;
+    oss << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(frame_length);
+
+    // Obtener el string resultante
+    std::string bufferMonitor = oss.str() + "\n";
+    
     monitor->print(bufferMonitor,files++,col);
     
     if(zigbee->get_bufferPHY()){
