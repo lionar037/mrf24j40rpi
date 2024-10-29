@@ -18,9 +18,20 @@ extern "C"{
 #include <string>
 
 
-
-
 namespace GPIO{
+
+      Gpio::Gpio(bool& st)
+      : m_state   { st }
+      {
+        settings( m_gpio_in  , DIR_IN  ,filenameGpio);
+        settings( m_gpio_out , DIR_OUT ,filenameGpio);
+        
+        gpio_set_edge (m_gpio_in,EDGE_FALLING);
+        gpio_set_value(m_gpio_out,VALUE_HIGH);
+
+      }
+
+
     /*      HELPER FUNCTIONS       */
     // FILE OPERATION
     int Gpio::file_open_and_write_value(const std::string_view fname, const std::string_view wdata)
@@ -28,28 +39,16 @@ namespace GPIO{
         //@params : verifica que exista el pin . Si no existe ,retorna -1 .
         const int fd = open(fname.data(), O_WRONLY | O_NONBLOCK);        
         if (fd < 0)
-  //      {
+        {
             printf("Could not open file %s...%d\r\n", fname.data(), fd);
-            //return -1;
-//        }
+            }
         write(fd, wdata.data(), strlen(wdata.data()));        
         close(fd);
         return 0;
     }
 
 
-    //  int Gpio::file_open_and_write_value(const std::string_view fname, const std::string_view wdata) {
-        // std::ofstream file(fname.data(), std::ios::out | std::ios::binary);
-        // if (!file.is_open()) {
-            // std::cerr << "Error: Could not open file " << fname.data() << std::endl;
-            // return -1;
-        // }
-// 
-        // file.write(wdata.data(), static_cast<std::streamsize>(wdata.length()));
-        // file.close();
-// 
-        // return 0;
-    // }
+
 
     // GPIO EXPORT
     int Gpio::gpio_export(const int gpio_num)
@@ -147,13 +146,6 @@ namespace GPIO{
         int m_num_fdpoll { 1 };        
         int m_looper { 0 };
         char *buf[64];
-
-        settings( m_gpio_in  , DIR_IN  ,filenameGpio);
-        settings( m_gpio_out , DIR_OUT ,filenameGpio);
-        
-        gpio_set_edge (m_gpio_in,EDGE_FALLING);
-        gpio_set_value(m_gpio_out,VALUE_HIGH);
-
           
         m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);
         //m_gpio_in_fd = gpio_in_fd;

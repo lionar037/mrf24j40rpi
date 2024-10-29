@@ -21,17 +21,13 @@
 #define EDGE_RISING                 "rising"
 #define EDGE_FALLING                "falling"
 
-//#define POLL_TIMEOUT        10*1000
 #define POLL_TIMEOUT        10*1000
 
 #define DBG_GPIO_PRINT(x) std::cout<<"Step :"<<( x )<<"\n"
 
 namespace GPIO{
 struct Gpio{   
-      Gpio(bool& st)
-      : m_state   { st }
-      {}
-
+      explicit Gpio(bool& st);
     ~Gpio();
             int file_open_and_write_value(const std::string_view, const std::string_view);
             int gpio_export(const int);
@@ -48,11 +44,9 @@ struct Gpio{
             bool m_state{false};
             int m_gpio_in_fd{};
             int m_res{};
-            const unsigned int m_gpio_out{OUT_INTERRUPT};
-            const int m_gpio_in{IN_INTERRUPT};
+            const int   m_gpio_out  { OUT_INTERRUPT };
+            const int   m_gpio_in   { IN_INTERRUPT };
             std::ifstream filenameGpio;
             //std::ifstream fileGpioOutput;
-
-
     };
 }
