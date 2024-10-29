@@ -26,19 +26,22 @@
 #define DBG_GPIO_PRINT(x) std::cout<<"Step :"<<( x )<<"\n"
 
 namespace GPIO{
-struct Gpio{   
-      explicit Gpio(bool& st);
-    ~Gpio();
+struct Gpio_t{   
+            explicit Gpio_t(bool& st);
+            ~Gpio_t();
+            const bool app(bool&) ;
+        protected:
             int file_open_and_write_value(const std::string_view, const std::string_view);
             int gpio_export(const int);
             int gpio_unexport(const int);
             int gpio_set_direction(const int , const std::string_view );
             int gpio_set_value(const int , const std::string_view);
             int gpio_set_edge(const int , const std::string_view);
-            int gpio_get_fd_to_value(const int );
-            const bool app(bool&) ;
+            int gpio_get_fd_to_value(const int );                
             bool settings(const int , const std::string_view , std::ifstream& );
             void CloseGpios(void);
+        
+            void set();
         private :
             static inline int static_file_open_and_write_value{0};
             bool m_state{false};

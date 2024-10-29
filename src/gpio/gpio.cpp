@@ -20,21 +20,25 @@ extern "C"{
 
 namespace GPIO{
 
-      Gpio::Gpio(bool& st)
+      Gpio_t::Gpio_t(bool& st)
       : m_state   { st }
       {
-        settings( m_gpio_in  , DIR_IN  ,filenameGpio);
+
+      }
+
+void Gpio_t::set(){
+
+            settings( m_gpio_in  , DIR_IN  ,filenameGpio);
         settings( m_gpio_out , DIR_OUT ,filenameGpio);
         
         gpio_set_edge (m_gpio_in,EDGE_FALLING);
         gpio_set_value(m_gpio_out,VALUE_HIGH);
 
-      }
-
+}
 
     /*      HELPER FUNCTIONS       */
     // FILE OPERATION
-    int Gpio::file_open_and_write_value(const std::string_view fname, const std::string_view wdata)
+    int Gpio_t::file_open_and_write_value(const std::string_view fname, const std::string_view wdata)
     {
         //@params : verifica que exista el pin . Si no existe ,retorna -1 .
         const int fd = open(fname.data(), O_WRONLY | O_NONBLOCK);        
@@ -51,7 +55,7 @@ namespace GPIO{
 
 
     // GPIO EXPORT
-    int Gpio::gpio_export(const int gpio_num)
+    int Gpio_t::gpio_export(const int gpio_num)
     {
         char gpio_str[4];
         sprintf(gpio_str, "%d", gpio_num);
@@ -60,7 +64,7 @@ namespace GPIO{
     }
 
     // GPIO UNEXPORT
-    int Gpio::gpio_unexport(const int gpio_num)
+    int Gpio_t::gpio_unexport(const int gpio_num)
     {
         char gpio_str[6];
         //    char gpio_str[4];
@@ -70,7 +74,7 @@ namespace GPIO{
     }
 
     // GPIO DIRECTION
-    int Gpio::gpio_set_direction(const int gpio_num, const std::string_view dir)
+    int Gpio_t::gpio_set_direction(const int gpio_num, const std::string_view dir)
     {
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_DIRECTION);
@@ -79,7 +83,7 @@ namespace GPIO{
     }
 
     // GPIO SET VALUE
-    int Gpio::gpio_set_value(const int gpio_num, const std::string_view value)
+    int Gpio_t::gpio_set_value(const int gpio_num, const std::string_view value)
     {
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_VALUE);
@@ -89,7 +93,7 @@ namespace GPIO{
     }
 
     // GPIO SET EDGE
-    int Gpio::gpio_set_edge(const int gpio_num, const std::string_view edge)
+    int Gpio_t::gpio_set_edge(const int gpio_num, const std::string_view edge)
     {
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_EDGE);
@@ -97,7 +101,7 @@ namespace GPIO{
         return file_open_and_write_value(path_str, edge.data());
     }
 
-    int Gpio::gpio_get_fd_to_value(const int gpio_num)
+    int Gpio_t::gpio_get_fd_to_value(const int gpio_num)
     {
         //int fd;
         char fname[64];
@@ -113,7 +117,7 @@ namespace GPIO{
 
 
 
-    bool Gpio::settings(const int pin , const std::string_view str_v ,std::ifstream& fileTmp){
+    bool Gpio_t::settings(const int pin , const std::string_view str_v ,std::ifstream& fileTmp){
         const std::string filePathGpio = "/sys/class/gpio/gpio" + std::to_string(pin) + "/direction";                                
         const std::string fNameResult ="echo " + std::to_string(pin) + " > /sys/class/gpio/export";               
         fileTmp.open(filePathGpio.c_str());        
@@ -138,7 +142,7 @@ namespace GPIO{
         return true;
     }
 
-    const bool Gpio::app(bool& flag) 
+    const bool Gpio_t::app(bool& flag) 
     {
         //const unsigned int gpio_out = OUT_INTERRUPT;//originalmente es unsigned 
         //const int gpio_in = IN_INTERRUPT;
@@ -190,7 +194,7 @@ namespace GPIO{
         return false;
     }
 
-    void Gpio::CloseGpios()
+    void Gpio_t::CloseGpios()
     {
         if(filenameGpio.is_open())filenameGpio.close();   
         close(m_gpio_in_fd);        
@@ -201,7 +205,7 @@ namespace GPIO{
         //if(fileGpioOutput.is_open())fileGpioOutput.close();
     }
 
-    Gpio::~Gpio(){
+    Gpio_t::~Gpio_t(){
             
             CloseGpios();            
             

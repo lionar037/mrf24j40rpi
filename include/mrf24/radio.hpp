@@ -66,7 +66,7 @@ namespace MRF24J40{
             struct DATA::packet_tx                  buffer_transmiter{};
         #endif             
         
-        std::unique_ptr<GPIO::Gpio> gpio{};                           
+        std::unique_ptr<GPIO::Gpio_t> gpio{};                           
     };
 
             void handle_tx();
