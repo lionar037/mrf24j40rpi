@@ -211,14 +211,11 @@ void handle_rx() {
     files=POSITIOM_INIT_PRINTS;
 
     monitor->print("received a packet ... ",files++,col);
-    //std::cout << " \nreceived a packet ... ";
     sprintf(bufferMonitor,"0x%x\n",mrf24j40_spi->get_rxinfo()->frame_length);
     monitor->print(bufferMonitor,files++,col);
-//    std::cout << " bytes long " ;
     
     if(zigbee->get_bufferPHY()){
     monitor->print(" Packet data (PHY Payload) :",files++,col);
-    //  std::cout << " Packet data (PHY Payload) :";
       #ifdef DBG_PRINT_GET_INFO
       for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
@@ -259,7 +256,7 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
         std::cout<<"\r\n";
     #endif
     
-       RST_COLOR() ; 
+        RST_COLOR() ; 
         SET_COLOR(SET_COLOR_RED_TEXT);
         files++;  files++; // files++;
     monitor->print("LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,files++,col);
