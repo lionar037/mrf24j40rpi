@@ -14,7 +14,7 @@
 
 namespace MRF24J40{ 
 
-std::unique_ptr<Mrf24j> mrf24j40_spi ;
+std::unique_ptr<Mrf24j> zigbee ;
 //struct DATA::packet_rx  buffer_receiver{};
 DATA::PACKET_RX buffer_receiver{};
 
@@ -47,27 +47,27 @@ Radio_t::Radio_t()
     #ifdef DBG
     std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
     #endif
-    mrf24j40_spi = std::make_unique<Mrf24j>();
-    mrf24j40_spi->init();
-    mrf24j40_spi->interrupt_handler();
-    mrf24j40_spi->set_pan(PAN_ID);
+    zigbee = std::make_unique<Mrf24j>();
+    zigbee->init();
+    zigbee->interrupt_handler();
+    zigbee->set_pan(PAN_ID);
     // This is _our_ address
 
     #ifdef MACADDR16
         mrf24j40_spi->address16_write(ADDRESS); 
     #elif defined (MACADDR64)
-        mrf24j40_spi->address64_write(ADDRESS_LONG);
+        zigbee->address64_write(ADDRESS_LONG);
     #endif
 
     // uncomment if you want to receive any packet on this channel
   //mrf24j40_spi->set_promiscuous(true);
-  mrf24j40_spi->settings_mrf();
+  zigbee->settings_mrf();
   
     // uncomment if you want to enable PA/LNA external control
-  mrf24j40_spi->set_palna(true);
+  zigbee->set_palna(true);
   
     // uncomment if you want to buffer all PHY Payload
-  mrf24j40_spi->set_bufferPHY(true);
+  zigbee->set_bufferPHY(true);
 
     //attachInterrupt(0, interrupt_routine, CHANGE); // interrupt 0 equivalent to pin 2(INT0) on ATmega8/168/328
     //last_time = millis();
@@ -90,7 +90,7 @@ void Radio_t::Run(void){
         gpio->app(flag);
         //system("clear"); 
 
-        mrf24j40_spi->interrupt_handler();
+        zigbee->interrupt_handler();
         Init(flag);        
     }
 }
@@ -98,7 +98,7 @@ void Radio_t::Run(void){
 
 void Radio_t::Init(bool& flag) {
 
-    flag = mrf24j40_spi->check_flags(&handle_rx, &handle_tx);
+    flag = zigbee->check_flags(&handle_rx, &handle_tx);
     const unsigned long current_time = 10000;//1000000 original
     if (current_time - last_time > tx_interval) {
         last_time = current_time;
@@ -126,7 +126,7 @@ void Radio_t::Init(bool& flag) {
         std::cout<<"\n" ;         
         
         #ifdef MACADDR64
-            mrf24j40_spi->send(ADDRESS_LONG_SLAVE, msj);
+            zigbee->send(ADDRESS_LONG_SLAVE, msj);
            // mrf24j40_spi->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
            //mrf24j40_spi->send(ADDRESS_LONG_SLAVE, msj);
         #elif defined(MACADDR16)
@@ -139,7 +139,7 @@ void Radio_t::Init(bool& flag) {
 }
 
 void Radio_t::interrupt_routine() {
-    mrf24j40_spi->interrupt_handler(); // mrf24 object interrupt routine
+    zigbee->interrupt_handler(); // mrf24 object interrupt routine
 }
 
 void update(std::string_view str_view){
@@ -148,7 +148,7 @@ void update(std::string_view str_view){
     auto            fs          { std::make_unique<FILESYSTEM::File_t> () };
     #ifdef USE_QR
     auto            qr_img      { std::make_unique<QR::Qr_img_t>() };
-    //auto            qr_tmp      { std::make_unique<QR::QrOled_t>() };
+    //auto            qr_oled      { std::make_unique<QR::QrOled_t>() };
     #endif
     auto            monitor     { std::make_unique <FFLUSH::Fflush_t>()};
     #ifdef USE_OLED
@@ -185,12 +185,12 @@ return ;
 
 void handle_tx() {
     #ifdef MRF24_TRANSMITER_ENABLE
-    const auto status = mrf24j40_spi->get_txinfo()->tx_ok;
+    const auto status = zigbee->get_txinfo()->tx_ok;
          if (status) {
              std::cout<<"TX went ok, got ack \n";
          } else {
              std::cout<<"\nTX failed after \n";
-             std::cout<<mrf24j40_spi->get_txinfo()->retries;
+             std::cout<<zigbee->get_txinfo()->retries;
              std::cout<<" retries\n";
          }
     #endif     
@@ -271,7 +271,7 @@ monitor->print("RSSI : " + std::to_string(mrf24j40_spi->get_rxinfo()->rssi) ,fil
     #endif
     RST_COLOR() ;   
     SET_COLOR(SET_COLOR_RED_TEXT);
-     update(reinterpret_cast<const char*>(mrf24j40_spi->get_rxinfo()->rx_data));
+     update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
  
 }
 
