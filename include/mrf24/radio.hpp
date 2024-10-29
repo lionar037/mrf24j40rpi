@@ -60,6 +60,7 @@ namespace MRF24J40{
             std::unique_ptr<DATABASE::Database_t>   database{};
             //std::unique_ptr<WORK::Work_t>           fs{};
             struct DATA::packet_rx                  buffer_receiver{};
+            //struct DATA::PACKET_TX packet_data_tmp;
         #else    
             std::unique_ptr<WORK::Work_t> qr{};
             struct DATA::packet_tx                  buffer_transmiter{};
