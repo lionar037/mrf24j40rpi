@@ -3,8 +3,8 @@
 #include <iomanip>
 #include <sstream>
 
-#include <config/config.h>
-#include <tyme/tyme.h>
+#include <config/config.hpp>
+#include <tyme/tyme.hpp>
 
 //#include <unistd.h> // Libreria para usleep
 
