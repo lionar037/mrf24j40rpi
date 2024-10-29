@@ -130,7 +130,7 @@ namespace MRF24J40{
         // ; // wait for soft reset to finish
     // }
            delay(192); 
-           #include <config/config.h>
+           #include <config/config.hpp>
            #ifdef MODULE_TX_RST
             write_short(MRF_SOFTRST, 0x7); 
             #else
