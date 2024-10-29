@@ -37,14 +37,14 @@ struct Mrf24j //: public SPI::Spi
        // void reset(void);
         void                init                (void);
 
-        const uint8_t       read_short          (uint8_t);            //address
-        const uint8_t       read_long           (uint16_t);            //address
-        void                write_short         (uint8_t , uint8_t );   //address ,data
+        const uint8_t       read_short          (const uint8_t);            //address
+        const uint8_t       read_long           (const uint16_t);            //address
+        void                write_short         (const uint8_t ,const uint8_t );   //address ,data
         void                write_long          (const uint16_t , const uint8_t);//address ,data
-        uint16_t            get_pan             (void);
-        void                set_pan             (uint16_t);                 //panid
-        void                address16_write     (uint16_t);         //address16
-        void                address64_write     (uint64_t);
+        const uint16_t      get_pan             (void);
+        void                set_pan             (const uint16_t);                 //panid
+        void                address16_write     (const uint16_t);         //address16
+        void                address64_write     (const uint64_t);
         uint16_t            address16_read      (void);
         uint64_t            address64_read      (void);
         void                set_interrupts      (void);
@@ -54,14 +54,14 @@ struct Mrf24j //: public SPI::Spi
                 /**
                  * Set the channel, using 802.15.4 channel numbers (11..26)
                  */
-        void                set_channel         (uint8_t);
+        void                set_channel         (const uint8_t);
         void                rx_enable           (void);
         void                rx_disable          (void);
                                    /**IMPLEMENTADO  */
 
         void                pinMode             (int,bool);
         void                digitalWrite        (int,bool);
-        void                delay               (uint16_t);
+        void                delay               (const uint16_t);
         void                interrupts          (void);
         void                noInterrupts        (void);
         
@@ -85,9 +85,9 @@ struct Mrf24j //: public SPI::Spi
         template <typename T>
         void                    send_template(uint64_t, const T&) ;
 
-        void                    send(uint64_t ,const std::string& );
+        void                    send(const uint64_t ,const std::string& );
         //void                    send64(uint64_t ,const std::string&);
-        void                    send64(uint64_t , const struct DATA::packet_tx&);
+        void                    send64(const uint64_t , const struct DATA::packet_tx&);
         void                    interrupt_handler(void);
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
         void                    settings_mrf(void);
