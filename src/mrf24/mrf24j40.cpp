@@ -383,7 +383,7 @@ void Mrf24j::settings_mrf(void){
        
 
         const uint64_t origin_64 = address64_read();
-
+        write_long(i++, origin_64  & 0xff ); // uint64_t
         write_long(i++, (origin_64 >> 56 ) & 0xff); 
         write_long(i++, (origin_64 >> 48 ) & 0xff); 
         write_long(i++, (origin_64 >> 40 ) & 0xff); 
@@ -391,7 +391,6 @@ void Mrf24j::settings_mrf(void){
         write_long(i++, (origin_64 >> 24 ) & 0xff); 
         write_long(i++, (origin_64 >> 16 ) & 0xff); 
         write_long(i++, (origin_64 >> 8  ) & 0xff); 
-        write_long(i++, origin_64  & 0xff ); // uint64_t
 
 
                 // All testing seems to indicate that the next two bytes are ignored.
