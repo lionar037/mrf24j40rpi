@@ -1,9 +1,10 @@
+#include <work/rfflush.hpp>
+#include <display/color.hpp>
+
 #include <iostream>
 //#include <thread>
 #include <memory>
 #include <unistd.h>
-#include <others/src/rfflush.h>
-#include <others/src/color.h>
 
 namespace FFLUSH{
 

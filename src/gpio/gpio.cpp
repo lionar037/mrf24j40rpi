@@ -7,13 +7,17 @@ extern "C"{
     #include <fcntl.h>
     #include <poll.h>
 }
+
+#include <gpio/gpio.h>
+#include <config/config.h>
+
 #include <iostream>
 #include <chrono>
 #include <thread>
 #include <string_view>
 #include <string>
-#include <others/src/gpio.h>
-#include <app/src/config.h>
+
+
 
 
 namespace GPIO{

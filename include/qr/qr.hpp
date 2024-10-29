@@ -1,12 +1,12 @@
 #pragma once
+#include <work/work.hpp>
+#include <work/data_analisis.hpp>
+
 #include <memory>
 #include <tuple>
 #include <vector>
 #include <string_view>
 #include <qrencode.h>
-#include <app/src/work.h>
-#include <app/src/data_analisis.h>
-
 
 namespace TYME{
     struct Time_t;

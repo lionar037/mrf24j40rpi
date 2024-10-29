@@ -1,9 +1,9 @@
 #pragma once
 
-#include <mrf24/src/mrf24j40.h>
-#include <app/src/config.h>
-#include <mrf24/src/mrf24j40_cmd.h>
-#include <mrf24/src/mrf24j40_settings.h>
+#include <mrf24/mrf24j40.hpp>
+#include <config/config.hpp>
+#include <mrf24/mrf24j40_cmd.hpp>
+#include <mrf24/mrf24j40_settings.hpp>
 #include <iostream>
 
 namespace MRF24J40{

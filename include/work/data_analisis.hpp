@@ -1,4 +1,5 @@
 #pragma once 
+#include <cstdint>
 
 namespace DATA{
 #pragma pack(push, 1)

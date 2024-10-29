@@ -1,10 +1,11 @@
+
+#include <qr/qr.hpp>
+#include <display/color.hpp>
+#include <work/rfflush.hpp>
+#include <vector>
 #include <iostream>
 #include <cstring>
 //#include <tuple>
-#include <qr/src/qr.h>
-#include <others/src/color.h>
-#include <others/src/rfflush.h>
-#include <vector>
 
 namespace QR{
 

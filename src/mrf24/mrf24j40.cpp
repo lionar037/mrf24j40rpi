@@ -1,10 +1,11 @@
-#include <mrf24/src/mrf24j40_cmd.h>
-#include <mrf24/src/mrf24j40_settings.h>
-#include <others/src/tyme.h>
-#include <app/src/config.h>
-#include <app/src/data_analisis.h>
-#include <mrf24/src/mrf24j40.h>
-#include <spi/src/spi.h>
+#include <mrf24/mrf24j40_cmd.h>
+#include <mrf24/mrf24j40_settings.h>
+#include <mrf24/mrf24j40.h>
+#include <tyme/tyme.h>
+#include <config/config.h>
+#include <work/data_analisis.h>
+#include <spi/spi.h>
+
 
 namespace MRF24J40{
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.

@@ -1,4 +1,12 @@
 #pragma once
+
+#include <gpio/gpio.hpp>
+#include <file/database.hpp>
+#include <config/config.hpp>
+#include <work/work.hpp>
+#include <work/data_analisis.hpp>
+#include <qr/qr.hpp>
+
 #include <iostream>
 #include <memory>
 #include <mysql_driver.h>
@@ -11,12 +19,7 @@
 #include <iomanip>
 #include <vector>
 
-#include <others/src/gpio.h>
-#include <files/src/database.h>
-#include <app/src/config.h>
-#include <app/src/work.h>
-#include <app/src/data_analisis.h>
-#include <qr/src/qr.h>
+
 
 #ifdef USE_MAC_ADDRESS_LONG 
     #define MACADDR64

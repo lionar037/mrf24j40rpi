@@ -1,7 +1,9 @@
 #pragma once
+
+#include <work/work.hpp>
+#include <config/config.hpp>
 #include <string_view>
-#include <app/src/work.h>
-#include <app/src/config.h>
+
 #define DELAY 150
 
 #define myOLEDwidth  128

@@ -1,6 +1,3 @@
-#include <iostream>
-#include <cstring>
-#include <fstream>
 
 extern "C"{
     #include <png.h>
@@ -8,11 +5,15 @@ extern "C"{
     //#include <ncurses.h>
 }
 
-#include <others/src/rfflush.h>
-#include <others/src/color.h>
-#include <app/src/config.h>
-#include <others/src/tyme.h>
-#include <qr/src/qr.h>
+#include <work/rfflush.hpp>
+#include <display/color.hpp>
+#include <config/config.hpp>
+#include <tyme/tyme.hpp>
+#include <qr/qr.hpp>
+
+#include <iostream>
+#include <cstring>
+#include <fstream>
 
 namespace QR{
     

@@ -1,15 +1,17 @@
-//#include <vector>
-#include <string_view>
-#include <mrf24/src/radio.h>
-#include <mrf24/src/mrf24j40.h>
-#include <qr/src/qr.h>
-#include <files/src/file.h>
-#include <others/src/color.h>
-#include <mrf24/src/mrf24j40_template.tpp>
-#include <oled/src/oled.h>
-#include <others/src/rfflush.h>
+
+#include <mrf24/radio.h>
+#include <mrf24/mrf24j40.h>
+#include <mrf24/mrf24j40_template.tpp>
+#include <qr/qr.h>
+#include <file/file.h>
+#include <display/color.h>
+
+#include <oled/oled.h>
+#include <work/rfflush.h>
 
 //#include <app/src/data_analisis.h>
+//#include <vector>
+#include <string_view>
 
 namespace MRF24J40{ 
 

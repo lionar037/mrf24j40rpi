@@ -1,7 +1,13 @@
 #pragma once
 
-//#define USE_MRF24_TX
-#define USE_MRF24_RX
+
+#if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
+    // Si es de 32 bits
+    #define USE_MRF24_RX
+#else
+    // Si es de 64 bits
+    #define USE_MRF24_TX
+#endif
 
 #define USE_MAC_ADDRESS_LONG
 //#define USE_MAC_ADDRESS_SHORT
@@ -41,7 +47,7 @@
     #define ADDRESS_LONG 0x1122334455667701
     #define ADDRESS_LONG_SLAVE 0x1122334455667702
     #define ADDRESS 0x6002
-    #define PAN_ID 0x1235
+    #define PAN_ID 0x1234
     #define ADDR_SLAVE  0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
