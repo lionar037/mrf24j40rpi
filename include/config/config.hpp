@@ -1,6 +1,5 @@
 #pragma once
 
-
 #if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
     // Si es de 32 bits
     #define USE_MRF24_RX
@@ -12,7 +11,7 @@
 //#define USE_MAC_ADDRESS_LONG
 #define USE_MAC_ADDRESS_SHORT
 
-    //Enable database 
+//Enable database 
 //#define ENABLE_DATABASE
 //#define USE_QR
 
@@ -38,19 +37,18 @@
 
 
 #ifdef MODULE_TX
-    #define ADDRESS_LONG 0x1122334455667702
-    #define ADDRESS_LONG_SLAVE 0x1122334455667701
-    #define ADDRESS 0x6001
-    #define PAN_ID 0x1234
-    #define ADDR_SLAVE 0x6002
-    #define MRF24_TRANSMITER_ENABLE
-//#endif    
+    #define ADDRESS_LONG        0x1122334455667702
+    #define ADDRESS_LONG_SLAVE  0x1122334455667701
+    #define ADDRESS             0x6001
+    #define PAN_ID              0x1234
+    #define ADDR_SLAVE          0x6002
+    #define MRF24_TRANSMITER_ENABLE    
 #elif  defined(MODULE_RX)
-    #define ADDRESS_LONG 0x1122334455667701
-    #define ADDRESS_LONG_SLAVE 0x1122334455667702
-    #define ADDRESS 0x6002
-    #define PAN_ID 0x1234
-    #define ADDR_SLAVE  0x6001
+    #define ADDRESS_LONG        0x1122334455667701
+    #define ADDRESS_LONG_SLAVE  0x1122334455667702
+    #define ADDRESS             0x6002
+    #define PAN_ID              0x1234
+    #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
 #endif
