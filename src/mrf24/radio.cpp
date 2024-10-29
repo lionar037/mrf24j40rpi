@@ -238,7 +238,7 @@ void handle_rx() {
         if (i<16){
             std::cout << std::to_string(zigbee->get_rxbuf()[i]);
         }
-        elseif (i>16)
+        else if (i>16)
         {
             std::cout <<std::hex<< zigbee->get_rxbuf()[i];
         }
