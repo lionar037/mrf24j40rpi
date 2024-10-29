@@ -206,16 +206,11 @@ void handle_rx() {
     #ifdef MRF24_RECEIVER_ENABLE
     int files {POSITIOM_INIT_PRINTS};
     int col {0};
-    //char bufferMonitor[128];
-    
-
     auto  monitor{std::make_unique <FFLUSH::Fflush_t>()};
 
     files=POSITIOM_INIT_PRINTS;
 
     monitor->print("received a packet ... ",files++,col);
-    //sprintf(bufferMonitor,"0x%x\n",zigbee->get_rxinfo()->frame_length);
-    //std::string bufferMonitor;//(128);
 
     // Suponiendo que get_rxinfo()->frame_length devuelve un uint8_t
     const uint8_t frame_length = zigbee->get_rxinfo()->frame_length;
@@ -234,19 +229,13 @@ void handle_rx() {
       #ifdef DBG_PRINT_GET_INFO
       for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
-        //monitor->set(" Packet data (PHY Payload) :",files,col);
         if (i<21){
             std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
         }
-        else if (i>16)
+        else
         {
             std::cout <<std::hex<< zigbee->get_rxbuf()[i];
         }
-        else {
-            std::cout <<".";
-        }
-
-          
       }
       #endif
     }
