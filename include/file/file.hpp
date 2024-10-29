@@ -1,5 +1,5 @@
 #pragma once
-#include <work/work.h>
+#include <work/work.hpp>
 
 #include <iostream>
 #include <string>
