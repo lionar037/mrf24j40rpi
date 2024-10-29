@@ -140,18 +140,14 @@ void Gpio_t::set(){
     }
 
     const bool Gpio_t::app(bool& flag) 
-    {
-        //const unsigned int gpio_out = OUT_INTERRUPT;//originalmente es unsigned 
-        //const int gpio_in = IN_INTERRUPT;
+    {        
         struct pollfd fdpoll;
         int m_num_fdpoll { 1 };        
         int m_looper { 0 };
-        char *buf[64];
-        
+        char *buf[64];        
         set();
-
+        
         m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);
-        //m_gpio_in_fd = gpio_in_fd;
         // We will wait for button press here for 10s or exit anyway
         if(m_state==true)
         {
@@ -187,9 +183,7 @@ void Gpio_t::set(){
             gpio_set_value(m_gpio_out,VALUE_HIGH);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));            
         }    
-        gpio_set_value(m_gpio_out,VALUE_LOW);
-        
-   
+        gpio_set_value(m_gpio_out,VALUE_LOW);           
         return false;
     }
 
@@ -201,13 +195,10 @@ void Gpio_t::set(){
      
         gpio_unexport(m_gpio_out);
         gpio_unexport(m_gpio_in);
-        //if(fileGpioOutput.is_open())fileGpioOutput.close();
     }
 
-    Gpio_t::~Gpio_t(){
-            
-            CloseGpios();            
-            
+    Gpio_t::~Gpio_t(){            
+            CloseGpios();                        
         #ifdef DBG_GPIO
             std::cout<<"~Gpio()\n";
         #endif       

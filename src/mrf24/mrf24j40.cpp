@@ -181,8 +181,8 @@ namespace MRF24J40{
                 // buffer all bytes in PHY Payload
             if(bufPHY){
                 int rb_ptr = 0;
-                for (int i = 0; i < frame_length; i++) { // from 0x301 to (0x301 + frame_length -1)
-                    rx_buf[rb_ptr++] = read_long(0x301 + i);
+                for (int i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                    rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
 
@@ -193,10 +193,11 @@ namespace MRF24J40{
             // printf(" frame length : %d \n",frame_length);
             // printf(" rx datalength : %d \n",rx_datalength());
 
-        for (uint16_t i = 0; i < frame_length ; i++) {//original
+        for (uint16_t i = 0; i < frame_length ; ++i) {//original
            // for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {//original
-                rx_info.rx_data[rd_ptr++] = read_long(0x301 + m_bytes_MHR + i);
+                rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
+
             rx_info.frame_length = frame_length;
                     // same as datasheet 0x301 + (m + n + 2) <-- frame_length
             rx_info.lqi = read_long(0x301 + frame_length);

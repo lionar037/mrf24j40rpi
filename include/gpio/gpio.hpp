@@ -39,8 +39,7 @@ struct Gpio_t{
             int gpio_set_edge(const int , const std::string_view);
             int gpio_get_fd_to_value(const int );                
             bool settings(const int , const std::string_view , std::ifstream& );
-            void CloseGpios(void);
-        
+            void CloseGpios(void);        
             void set();
         private :
             static inline int static_file_open_and_write_value{0};
@@ -50,6 +49,5 @@ struct Gpio_t{
             const int   m_gpio_out  { OUT_INTERRUPT };
             const int   m_gpio_in   { IN_INTERRUPT };
             std::ifstream filenameGpio;
-            //std::ifstream fileGpioOutput;
     };
 }
