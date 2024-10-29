@@ -235,7 +235,7 @@ void handle_rx() {
       for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) 
       {
         //monitor->set(" Packet data (PHY Payload) :",files,col);
-        if (i<16){
+        if (i<21){
             std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
         }
         else if (i>16)
