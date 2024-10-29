@@ -372,14 +372,14 @@ void Mrf24j::settings_mrf(void){
         write_long(i++, panid >> 8);
         write_long(i++, panid & 0xff);  // dest panid
         
-        write_long(i++, (dest64 >> 56 ) & 0xff);
-        write_long(i++, (dest64 >> 48 ) & 0xff);
-        write_long(i++, (dest64 >> 40 ) & 0xff);
-        write_long(i++, (dest64 >> 32 ) & 0xff);
-        write_long(i++, (dest64 >> 24 ) & 0xff);
-        write_long(i++, (dest64 >> 16 ) & 0xff);
-        write_long(i++, (dest64 >> 8  ) & 0xff);
-        write_long(i++, dest64  & 0xff); // uint64_t
+        //write_long(i++, (dest64 >> 56 ) & 0xff);
+        //write_long(i++, (dest64 >> 48 ) & 0xff);
+        //write_long(i++, (dest64 >> 40 ) & 0xff);
+        //write_long(i++, (dest64 >> 32 ) & 0xff);
+        //write_long(i++, (dest64 >> 24 ) & 0xff);
+        //write_long(i++, (dest64 >> 16 ) & 0xff);
+        //write_long(i++, (dest64 >> 8  ) & 0xff);
+        //write_long(i++, dest64  & 0xff); // uint64_t
        
 
         const uint64_t origin_64 = address64_read();
