@@ -56,7 +56,7 @@ Radio_t::Radio_t()
     // This is _our_ address
 
     #ifdef MACADDR16
-        mrf24j40_spi->address16_write(ADDRESS); 
+        zigbee->address16_write(ADDRESS); 
     #elif defined (MACADDR64)
         zigbee->address64_write(ADDRESS_LONG);
     #endif
