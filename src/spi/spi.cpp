@@ -30,10 +30,8 @@ namespace SPI {
       spi->bits_per_word = 0;
       spi->speed_hz = spi_speed;
       spi->delay_usecs = 1;
-      spi->len = 3;
-
-          //  tx_buffer[0] = tx_buffer[1] = tx_buffer[2] = tx_buffer[3] = 0x00;
-          //  rx_buffer[0]=rx_buffer[1]  = rx_buffer[2]  =0xFF;rx_buffer[3]  =0xff;
+      spi->len = 3;        
+/*          
           tx_buffer[0] = 0x00;
           tx_buffer[1] = 0x00;
           tx_buffer[2] = 0x00;
@@ -42,6 +40,9 @@ namespace SPI {
           rx_buffer[1] = 0xFF;
           rx_buffer[2] = 0xFF;
           rx_buffer[3] = 0xff;
+*/
+          std::memcpy(tx_buffer,0x00,4);
+          std::memcpy(rx_buffer,0xff,4);
     return;
   }
 
@@ -80,7 +81,34 @@ namespace SPI {
       }
       return;
   }
+  const uint32_t Spi::getSpeed(){
+    return static_cast<uint32_t>(SPI_SPEED);
+  }
 
+ const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd){
+      if (fs < 0) {
+        std::cerr << "SPI device not open." << std::endl;
+        return -1;
+      }
+        std::memset(m_rx_buffer, 0xff, LARGE_SECTOR_SIZE);
+        std::memset(m_tx_buffer, 0xff, LARGE_SECTOR_SIZE);
+        std::memset(spi.get(), 0, sizeof(struct spi_ioc_transfer));  // Limpiar la estructura a la que apunta spi
+        spi->len = 1;
+        m_tx_buffer[0] = cmd;
+        spi->tx_buf = reinterpret_cast <unsigned long> (m_tx_buffer);
+        spi->rx_buf = reinterpret_cast <unsigned long> (m_rx_buffer);
+        spi->speed_hz = get_spi_speed();
+        spi->bits_per_word = 8;
+        spi->cs_change = 0;
+        spi->delay_usecs = 0;
+
+        int ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
+        if (ret < 0) {
+            std::cerr << "Error en Transfer1bytes: " << strerror(errno) << std::endl;
+            return -1;
+        }
+        return 0;
+    }//end Transfer1bytes
 
 const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
     spi->len = sizeof(cmd);

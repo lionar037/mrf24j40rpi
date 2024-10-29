@@ -20,11 +20,12 @@ namespace SPI{
     void init();
     void settings_spi();
     void spi_close();
-    const uint8_t Transfer1bytes(const uint16_t address){}
+    const uint8_t Transfer1bytes(const uint16_t cmd);
     const uint8_t Transfer2bytes(const uint16_t address);
     const uint8_t Transfer3bytes(const uint32_t address);
     void printDBGSpi();
     void msj_fail();  
+    uint32_t getSpeed();
 
   private:
 
