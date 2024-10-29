@@ -84,7 +84,7 @@ namespace MRF24J40{
         write_short(MRF_EADR2,(addressLong>>16)&0xff);
         write_short(MRF_EADR1,(addressLong>>8 )&0xff);
         write_short(MRF_EADR0,(addressLong)&0xff);
-    return ;
+    //return ;
     }
 
     const  uint16_t Mrf24j::address16_read(void) {
@@ -95,7 +95,6 @@ namespace MRF24J40{
 
     const uint64_t Mrf24j::address64_read(void){
         uint64_t address64 ;
-
         address64  = (read_short(MRF_EADR0));
         address64 |= (read_short(MRF_EADR1))<< 8;
         address64 |= static_cast<uint64_t>(read_short(MRF_EADR2))<<16;
@@ -104,7 +103,6 @@ namespace MRF24J40{
         address64 |= static_cast<uint64_t>(read_short(MRF_EADR5))<<40;
         address64 |= static_cast<uint64_t>(read_short(MRF_EADR6))<<48;
         address64 |= static_cast<uint64_t>(read_short(MRF_EADR7))<<56;
-
     return  address64;
     }
 
@@ -190,12 +188,11 @@ namespace MRF24J40{
             // buffer data bytes
             int rd_ptr = 0;
             // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
-
             // printf(" frame length : %d \n",frame_length);
             // printf(" rx datalength : %d \n",rx_datalength());
 
-        for (uint16_t i = 0; i < frame_length ; ++i) {//original
-           // for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {//original
+            for(uint16_t i = 0; i < frame_length ; ++i) {//original
+            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
@@ -210,7 +207,7 @@ namespace MRF24J40{
         }
         if (last_interrupt & MRF_I_TXNIF) {
             m_flag_got_tx++;
-            uint8_t tmp = read_short(MRF_TXSTAT);
+            const uint8_t tmp = read_short(MRF_TXSTAT);
                 // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
             tx_info.retries = tmp >> 6;
@@ -254,7 +251,7 @@ namespace MRF24J40{
     }
 
 
-void Mrf24j::settings_mrf(void){
+    void Mrf24j::settings_mrf(void){
         rxmcr.PANCOORD=true;
         rxmcr.COORD=false;
         rxmcr.PROMI=true;
@@ -293,7 +290,6 @@ void Mrf24j::settings_mrf(void){
         bufPHY = bp;
     }
 
-
     bool Mrf24j::get_bufferPHY(void) {
         return bufPHY;
     }
@@ -323,17 +319,17 @@ void Mrf24j::settings_mrf(void){
 
 
     void Mrf24j::pinMode(int i, bool b){
-    return;
+    //return;
     }
 
     void Mrf24j::digitalWrite(int i, bool b){
-    return;
+    //return;
     }
 
     void Mrf24j::delay(uint16_t t){
         TYME::Time_t time ;
         time.delay_ms(t);
-    return;
+    //return;
     }
 
     void Mrf24j::interrupts(){
@@ -351,8 +347,8 @@ void Mrf24j::settings_mrf(void){
 
 
 
-    void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx& buf) {
-        const uint8_t len = strlen(buf.data); // get the length of the char* array
+    void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
+        const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
                         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
@@ -393,19 +389,19 @@ void Mrf24j::settings_mrf(void){
         write_long(i++, (origin_64 >> 8  ) & 0xff); 
 
 
-                // All testing seems to indicate that the next two bytes are ignored.
-                //2 bytes on FCS appended by TXMAC
+        // All testing seems to indicate that the next two bytes are ignored.
+        //2 bytes on FCS appended by TXMAC
         i+=ignoreBytes;
 
         //for(const auto& byte : static_cast<const char *>(buf.head) )
         // for(const auto& byte : static_cast<const char *>(buf.size) )
-        write_long(i++,buf.head);        
+        write_long(i++,packet_tx.head);        
         //write_long(i++,buf.head&0xff);
         //write_long(i++,(buf.head>>8)&0xff);
 
-        for(const auto& byte : buf.data )write_long(i++,byte);
-        write_long(i++,buf.checksum>>8);
-        write_long(i++,buf.checksum&0xff);
+        for(const auto& byte : packet_tx.data )write_long(i++,byte);
+        write_long(i++,packet_tx.checksum>>8);
+        write_long(i++,packet_tx.checksum&0xff);
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
     }
