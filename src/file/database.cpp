@@ -23,7 +23,7 @@ namespace DATABASE{
 
         // Mostrar resultados
         if (res->next()) {
-            int id = res->getInt("id");
+            const auto id = res->getInt("id");
 
             // Obtener un objeto istream para los datos binarios
             std::istream *hexDataStream = res->getBlob("hex_data");
