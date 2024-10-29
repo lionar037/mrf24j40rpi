@@ -46,7 +46,6 @@ namespace SPI {
     return;
   }
 
-
   void Spi_t::init(){
   fs = open(SPI_DEVICE, O_RDWR);
   if(fs < 0) {
@@ -81,11 +80,12 @@ namespace SPI {
       }
       return;
   }
-  const uint32_t Spi::getSpeed(){
+
+  const uint32_t Spi_t::getSpeed(){
     return static_cast<uint32_t>(SPI_SPEED);
   }
 
- const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd){
+  const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd){
       if (fs < 0) {
         std::cerr << "SPI device not open." << std::endl;
         return -1;
@@ -110,18 +110,17 @@ namespace SPI {
         return 0;
     }//end Transfer1bytes
 
-const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
-    spi->len = sizeof(cmd);
-    rx_buffer[0]=rx_buffer[1]=0xff;
-    rx_buffer[2]=rx_buffer[3]=0x00;
-    memcpy(tx_buffer, &cmd, sizeof(cmd));
-    ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
-    if((cmd>>8&0xff)==0x00)
-        printDBGSpi(); 
-      //if(ret != 0) return rx_buffer[1];  
-  return rx_buffer[1];
-  }
-
+  const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
+      spi->len = sizeof(cmd);
+      rx_buffer[0]=rx_buffer[1]=0xff;
+      rx_buffer[2]=rx_buffer[3]=0x00;
+      memcpy(tx_buffer, &cmd, sizeof(cmd));
+      ret = ioctl(fs, SPI_IOC_MESSAGE(1), spi.get());
+      if((cmd>>8&0xff)==0x00)
+          printDBGSpi(); 
+        //if(ret != 0) return rx_buffer[1];  
+    return rx_buffer[1];
+    }
 
   const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd){
     spi->len = 3;
@@ -135,34 +134,32 @@ const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
     return rx_buffer[2];
     }
 
-
-    void Spi_t::spi_close(){
-        if(fs)close(fs);
-      return;
-    }
-
-    Spi_t::Spi_t()
-    :      
-      tx_buffer { 0x00 },
-      rx_buffer { 0x00 },
-      spi_speed { SPI_SPEED }, 
-      spi       { std::make_unique<struct spi_ioc_transfer >() } 
-    {
-          #ifdef DBG_SPI
-              std::cout<<"Spi()\n";
-          #endif
-          settings_spi();   
-          init(); 
+  void Spi_t::spi_close(){
+          if(fs)close(fs);
         return;
-    }
+      }
 
-      Spi_t::~Spi_t(){
-      spi_close();
-      #ifdef DBG_SPI
-          std::cout<<"~Spi()\n";
-      #endif
-      exit(EXIT_SUCCESS);
-    }
+  Spi_t::Spi_t()
+      :      
+        tx_buffer { 0x00 },
+        rx_buffer { 0x00 },
+        spi_speed { SPI_SPEED }, 
+        spi       { std::make_unique<struct spi_ioc_transfer >() } 
+      {
+            #ifdef DBG_SPI
+                std::cout<<"Spi()\n";
+            #endif
+            settings_spi();   
+            init(); 
+          return;
+      }
 
+  Spi_t::~Spi_t(){
+        spi_close();
+        #ifdef DBG_SPI
+            std::cout<<"~Spi()\n";
+        #endif
+        exit(EXIT_SUCCESS);
+      }
 
 }//end namespace SPI_H
