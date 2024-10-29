@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cstring>
 
 #define SPI_DEVICE  "/dev/spidev0.0"
 
