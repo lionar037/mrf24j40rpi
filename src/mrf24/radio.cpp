@@ -237,6 +237,7 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
     std::cout<<"\n";
 
    
+    uint64_t add =ADDRESS_LONG;
 
     #ifdef DBG_PRINT_GET_INFO 
       
@@ -248,7 +249,7 @@ monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) ,file
     }
         std::cout<< "\ndata_receiver->mac : " << std::hex<< add<<"\n";
         std::cout<< "buffer_receiver->head : " << packet_data_tmp->head <<"\n";
-        auto bs = (~packet_data_tmp->size)&0xffff;
+        auto bs = (!packet_data_tmp->size)&0xffff;
         std::cout<< "buffer_receiver->size : " << reinterpret_cast<const int *>(bs)<<"\n";
         std::cout<< "data_receiver->data : " <<reinterpret_cast<const char *>(packet_data_tmp->data)<<"\n";
         std::cout<<"\nbuff: \n"<<buff;
