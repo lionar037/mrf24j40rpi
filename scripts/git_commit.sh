@@ -8,4 +8,6 @@ commit_message="update $timestamp"
 echo "NAME GIT :"
 echo ${commit_message}
 # Ejecutar los comandos git
-git add . && git commit -m "$commit_message" && git push -u origin main
+#git add . && git commit -m "$commit_message" && git push -u origin main
+git add . && git commit -m "$commit_message" && git push -u origin version1.0
+
