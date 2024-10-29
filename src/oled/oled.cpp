@@ -1,129 +1,255 @@
-#include <oled/oled.hpp>
+//////////////////////////////////////////////////////////////////////////////
+//     
+//          filename            :   oled.cpp
+//          License             :   GNU 
+//          Author              :   Lio
+//          Change History      :
+//          Processor           :   ARM
+//          Hardware            :		
+//          Complier            :   ARM
+//          Company             :	lionar037
+//          Dependencies        :	bcm2835
+//          Description         :	libreria para display oled ssd1307
+//          @brief              :	
+//
+//////////////////////////////////////////////////////////////////////////////
 
-#ifdef USE_MRF24_RX
-#include <SSD1306_OLED.hpp>
-#endif
+#include <oled/oled.hpp>
+#include <config/config.hpp>
 
 #include <bcm2835.h>
 #include <time.h>
 #include <stdio.h>
-#include <string>
 #include <iostream>
-//#include <string_view>
 
 
 namespace OLED{
-#ifdef USE_MRF24_RX
 
-SSD1306 myOLED(myOLEDwidth , myOLEDheight) ; // instantiate  an object 
-        //bool Oled_t::create(const char* tmp)
+    Oled_t::Oled_t(const uint16_t width, const uint16_t height , const uint16_t i2c_speed , const uint8_t i2c_address)
+        : 
+		myOLEDwidth(width), 
+		myOLEDheight(height), 
+		i2c_speed_(i2c_speed), 
+		i2c_address_(i2c_address), 
+		i2c_debug_(false), 
+		screenBuffer_(nullptr),
+		myOLED(width, height) // Inicializar el objeto SSD1306 aquí
+    {
+		#ifdef DBG_OLED
+		std::cout<<"Oled_t::Oled_t \nconst uint16_t width, const uint16_t height , const uint16_t i2c_speed , const uint8_t i2c_address\n";
+		#endif
+	}
 
-        bool Oled_t::create(const std::string_view& textOled)
-        {
-        static int Step { 0 };        
-        uint8_t  screenBuffer[myOLEDwidth * (myOLEDheight/8)+1]; 
-                
-                // Define a buffer to cover whole screen 
-                
-                myOLED.buffer = (uint8_t*) &screenBuffer;  // set that to library buffer pointer
-                myOLED.OLEDclearBuffer();  
-            	myOLED.setTextSize(1);
-                myOLED.setFontNum(OLEDFontType_Wide);
-                myOLED.setTextColor(WHITE);
-                myOLED.setCursor(0, 0);
-                myOLED.print(textOled.data());
-                myOLED.setFontNum(OLEDFontType_Default);
-                                
-                myOLED.setCursor(128-24, 64-9);
-                myOLED.print(reinterpret_cast<const int>(Step));
-                myOLED.OLEDupdate();
-                Step++;
-            return true;
+    Oled_t::~Oled_t() {
+        powerDown();
+		#ifdef DBG_OLED
+			std::cout<<"    Oled_t::~Oled_t()\n";
+		#endif
+    }
+
+    bool Oled_t::begin(bool i2c_debug) {
+        i2c_debug_ = i2c_debug;
+        
+        if (!bcm2835_init()) {
+            printf("Error: init bcm2835 library failed\n");
+            return false;
         }
 
+        if (!initI2C()) {
+            bcm2835_close();
+            return false;
+        }
 
-
-
-        bool Oled_t::init(){
-                    if(!bcm2835_init())
-                {
-                        printf("Error 1201: init bcm2835 library\r\n");
-                        return -1;
-                }
-
-                Setup();
-                //TestLoop();
-                //EndTest();
+        myOLED.OLEDbegin(i2c_speed_, i2c_address_, i2c_debug_);
+        screenBuffer_ = new uint8_t[FULLSCREEN];
+        myOLED.OLEDSetBufferPtr(myOLEDwidth, myOLEDheight, screenBuffer_, FULLSCREEN);
+        myOLED.OLEDFillScreen(0xF0, 0);
+        bcm2835_delay(100);
 
         return true;
+    }
+
+
+    void Oled_t::clearScreen() {
+        myOLED.OLEDclearBuffer();
+    }
+
+    void Oled_t::displayTextScroll(const char* text, int x, int y) {
+        //myOLED.setFontNum(OLEDFont_Mednum);
+        myOLED.setFontNum(OLEDFont_Default);
+        myOLED.setTextColor(BLACK, WHITE); 
+        myOLED.setTextColor(WHITE);
+        myOLED.setCursor(x, y);
+        myOLED.print(text);
+        myOLED.OLEDupdate();		
+		myOLED.OLEDStartScrollLeft (0, 0x0F);		
+		bcm2835_delay(3000);
+		myOLED.OLEDStopScroll();
+    }
+
+
+    void Oled_t::displayText(const char* text, int x, int y) {        
+        myOLED.setFontNum(OLEDFont_Default);
+        myOLED.setTextColor(BLACK, WHITE); 
+        myOLED.setTextColor(WHITE);
+        myOLED.setCursor(x, y);
+        myOLED.print(text);
+        myOLED.OLEDupdate();							
+    }
+
+
+    void Oled_t::powerDown() {
+        myOLED.OLEDPowerDown();
+        closeI2C();
+        bcm2835_close();
+        delete[] screenBuffer_;
+    }
+
+    bool Oled_t::initI2C() {
+        if (!myOLED.OLED_I2C_ON()) {
+            printf("Error: Cannot start I2C\n");
+            return false;
+        }
+        return true;
+    }
+
+    void Oled_t::closeI2C() {
+        myOLED.OLED_I2C_OFF();
+    }
+
+    void Oled_t::demo(){
+		myOLED.setRotation(OLED_Degrees_0);
+		// Define a buffer to cover whole screen 
+		std::vector <uint8_t>screenBuffer;
+		screenBuffer.resize(FULLSCREEN);
+		if (!myOLED.OLEDSetBufferPtr(myOLEDwidth, myOLEDheight, screenBuffer.data(), screenBuffer.size())) return;
+		myOLED.OLEDclearBuffer(); // clear the buffer
+
+		// Set text parameters
+		myOLED.setTextColor(BLACK);
+		//  ** Test 501 OLED display enable and disable **
+		myOLED.setCursor(0, 0);
+		myOLED.print("Disable test 501");
+		printf("OLED Disable test 501\r\n");
+		myOLED.OLEDupdate();
+
+		bcm2835_delay(900); 
+		myOLED.OLEDEnable(0); 
+		bcm2835_delay(900); 
+		myOLED.OLEDEnable(1); 
+		bcm2835_delay(900); 
+		myOLED.OLEDclearBuffer();
+
+		// ** Test 502 inverse **
+		myOLED.setCursor(0, 0);
+		myOLED.print("Inverse test 502");
+		printf("OLED Inverse test 502\r\n");
+		myOLED.OLEDupdate();
+		bcm2835_delay(900);
+		myOLED.OLEDInvert(1); // Inverted
+		bcm2835_delay(900);
+		myOLED.OLEDInvert(0);
+		bcm2835_delay(900);
+
+		// ** Test 503 contrast **
+		myOLED.OLEDclearBuffer();
+		myOLED.setCursor(0, 0);
+		myOLED.print("Contrast test 503");
+		printf("OLED Contrast test 503\r\n");
+		myOLED.OLEDupdate();
+		bcm2835_delay(1500);
+		myOLED.OLEDFillScreen(0x77, 0); 
+		myOLED.OLEDContrast(0x00);
+		bcm2835_delay(1000);
+		myOLED.OLEDContrast(0x80);
+		bcm2835_delay(1000);
+		myOLED.OLEDContrast(0xFF);
+		bcm2835_delay(1000);
+		myOLED.OLEDContrast(0x81);
+		bcm2835_delay(1000);
+		myOLED.OLEDclearBuffer();
+
+		// ***** Test 504 Scroll **
+
+		myOLED.setCursor(16,16 );
+		myOLED.print("SCROLL EST 504  ");
+		printf("OLED Scroll test 504\r\n");
+		myOLED.OLEDupdate();
+
+		bcm2835_delay(2500);
+		myOLED.OLEDStartScrollRight(0, 0x0F);
+		bcm2835_delay(3000);
+		myOLED.OLEDStopScroll();
+		printf("OLEDStartScrollRight\r\n");
+
+		myOLED.OLEDStartScrollLeft(0, 0x0F);
+		bcm2835_delay(3000);
+		myOLED.OLEDStopScroll();
+		printf("OLEDStartScrollLeft\r\n");
+
+		myOLED.OLEDStartScrollDiagRight(0, 0x07);
+		bcm2835_delay(3000);
+		myOLED.OLEDStopScroll();
+		printf("OLEDStartScrollDiagRight\r\n");
+	
+		myOLED.OLEDStartScrollDiagLeft(0, 0x07);
+		bcm2835_delay(3000);
+		myOLED.OLEDStopScroll();
+		printf("OLEDStartScrollDiagLeft\r\n"); 	 	
+    }
+
+    const std::vector <std::string>& Oled_t::convertToMayuscule( std::vector <std::string>& display_text ){		
+        //std::transform(display_text.begin(), display_text.end(), display_text.begin(), ::toupper); 
+		for (auto& str : display_text) 
+        // Convertir cada cadena a mayúsculas
+        std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return std::toupper(c); });		
+    return display_text;    
+    }
+
+	void Oled_t::create(const std::string_view msjForOled){
+		// ** Texto  inverse **
+		myOLED.setCursor(0, 16);
+		myOLED.print(msjForOled.data());
+		std::cout<< msjForOled.data() <<"\n";
+		myOLED.OLEDupdate();
+	}
+
+	 void  Oled_t::Graphics(const int x,const int y,const bool* z,const uint8_t* w){
+		const auto value = (x+3)*(y+3);                				
+		std::vector<uint8_t> buff(value, 0x00);  // Inicializar el vector con 0x00
+                int l{-1},Position{0};
+                //int module =0;
+
+                //std::cout << "\033[" << "15" << ";" << "0" << "H" <<"\n";  
+
+                //for(int i=0 ; i< (y+3)*(x+3); i++){buff[l++]=0x00;}
+                l=-1;
+
+                for( int i=0 ; i<(y)*(x) ; )
+                {                
+                        if((!(i % 29) ) || Position==0)                
+                        {
+                                l++;
+                                Position=8;                                                                      
+                        }
+                        Position--; 
+                        //if(i<(x*y)) 
+                        buff[l] |= (w[i] & true ? 1 : 0) << Position ;                                                                                    
+                        i++;                                                                                
+                }        
+
+				std::vector <uint8_t>fullscreenBuffer(1024,0x0);
+                //myOLED.buffer = (uint8_t*) &fullscreenBuffer; // buffer to the pointer
+                myOLED.OLEDclearBuffer();  
+                static int move{0};
+                
+                if(move==32)move=0;
+
+                myOLED.OLEDBitmap(move++, 0 , x, y, buff.data(), false);                
+                myOLED.setCursor(128-24, 64-12);
+                //myOLED.setFontNum(OLEDFontType_Wide);
+                //myOLED.print(reinterpret_cast<int>(count++));                
+                myOLED.OLEDupdate();
         }
 
-
-        // ===================== Function Space =====================
-void Oled_t::Setup() 
-{
-        bcm2835_delay(100);
-        #ifdef DBG_DISPLAY_OLED
-        printf("\nOLED Begin\r\n");
-        #endif
-        myOLED.OLEDbegin(I2C_Speed, I2C_Address); // initialize the OLED
-myOLED.OLEDFillScreen(0xF0, 0); // splash screen bars
-        bcm2835_delay(100);
-//myOLED.OLEDclearBuffer();
-        return;
-}
-
-    void Oled_t::End()
-    {
-            myOLED.OLEDPowerDown(); //Switch off display
-            bcm2835_close(); // Close the library
-            printf("OLED End\r\n");
-        return;
-    }
-
-
-
-        void Oled_t::Start()
-        {
-                static int count { 0 };
-                // Define a buffer to cover whole screen 
-                static uint8_t  screenBuffer[myOLEDwidth * (myOLEDheight/8)+1]; 
-                        myOLED.buffer = (uint8_t*) &screenBuffer;  // set that to library buffer pointer
-                
-                        myOLED.OLEDclearBuffer();  
-            	        myOLED.setTextSize(1);
-                	//myOLED.setFontNum(OLEDFontType_Thick);
-                        //myOLED.setFontNum(OLEDFontType_SevenSeg);
-                        myOLED.setFontNum(OLEDFontType_Wide);
-                        //myOLED.setFontNum(OLEDFontType_Tiny);
-                        //myOLED.setFontNum(OLEDFontType_Homespun);
-                        //myOLED.setFontNum(OLEDFontType_Default);
-                	//myOLED.OLEDInvert(1); // Inverted
-                        myOLED.setTextColor(WHITE);
-                        myOLED.setCursor(0, 0);
-
-                        myOLED.print("MRF24J40");
-                        myOLED.setCursor(36, 14);
-                        printf(" count : %d\n",count);
-                        myOLED.print(reinterpret_cast<int>(count));
-                        myOLED.OLEDupdate();
-                        count++;
-                        //myOLED.setRotation(3);
-
-                        // myOLED.OLEDContrast(0x00);
-                        // bcm2835_delay(1000);
-                        // myOLED.OLEDContrast(0x80);
-                        // bcm2835_delay(1000);
-                        // myOLED.OLEDContrast(0xFF);
-                        // bcm2835_delay(1000);
-                        // myOLED.OLEDContrast(0x81);
-            
-            return;
-    }
-    
-
-    Oled_t::Oled_t(){
-        init();
-    }
-#endif
 }
