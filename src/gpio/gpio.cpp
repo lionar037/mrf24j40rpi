@@ -51,8 +51,6 @@ void Gpio_t::set(){
     }
 
 
-
-
     // GPIO EXPORT
     int Gpio_t::gpio_export(const int gpio_num)
     {
@@ -210,7 +208,7 @@ void Gpio_t::set(){
             
             CloseGpios();            
             
-        #ifdef DBG
+        #ifdef DBG_GPIO
             std::cout<<"~Gpio()\n";
         #endif       
     }

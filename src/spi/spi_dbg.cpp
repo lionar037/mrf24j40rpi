@@ -4,14 +4,14 @@
 
 namespace SPI{
 
-    void Spi::msj_fail(){
+    void Spi_t::msj_fail(){
             #ifdef DBG
                 printf("Could not open the Spi device...\r\n");
             #endif
             return;
         }
 
-    void Spi::printDBGSpi(){    
+    void Spi_t::printDBGSpi(){    
         #ifdef DBG_SPI
             std::cout << " spi.tx_buf   hex : 0x"<< std::hex<< spi->tx_buf <<"\n";
             std::cout << " spi.rx_buf   hex : 0x"<< std::hex<< spi->rx_buf <<"\n";

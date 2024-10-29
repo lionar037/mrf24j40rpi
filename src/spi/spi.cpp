@@ -15,7 +15,7 @@
 
 namespace SPI {
 
-  void Spi::settings_spi(){
+  void Spi_t::settings_spi(){
       spi->tx_buf = (unsigned long)tx_buffer;
       spi->rx_buf = (unsigned long)rx_buffer;
       spi->bits_per_word = 0;
@@ -37,7 +37,7 @@ namespace SPI {
   }
 
 
-  void Spi::init(){
+  void Spi_t::init(){
   fs = open(SPI_DEVICE, O_RDWR);
   if(fs < 0) {
       msj_fail();
@@ -73,7 +73,7 @@ namespace SPI {
   }
 
 
-const uint8_t Spi::Transfer2bytes(const uint16_t cmd){
+const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd){
     spi->len = sizeof(cmd);
     rx_buffer[0]=rx_buffer[1]=0xff;
     rx_buffer[2]=rx_buffer[3]=0x00;
@@ -86,7 +86,7 @@ const uint8_t Spi::Transfer2bytes(const uint16_t cmd){
   }
 
 
-  const uint8_t Spi::Transfer3bytes(const uint32_t cmd){
+  const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd){
     spi->len = 3;
     rx_buffer[0]=rx_buffer[1]=rx_buffer[2]==0xff;
     rx_buffer[3]=0x00;
@@ -99,22 +99,19 @@ const uint8_t Spi::Transfer2bytes(const uint16_t cmd){
     }
 
 
-    void Spi::spi_close(){
+    void Spi_t::spi_close(){
         if(fs)close(fs);
       return;
     }
 
-// uint8_t tx_buffer[4]{nullptr};
-// uint8_t rx_buffer[4]{nullptr};
-
-    Spi::Spi()
+    Spi_t::Spi_t()
     :      
       tx_buffer { 0x00 },
       rx_buffer { 0x00 },
       spi_speed { SPI_SPEED }, 
       spi       { std::make_unique<struct spi_ioc_transfer >() } 
     {
-          #ifdef DBG
+          #ifdef DBG_SPI
               std::cout<<"Spi()\n";
           #endif
           settings_spi();   
@@ -122,9 +119,9 @@ const uint8_t Spi::Transfer2bytes(const uint16_t cmd){
         return;
     }
 
-      Spi::~Spi(){
+      Spi_t::~Spi_t(){
       spi_close();
-      #ifdef DBG
+      #ifdef DBG_SPI
           std::cout<<"~Spi()\n";
       #endif
       exit(EXIT_SUCCESS);

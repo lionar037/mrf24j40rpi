@@ -19,10 +19,10 @@
 #define SPI_SPEED   100000 
 
 namespace SPI{
-  struct  Spi{
+  struct  Spi_t{
 
-    explicit Spi();
-      ~Spi();
+    explicit Spi_t();
+      ~Spi_t();
 
     void init();
     void settings_spi();
