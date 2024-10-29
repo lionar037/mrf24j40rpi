@@ -21,9 +21,11 @@
 #ifdef USE_MRF24_TX
     #define MODULE_TX 
     #define MODULE_TX_RST
+    #define RESET_MRF_SOFTWARE
 #else
     #define MODULE_RX 
     #define MODULE_RX_RST
+    #define RESET_MRF_SOFTWARE
 #endif
 
 #ifdef USE_MAC_ADDRESS_SHORT
@@ -47,7 +49,7 @@
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
     #define ADDRESS             0x6002
-    #define PAN_ID              0x1235
+    #define PAN_ID              0x1234
     #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24

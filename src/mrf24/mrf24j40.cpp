@@ -132,7 +132,7 @@ namespace MRF24J40{
     // }
            delay(192); 
            #include <config/config.hpp>
-           #ifdef MODULE_TX_RST
+           #ifdef RESET_MRF_SOFTWARE
             write_short(MRF_SOFTRST, 0x7); 
             #else
             //write_short(MRF_SOFTRST, 0x7); 
@@ -350,7 +350,7 @@ void Mrf24j::settings_mrf(void){
     }
 
 
-/*
+
     void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx& buf) {
         const uint8_t len = strlen(buf.data); // get the length of the char* array
         int i = 0;
@@ -404,7 +404,7 @@ void Mrf24j::settings_mrf(void){
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
     }
-*/
+
 
     void Mrf24j::send(const uint64_t dest, const std::string& pf) 
     {
