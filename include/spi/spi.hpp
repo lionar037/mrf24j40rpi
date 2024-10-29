@@ -19,7 +19,7 @@
 #include <unistd.h>
 
 #define SPI_SPEED   100000 
-
+#define MAX_BUFFER 256
 namespace SPI{
   struct  Spi_t{
 
@@ -34,12 +34,12 @@ namespace SPI{
     const uint8_t Transfer3bytes(const uint32_t address);
     void printDBGSpi();
     void msj_fail();  
-    uint32_t getSpeed();
+    const uint32_t getSpeed();
 
   private:
 
-    uint8_t tx_buffer[4]{0x00};
-    uint8_t rx_buffer[4]{0x00};
+    uint8_t tx_buffer[MAX_BUFFER]{0x00};
+    uint8_t rx_buffer[MAX_BUFFER]{0x00};
 
     const uint32_t len_data { 32 };
     const uint32_t spi_speed { 0 };

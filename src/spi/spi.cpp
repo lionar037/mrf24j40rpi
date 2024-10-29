@@ -35,8 +35,8 @@ namespace SPI {
           rx_buffer[2] = 0xFF;
           rx_buffer[3] = 0xff;
 */
-          std::memcpy(tx_buffer,0x00,4);
-          std::memcpy(rx_buffer,0xff,4);
+          std::memcpy(tx_buffer,0x00,sizeof(tx_buffer));
+          std::memcpy(rx_buffer,0xff,sizeof(rx_buffer));
     return;
   }
 
