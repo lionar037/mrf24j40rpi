@@ -8,8 +8,8 @@ extern "C"{
     #include <poll.h>
 }
 
-#include <gpio/gpio.h>
-#include <config/config.h>
+#include <gpio/gpio.hpp>
+#include <config/config.hpp>
 
 #include <iostream>
 #include <chrono>
