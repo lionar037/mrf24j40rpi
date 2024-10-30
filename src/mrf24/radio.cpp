@@ -248,7 +248,9 @@ namespace MRF24J40{
             const auto recevive_data_length = zigbee->rx_datalength();
             monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files++,col);        
 
-        for (auto& byte : zigbee->get_rxinfo()->rx_data){
+        //for (auto& byte : zigbee->get_rxinfo()->rx_data)
+        for (auto& byte : zigbee->get_rxinfo())
+        {
                 std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
         std::cout<<"\n";
