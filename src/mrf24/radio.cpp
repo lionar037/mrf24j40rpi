@@ -269,7 +269,7 @@ namespace MRF24J40{
                
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
-                if (i<21){
+                if (i<=21){
                     oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 }
                 else{
