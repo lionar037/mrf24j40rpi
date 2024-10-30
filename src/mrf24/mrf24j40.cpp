@@ -781,7 +781,6 @@ namespace MRF24J40{
         #error "Se requiere al menos C++17 para este código."
     #endif
 
-//SETINTCON intcon_config;  // Declaración de la variable        
     #if __cplusplus >= 202002L  // C++20 o superior
     const uint8_t intcon_value = set_intcon_value(intcon_config_20) ;       
     #elif __cplusplus >= 201703L  // C++17
@@ -792,8 +791,6 @@ namespace MRF24J40{
     write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);        
     }
     
-
-
     void 
     Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)
     {
@@ -807,7 +804,5 @@ namespace MRF24J40{
         addr_ptr[6] = read_short(MRF_EADR1);
         addr_ptr[7] = read_short(MRF_EADR0);
     }
-
-
 
 }//END NAMESPACE MRF24

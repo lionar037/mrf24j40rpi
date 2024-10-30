@@ -82,13 +82,7 @@ namespace MRF24J40{
         //mrf24j40_spi->Transfer3bytes(0xE0C1);
         
         flag=true;
-
-        uint64_t address_;
-        zigbee->mrf24j40_get_extended_mac_addr(&address_);
-
-//        std::printf("get address mac: 0x%016lx\n", address_);  // Imprime con formato hexadecimal completo
-std::printf("get address mac: 0x%016llx\n", static_cast<unsigned long long>(address_));
-
+                        
     }
 
     void Radio_t::RunProccess(void){
@@ -192,6 +186,10 @@ std::printf("get address mac: 0x%016llx\n", static_cast<unsigned long long>(addr
         monitor->print( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
         #endif
+
+        uint64_t mac_address;
+        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+        monitor->print("get address mac: " +  static_cast<unsigned long long>(mac_address),1,1);
 
         fs->create(packet_data);
         std::cout<<"\n";
