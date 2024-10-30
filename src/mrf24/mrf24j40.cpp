@@ -185,7 +185,8 @@ namespace MRF24J40{
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
         if(last_interrupt & MRF_I_RXIF) {
-            m_flag_got_rx++;
+            //m_flag_got_rx++;
+             m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);
                 // read out the packet data...
             noInterrupts();
             rx_disable();
@@ -810,7 +811,7 @@ namespace MRF24J40{
         // Leer los valores de las direcciones corta desde los registros
         uint16_t low_addr = read_short(MRF_SADRL);
         uint16_t high_addr = read_short(MRF_SADRH);
-    
+
         // Combinar los dos valores en un solo uint16_t
         *address = (high_addr << 8) | low_addr;  // Almacena la dirección combinada en 'address'
     }

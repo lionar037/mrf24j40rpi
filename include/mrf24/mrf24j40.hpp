@@ -112,7 +112,9 @@ struct Mrf24j
             const int m_bytes_FCS {2}; // FCS length = 2
             const int m_bytes_nodata { }; // no_data bytes in PHY payload,  header length + FCS
 
-            volatile uint8_t m_flag_got_rx{};
+            //volatile uint8_t m_flag_got_rx{};
+                // Cambia el tipo de m_flag_got_rx a std::atomic
+            std::atomic<uint8_t> m_flag_got_rx{};
             volatile uint8_t m_flag_got_tx{};
     };
 }
