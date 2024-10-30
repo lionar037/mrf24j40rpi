@@ -280,8 +280,8 @@ namespace MRF24J40{
             std::cout<< "buffer_receiver->head : " ; print_to_hex( buffer_receiver.head);std::cout <<"\n";
             auto bs = (!buffer_receiver.size)&0xffff;
             std::cout<< "buffer_receiver->size : " ; print_to_hex(bs); std::cout <<"\n";
-            std::cout<< "data_receiver->data : " ; print_to_hex(buffer_receiver.data);std::cout <<"\n";
-            std::cout<<"\nbuff: \n"<<std::to_string(buffer_receiver.size);
+            std::cout<< "data_receiver->data : " << buffer_receiver.data <<"\n";
+            std::cout<<"\nbuff: \n" ; print_to_hex(buffer_receiver.size);
             std::cout<<"\r\n";
         #endif
         
