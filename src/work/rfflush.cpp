@@ -49,9 +49,10 @@ namespace FFLUSH{
     { 
     system("clear");
     ///std::cout << "\033[" << 0 << ";" << 0 << std::flush;
-
+int col =0;
         for(const auto& msj : message){
-            std::cout<< msj<<"\n";
+            //std::cout<< msj<<"\n";
+            std::cout << "\033[" << col << ";" << 0 << "H"<<msj;
         }
     }
  
