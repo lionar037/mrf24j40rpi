@@ -304,13 +304,13 @@ namespace MRF24J40{
             monitor->print( "buffer_receiver->head : " + hex_to_text( buffer_receiver.head),files,col);
             auto bs = (!buffer_receiver.size)&0xffff;
             monitor->print( "buffer_receiver->size : " + hex_to_text(bs),files,col); 
-            monitor->print( "data_receiver->data : " + buffer_receiver.data ,files,col);
+            monitor->print( "data_receiver->data : " + static_cast <std::string>c(buffer_receiver.data) ,files,col);
             monitor->print( "buffer_receiver->checksum : " + hex_to_text( buffer_receiver.checksum),files,col);
             monitor->print("buff: " + std::to_string(buffer_receiver.size),files,col);
             //monitor->print("\r\n)";
             uint64_t mac_address;
             zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-            monitor->print("get address mac: " +  hex_to_text(mac_address));
+            monitor->print("get address mac: " +  hex_to_text(mac_address),files,col);
         #endif
         
             RST_COLOR() ; 
