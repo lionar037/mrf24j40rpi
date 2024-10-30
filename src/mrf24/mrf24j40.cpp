@@ -152,7 +152,7 @@ namespace MRF24J40{
         write_short(MRF_CCAEDTH, 0x60);     // – Set CCA ED threshold.
         write_short(MRF_BBREG6, 0x40);      // – Set appended RSSI value to RXFIFO.
         set_interrupts();
-        set_channel(CHANNEL);                    //original 12
+        set_channel(CHANNEL);                    //original es 12
         // max power is by default.. just leave it...
         // Set transmitter power - See “REGISTER 2-62: RF CONTROL 3 REGISTER (ADDRESS: 0x203)”.
         write_short(MRF_RFCTL, 0x04);       //  – Reset RF state machine.
@@ -301,7 +301,8 @@ namespace MRF24J40{
         if (enabled) {
             write_long(MRF_TESTMODE, 0x07); // Enable PA/LNA on MRF24J40MB module.
         }else{
-            write_long(MRF_TESTMODE, 0x00); // Disable PA/LNA on MRF24J40MB module.
+            //write_long(MRF_TESTMODE, 0x00); // Disable PA/LNA on MRF24J40MB module.//original
+            write_long(MRF_TESTMODE, 0x08); // Disable PA/LNA on MRF24J40MB module.
         }
     }
 
@@ -389,6 +390,8 @@ namespace MRF24J40{
         write_long(i++, (origin_64 >> 16 ) & 0xff); 
         write_long(i++, (origin_64 >> 8  ) & 0xff); 
 
+#include <mrf24/mrf24j40._microchip.hpp>
+        write_long(RFCTRL2,0x80);
 
         // All testing seems to indicate that the next two bytes are ignored.
         //2 bytes on FCS appended by TXMAC
@@ -405,6 +408,7 @@ namespace MRF24J40{
         write_long(i++,packet_tx.checksum&0xff);
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
+        mode_turbo();
     }
 
 
@@ -473,6 +477,22 @@ namespace MRF24J40{
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
+
+        mode_turbo();
     }
+
+void Mrf24j::mode_turbo(){
+            // Define TURBO_MODE if more bandwidth is required
+        // to enable radio to operate to TX/RX maximum 
+        // 625Kbps
+        #ifdef TURBO_MODE
+        
+            write_short(WRITE_BBREG0, 0x01);
+            write_short(WRITE_BBREG3, 0x38);
+            write_short(WRITE_BBREG4, 0x5C);            
+            write_short(WRITE_RFCTL,0x04);
+            write_short(WRITE_RFCTL,0x00);
+    
+        #endif          }
 
 }//END NAMESPACE MRF24

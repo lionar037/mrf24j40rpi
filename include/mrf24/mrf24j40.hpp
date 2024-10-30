@@ -92,6 +92,8 @@ struct Mrf24j //: public SPI::Spi
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
         void                    settings_mrf(void);
 
+    protected:
+        void                    mode_turbo();
     private:
         std::unique_ptr<SPI::Spi_t> prt_spi {};
 

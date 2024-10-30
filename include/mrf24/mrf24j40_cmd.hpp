@@ -139,4 +139,14 @@ namespace MRF24J40{
 #define MRF_I_RXIF  0b00001000
 #define MRF_I_TXNIF 0b00000001
 
+
+
+//mode turbo 
+//#define WRITE_BBREG0 
+//#define WRITE_BBREG3 
+//#define WRITE_BBREG4 
+//#define WRITE_RFCTL 
+//#define WRITE_RFCTL 
+//#define RFCTRL2 
+
 }
