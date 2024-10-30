@@ -36,6 +36,7 @@ struct Mrf24j //: public SPI::Spi
 
        // void reset(void);
         void                init                (void);
+        int                mrf24j40_init       (void);
 
         const uint8_t       read_short          (const uint8_t);            //address
         const uint8_t       read_long           (const uint16_t);            //address
@@ -100,7 +101,9 @@ struct Mrf24j //: public SPI::Spi
 
             // essential for obtaining the data frame only
             // bytes_MHR = 2 Frame control + 1 sequence number + 2 panid + 2 shortAddr Destination + 2 shortAddr Source
-            const int m_bytes_MHR {9};
+            //const int m_bytes_MHR {9};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
+            const int m_bytes_MHR {17};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
+
             const int m_bytes_FCS {2}; // FCS length = 2
             const int m_bytes_nodata { }; // no_data bytes in PHY payload,  header length + FCS
 
