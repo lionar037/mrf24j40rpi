@@ -99,7 +99,7 @@ namespace MRF24J40{
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
-        const unsigned long current_time = 1;//1000000 original
+        const unsigned long current_time = 1000;//1000000 original
         if (current_time - last_time > tx_interval) {
             last_time = current_time;
         #ifdef MRF24_TRANSMITER_ENABLE
