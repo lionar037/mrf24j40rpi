@@ -348,74 +348,6 @@ namespace MRF24J40{
 
 
 
-    void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
-        const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
-        //const uint8_t len = strlen(packet_tx); // get the length of the char* array
-        int i = 0;
-        write_long(i++, m_bytes_MHR); // header length
-                        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
-                        // default: ignoreBytes = 0;
-        write_long(i++, m_bytes_MHR+ignoreBytes+len+10);
-
-                        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
-        write_long(i++, 0b01100001); // first byte of Frame Control
-                        // 16 bit source, 802.15.4 (2003), 16 bit dest,
-        write_long(i++, 0b10001000); // second byte of frame control
-        write_long(i++, 1);  // sequence number 1
-
-        const uint16_t panid = get_pan();
-        #ifdef DBG
-            printf("\npanid: 0x%X\n",panid);
-        #endif
-        write_long(i++, panid >> 8);
-        write_long(i++, panid & 0xff);  // dest panid
-        
-        //direccion de destino a enviar el mensaje
-        set_macaddress64(i, dest64 );
-        //write_long(i++, (dest64 >> 56 ) & 0xff);
-        //write_long(i++, (dest64 >> 48 ) & 0xff);
-        //write_long(i++, (dest64 >> 40 ) & 0xff);
-        //write_long(i++, (dest64 >> 32 ) & 0xff);
-        //write_long(i++, (dest64 >> 24 ) & 0xff);
-        //write_long(i++, (dest64 >> 16 ) & 0xff);
-        //write_long(i++, (dest64 >> 8  ) & 0xff);
-        //write_long(i++, dest64  & 0xff); // uint64_t
-       
-        //lee la direccion mac de 64 bits obtenida
-        //const uint64_t origin_64 = address64_read();
-
-        set_macaddress64(i, address64_read() );
-        //write_long(i++, origin_64  & 0xff ); // uint64_t
-        //write_long(i++, (origin_64 >> 56 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 48 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 40 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 32 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 24 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 16 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 8  ) & 0xff); 
-
-#include <mrf24/mrf24j40._microchip.hpp>
-        write_long(RFCTRL2,0x80);
-
-        // All testing seems to indicate that the next two bytes are ignored.
-        //2 bytes on FCS appended by TXMAC
-        i+=ignoreBytes;
-
-                //for(const auto& byte : static_cast<const char *>(buf.head) )
-                // for(const auto& byte : static_cast<const char *>(buf.size) )
-        write_long(i++,packet_tx.head);        
-                //write_long(i++,buf.head&0xff);
-                //write_long(i++,(buf.head>>8)&0xff);
-
-        for(const auto& byte : packet_tx.data )write_long(i++,byte);
-        write_long(i++,packet_tx.checksum>>8);
-        write_long(i++,packet_tx.checksum&0xff);
-        // ack on, and go!
-        write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
-        mode_turbo();
-    }
-
-
     void Mrf24j::send(const uint64_t dest, const std::string& pf) 
     {
         //const uint8_t len = strlen(data); // get the length of the char* array
@@ -485,6 +417,75 @@ namespace MRF24J40{
         mode_turbo();
     }
 
+ 
+    void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
+        const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
+        //const uint8_t len = strlen(packet_tx); // get the length of the char* array
+        int i = 0;
+        write_long(i++, m_bytes_MHR); // header length
+                        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
+                        // default: ignoreBytes = 0;
+        write_long(i++, m_bytes_MHR+ignoreBytes+len);//9 + 2 + tamaño del paquete
+
+                        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
+        write_long(i++, 0b01100001); // first byte of Frame Control
+                        // 16 bit source, 802.15.4 (2003), 16 bit dest,
+        write_long(i++, 0b10001000); // second byte of frame control
+        write_long(i++, 1);  // sequence number 1
+
+        const uint16_t panid = get_pan();
+        #ifdef DBG
+            printf("\npanid: 0x%X\n",panid);
+        #endif
+        write_long(i++, panid >> 8);
+        write_long(i++, panid & 0xff);  // dest panid
+        
+        //direccion de destino a enviar el mensaje
+        set_macaddress64(i, dest64 );
+        //write_long(i++, (dest64 >> 56 ) & 0xff);
+        //write_long(i++, (dest64 >> 48 ) & 0xff);
+        //write_long(i++, (dest64 >> 40 ) & 0xff);
+        //write_long(i++, (dest64 >> 32 ) & 0xff);
+        //write_long(i++, (dest64 >> 24 ) & 0xff);
+        //write_long(i++, (dest64 >> 16 ) & 0xff);
+        //write_long(i++, (dest64 >> 8  ) & 0xff);
+        //write_long(i++, dest64  & 0xff); // uint64_t
+       
+        //lee la direccion mac de 64 bits obtenida
+        //const uint64_t origin_64 = address64_read();
+
+        set_macaddress64(i, address64_read() );
+        //write_long(i++, origin_64  & 0xff ); // uint64_t
+        //write_long(i++, (origin_64 >> 56 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 48 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 40 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 32 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 24 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 16 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 8  ) & 0xff); 
+
+#include <mrf24/mrf24j40._microchip.hpp>
+        write_long(RFCTRL2,0x80);
+
+        // All testing seems to indicate that the next two bytes are ignored.
+        //2 bytes on FCS appended by TXMAC
+        i+=ignoreBytes;
+
+                //for(const auto& byte : static_cast<const char *>(buf.head) )
+                // for(const auto& byte : static_cast<const char *>(buf.size) )
+        write_long(i++,packet_tx.head);        
+                //write_long(i++,buf.head&0xff);
+                //write_long(i++,(buf.head>>8)&0xff);
+
+        for(const auto& byte : packet_tx.data )write_long(i++,byte);
+        write_long(i++,packet_tx.checksum>>8);
+        write_long(i++,packet_tx.checksum&0xff);
+        // ack on, and go!
+        write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
+        mode_turbo();
+    }
+
+   
     void 
     Mrf24j::mode_turbo(){
         // Define TURBO_MODE if more bandwidth is required
