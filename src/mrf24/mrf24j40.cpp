@@ -805,11 +805,14 @@ namespace MRF24J40{
         addr_ptr[7] = read_short(MRF_EADR0);
     }
 
-    void
-    Mrf24j::mrf24j40_get_short_mac_addr(uint16_t *address)
-    {
-        uint16_t* addr_ptr = reinterpret_cast<uint16_t*>(address);        
-        addr_ptr = reinterpret_cast<uint16_t*> ((read_short(MRF_SADRL)<< 8 )| read_short(MRF_SADRH) );
+    void 
+    Mrf24j::mrf24j40_get_short_mac_addr(uint16_t *address) {
+        // Leer los valores de las direcciones corta desde los registros
+        uint16_t low_addr = read_short(MRF_SADRL);
+        uint16_t high_addr = read_short(MRF_SADRH);
+    
+        // Combinar los dos valores en un solo uint16_t
+        *address = (high_addr << 8) | low_addr;  // Almacena la dirección combinada en 'address'
     }
     
     void
