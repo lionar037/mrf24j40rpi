@@ -213,8 +213,9 @@ namespace MRF24J40{
     //@params
     //@params
 
-    void print_to_hex(const uint64_t int_to_hex){
-    std::cout << std::hex << std::setw(4) << std::setfill('0') << static_cast<int>(int_to_hex);
+    template<typename T>
+    void print_to_hex(const T int_to_hex){
+    std::cout << std::hex << std::setw(size_t(int_to_hex)) << std::setfill('0') << static_cast<int>(int_to_hex)<<"\n";
     }
     
     void handle_rx() {
@@ -273,14 +274,15 @@ namespace MRF24J40{
           //DATA::PACKET_RX rx_;
           //struct DATA::packet_rx rx__;
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
-
-        if(ADDRESS_LONG_SLAVE == add){ std::cout<< "\nmac es igual\n"; }
+        const uint64_t address_rx_tmp = buffer_receiver.mac_msb <<32 | buffer_receiver.mac_lsb ;
+        if(ADDRESS_LONG_SLAVE == address_rx_tmp){ std::cout<< "\nmac es igual\n"; }
         else { std::cout<< "\nmac no es igual\n" ; }
-            std::cout<< "\ndata_receiver->mac : " ; print_to_hex(add); std::cout<<"\n";
-            std::cout<< "buffer_receiver->head : " ; print_to_hex( buffer_receiver.head);std::cout <<"\n";
+            std::cout<< "\ndata_receiver->mac : " ; print_to_hex(address_rx_tmp ); 
+            std::cout<< "buffer_receiver->head : " ; print_to_hex( buffer_receiver.head);
             auto bs = (!buffer_receiver.size)&0xffff;
-            std::cout<< "buffer_receiver->size : " ; print_to_hex(bs); std::cout <<"\n";
+            std::cout<< "buffer_receiver->size : " ; print_to_hex(bs); 
             std::cout<< "data_receiver->data : " << buffer_receiver.data <<"\n";
+            std::cout<< "buffer_receiver->checksum : " ; print_to_hex( buffer_receiver.checksum);
             std::cout<<"\nbuff: \n" ; print_to_hex(buffer_receiver.size);
             std::cout<<"\r\n";
         #endif
