@@ -58,9 +58,8 @@ namespace MRF24J40{
             
         #ifdef ENABLE_INTERRUPT_MRF24 // rx
             std::unique_ptr<DATABASE::Database_t>   database{};
-            //std::unique_ptr<WORK::Work_t>           fs{};
-            
-            //struct DATA::PACKET_TX packet_data_tmp;
+            //std::unique_ptr<WORK::Work_t>           fs{};                        
+            struct DATA::packet_tx                  buffer_transmiter{};
         #else    
             std::unique_ptr<WORK::Work_t> qr{};
             struct DATA::packet_tx                  buffer_transmiter{};
