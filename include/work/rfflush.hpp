@@ -19,7 +19,7 @@ struct Fflush_t
     //private:
     protected:
         std::mutex m_mtx;
-        inline static int row{0};
+        inline static int row={0};
 
 };
 
