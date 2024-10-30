@@ -59,8 +59,8 @@ struct Mrf24j //: public SPI::Spi
         void                rx_disable          (void);
                                    /**IMPLEMENTADO  */
 
-        void                pinMode             (int,bool);
-        void                digitalWrite        (int,bool);
+        void                pinMode             (const int,const bool);
+        void                digitalWrite        (const int,const bool);
         void                delay               (const uint16_t);
         void                interrupts          (void);
         void                noInterrupts        (void);
@@ -94,7 +94,7 @@ struct Mrf24j //: public SPI::Spi
 
     protected:
         void                    mode_turbo();
-        void                    set_macaddress64(const uint64_t);
+        void                    set_macaddress64(int& i ,const uint64_t);
     private:
         std::unique_ptr<SPI::Spi_t> prt_spi {};
 
