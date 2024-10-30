@@ -42,4 +42,29 @@ namespace DATA{
         }PACKET_TX;
 
 #pragma pack(pop)
+
+
+
+
+
+}
+
+
+namespace MRF24J40{
+
+        typedef struct setINTCON {
+        uint8_t tx_normal_fifo   : 1;  // Bit 0: TX Normal FIFO transmission interrupt (0 = enabled, 1 = disabled)
+        uint8_t tx_gts1_fifo     : 1;  // Bit 1: TX GTS1 FIFO transmission interrupt (0 = enabled, 1 = disabled)
+        uint8_t tx_gts2_fifo     : 1;  // Bit 2: TX GTS2 FIFO transmission interrupt (0 = enabled, 1 = disabled)
+        uint8_t rx_fifo          : 1;  // Bit 3: RX FIFO reception interrupt (0 = enabled, 1 = disabled)
+        uint8_t sec_key_req      : 1;  // Bit 4: Security key request interrupt (0 = enabled, 1 = disabled)
+        uint8_t half_symbol_timer: 1;  // Bit 5: Half symbol timer interrupt (0 = enabled, 1 = disabled)
+        uint8_t wake_up_alert    : 1;  // Bit 6: Wake-up alert interrupt (0 = enabled, 1 = disabled)
+        uint8_t sleep_alert      : 1;  // Bit 7: Sleep alert interrupt (0 = enabled, 1 = disabled)
+    } SETINTCON;
+    
+    uint8_t set_intcon_value(const SETINTCON& config) {
+        // Convertir la estructura a un valor uint8_t
+        return *reinterpret_cast<const uint8_t*>(&config);
+    }
 }

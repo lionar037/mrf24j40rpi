@@ -720,8 +720,8 @@ namespace MRF24J40{
 
     std::printf("MRF24J40 Inititialization completed\n");
     
-    //mrf24j40_last_lqi = 0;
-    //mrf24j40_last_rssi = 0;
+    //last_lqi = 0;
+    //last_rssi = 0;
     //status_tx = MRF_TX_ERR_NONE;
     //pending = 0;
     //receive_on = 1;
@@ -748,9 +748,38 @@ namespace MRF24J40{
     // bit 2 '1' Disables the TX GTS2 FIFO transmission interrupt
     // bit 1 '1' Disables the TX GTS1 FIFO transmission interrupt
     // bit 0 '0' Enables the TX Normal FIFO transmission interrupt
+        SETINTCON intcon_config = {
+        .tx_normal_fifo    = 0, // Bit 0: habilitado
+        .tx_gts1_fifo      = 1, // Bit 1: deshabilitado
+        .tx_gts2_fifo      = 1, // Bit 2: deshabilitado
+        .rx_fifo           = 0, // Bit 3: habilitado
+        .sec_key_req       = 1, // Bit 4: deshabilitado
+        .half_symbol_timer = 1, // Bit 5: deshabilitado
+        .wake_up_alert     = 1, // Bit 6: deshabilitado
+        .sleep_alert       = 1  // Bit 7: deshabilitado
+    };
+
+    // Obtener el valor binario a escribir
+    uint8_t intcon_value = set_intcon_value(intcon_config);
+
+    // Escribir el valor (por ejemplo, al registro MRF_INTCON)
+    write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);
     
-    write_short(MRF_INTCON, 0b11110110);
     
     }
     
+
+
+    void
+    Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)
+    {
+      *(((uint8_t *)& address)) =       read_short(MRF_EADR7);
+      *(((uint8_t *)& address) + 1) =   read_short(MRF_EADR6);
+      *(((uint8_t *)& address) + 2) =   read_short(MRF_EADR5);
+      *(((uint8_t *)& address) + 3) =   read_short(MRF_EADR4);
+      *(((uint8_t *)& address) + 4) =   read_short(MRF_EADR3);
+      *(((uint8_t *)& address) + 5) =   read_short(MRF_EADR2);
+      *(((uint8_t *)& address) + 6) =   read_short(MRF_EADR1);
+      *(((uint8_t *)& address) + 7) =   read_short(MRF_EADR0);
+    }
 }//END NAMESPACE MRF24

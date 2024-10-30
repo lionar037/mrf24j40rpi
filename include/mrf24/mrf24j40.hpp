@@ -34,7 +34,6 @@ struct Mrf24j
         Mrf24j( );
         ~Mrf24j( );
 
-       // void reset(void);
         void                init                (void);
         void                mrf24j40_init       (void);
 
@@ -50,11 +49,11 @@ struct Mrf24j
         const uint64_t      address64_read      (void);
         void                set_interrupts      (void);
 
-                //void set_promiscuous(__OBJC_BOOL_IS_BOOL );
+            //void set_promiscuous(__OBJC_BOOL_IS_BOOL );
         void                set_promiscuous     (bool );  
-                /**
-                 * Set the channel, using 802.15.4 channel numbers (11..26)
-                 */
+            /**
+             * Set the channel, using 802.15.4 channel numbers (11..26)
+             */
         void                set_channel         (const uint8_t);
         void                rx_enable           (void);
         void                rx_disable          (void);
@@ -71,7 +70,7 @@ struct Mrf24j
         rx_info_t *         get_rxinfo(void) ;
         tx_info_t *         get_txinfo(void) ;
         uint8_t *           get_rxbuf(void) ;
-        const int                 rx_datalength(void);
+        const int           rx_datalength(void);
         void                set_ignoreBytes(int );
                     /**
                      * Set bufPHY flag to buffer all bytes in PHY Payload, or not
@@ -95,9 +94,10 @@ struct Mrf24j
 
     protected:
         void                    mode_turbo();
-        void                    set_macaddress64(int& i ,const uint64_t);
+        void                    set_macaddress64(int&,const uint64_t);
         void                    reset_rf_state_machine(void);
         void                    flush_rx_fifo(void);
+        void                    mrf24j40_get_extended_mac_addr(uint64_t *);
     private:
         std::unique_ptr<SPI::Spi_t> prt_spi {};
 
