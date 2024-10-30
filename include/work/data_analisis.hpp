@@ -22,7 +22,7 @@ namespace DATA{
         uint32_t mac_msb_rx;     
         uint8_t head;
         uint16_t size;
-        char data[107];                        
+        uint8_t data[107];                        
         uint32_t checksum;
 
     }PACKET_RX;
@@ -32,7 +32,7 @@ namespace DATA{
         {
             uint8_t head;            
             uint16_t size;
-            char data[107];            
+            uint8_t data[107];            
             uint32_t checksum;
         }PACKET_TX;
 
