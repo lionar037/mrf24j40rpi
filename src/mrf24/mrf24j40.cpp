@@ -297,7 +297,7 @@ namespace MRF24J40{
     /**
      * Set PA/LNA external control
      */
-    void Mrf24j::set_palna(bool enabled) {
+    void Mrf24j::set_palna(const bool enabled) {
         if (enabled) {
             write_long(MRF_TESTMODE, 0x07); // Enable PA/LNA on MRF24J40MB module.
         }else{
@@ -334,7 +334,7 @@ namespace MRF24J40{
     }
 
     void Mrf24j::interrupts(){
-        
+        set_interrupts();//verificar 
     }
 
     void Mrf24j::noInterrupts(){

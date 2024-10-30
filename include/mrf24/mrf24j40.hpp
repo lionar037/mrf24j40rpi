@@ -81,7 +81,7 @@ struct Mrf24j //: public SPI::Spi
                     /**
                     * Set PA/LNA external control
                     */
-        void                 set_palna(bool);
+        void                 set_palna(const bool);
        // void                 send16(uint16_t ,const char*);
         template <typename T>
         void                    send_template(uint64_t, const T&) ;
