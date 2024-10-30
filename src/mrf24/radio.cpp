@@ -293,7 +293,7 @@ std::printf("get address mac: 0x%016llx\n", static_cast<unsigned long long>(addr
             std::cout<< "buffer_receiver->size : " ; print_to_hex(bs); 
             std::cout<< "data_receiver->data : " << buffer_receiver.data <<"\n";
             std::cout<< "buffer_receiver->checksum : " ; print_to_hex( buffer_receiver.checksum);
-            std::cout<<"\nbuff: \n" ; print_to_hex(buffer_receiver.size);
+            std::cout<<"\nbuff: \n" ; std::to_string(buffer_receiver.size);
             std::cout<<"\r\n";
         #endif
         
