@@ -751,7 +751,6 @@ namespace MRF24J40{
     
     write_short(MRF_INTCON, 0b11110110);
     
-        
     }
     
 }//END NAMESPACE MRF24
