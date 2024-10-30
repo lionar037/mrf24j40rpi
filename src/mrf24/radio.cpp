@@ -269,8 +269,7 @@ namespace MRF24J40{
         if(zigbee->get_bufferPHY()){
             monitor->terminal(" Packet data (PHY Payload) :",fil,col);
             #ifdef DBG_PRINT_GET_INFO
-        std::ostringstream oss;
-        //oss << "0x"
+        std::ostringstream oss;        
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
@@ -282,26 +281,30 @@ namespace MRF24J40{
             }
             monitor->terminal("HEX : " + oss.str(),fil,col);
             #endif
-        }
-            //std::cout << "\n";
+        }            
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->terminal("ASCII data (relevant data) :",fil,col);
 
             const auto recevive_data_length = zigbee->rx_datalength();
             monitor->terminal("data_length : " + std::to_string(recevive_data_length) ,fil,col);        
-        std::ostringstream info_zigbee;
+
+            oss.str("");   // Limpiar el contenido
+            oss.clear();   // Restablecer el estado
+
+        //std::ostringstream info_zigbee;
         for (auto& byte : zigbee->get_rxinfo()->rx_data)        
             {
-                info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
+                oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
-            monitor->terminal("info_zigbee : " + info_zigbee.str(),fil,col);
-        
-
+            monitor->terminal("info_zigbee : " + oss.str(),fil,col);        
+            oss.str("");   // Limpiar el contenido
+            oss.clear();   // Restablecer el estado
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
         const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
-
+            monitor->terminal (" " ,fil,col);
+            monitor->terminal (" " ,fil,col);
         if(ADDRESS_LONG_SLAVE == address_rx_tmp){
             monitor->terminal ("mac es igual" ,fil,col); }
         else { 
@@ -322,11 +325,10 @@ namespace MRF24J40{
         
             RST_COLOR() ; 
             SET_COLOR(SET_COLOR_RED_TEXT);
-            fil++;fil++;//files++;files++;
-            monitor->terminal(" LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,fil,col);
-            monitor->terminal(" RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,fil,col);
-        //printf("\nLQI : %d , ",zigbee->get_rxinfo()->lqi);
-        //printf("RSSI : %d \n",zigbee->get_rxinfo()->rssi);
+            monitor->terminal("LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,fil,col);
+            monitor->terminal("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,fil,col);
+        
+        
         
         monitor->print_all();
         #endif
