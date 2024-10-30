@@ -495,5 +495,16 @@ namespace MRF24J40{
         #endif          
     }
 
+    void Mrf24j::set_macaddress64(const uint64_t origin_64 ){        
+        //int i=0;
+        //    write_long(i++, origin_64  & 0xff ); // uint64_t
+        //    write_long(i++, (origin_64 >> 56 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 48 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 40 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 32 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 24 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 16 ) & 0xff); 
+        //    write_long(i++, (origin_64 >> 8  ) & 0xff); 
+    }
 
 }//END NAMESPACE MRF24
