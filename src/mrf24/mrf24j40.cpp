@@ -546,7 +546,6 @@ namespace MRF24J40{
             write_long(i++, origin_64  & 0xff ); // uint64_t
     }
 
-
     void
     Mrf24j::flush_rx_fifo(void)
     {
@@ -569,8 +568,6 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
-
-
     void
     Mrf24j::mrf24j40_init(void){
     
@@ -590,9 +587,9 @@ namespace MRF24J40{
     * wait until the radio reset is completed
     */
 
-    do {
-      i = read_short(MRF_SOFTRST);
-    } while((i & 0b0000111) != 0);
+    //do {
+    //  i = read_short(MRF_SOFTRST);
+    //} while((i & 0b0000111) != 0);
     
     /*
     * bit 7   FIFOEN: FIFO Enable bit 1 = Enabled (default). Always maintain this bit as a ‘1’.
@@ -680,7 +677,6 @@ namespace MRF24J40{
     i = i | 0b00000001;
     std::printf("MRF24J40 Init PROMISCUOUS MODE\n");
     #endif
-
     
     // Set the RXMCR register.
     // Default setting i = 0x00, which means:
@@ -689,25 +685,22 @@ namespace MRF24J40{
     // - Device is not a coordinator;
     // - Accept only packets with good CRC
     // - Discard packet when there is a MAC address mismatch,
-    //   illegal frame type, dPAN/sPAN or MAC short address mismatch.
-    
+    //   illegal frame type, dPAN/sPAN or MAC short address mismatch.    
     write_short(MRF_RXMCR, i);
     std::printf("RXMCR 0x%X\n", i);
 
-    
     // Set the TXMCR register.
     // bit 7   '0' Enable No Carrier Sense Multiple Access (CSMA) Algorithm.
     // bit 6   '0' Disable Battery Life Extension Mode bit.
     // bit 5   '0' Disable Slotted CSMA-CA Mode bit.
     // bit 4:3 '11' MAC Minimum Backoff Exponent bits (macMinBE).
-    // bit 2:0 '100' CSMA Backoff bits (macMaxCSMABackoff)
-    
+    // bit 2:0 '100' CSMA Backoff bits (macMaxCSMABackoff)   
     write_short(MRF_TXMCR, 0b00011100);
 
     i = read_short(MRF_TXMCR);
     std::printf("TXMCR 0x%X\n", i);
     
-        //
+    //
         // Set TX turn around time as defined by IEEE802.15.4 standard
         //
     write_short(MRF_TXSTBL, 0b10010101);
@@ -731,8 +724,11 @@ namespace MRF24J40{
     //receive_on = 1;
     //ENERGEST_ON(ENERGEST_TYPE_LISTEN);
     
-    //reset_rf_state_machine();
-
+    //reset_rf_state_machine
+    const uint8_t rfctl = get_short_add_mem(MRF24J40_RFCTL);
+    write_short(MRF_RFCTL, rfctl | 0b00000100);
+    write_short(MRF_RFCTL, rfctl & 0b11111011);
+  
     // Flush RX FIFO 
     write_short(MRF_RXFLUSH, read_short(MRF_RXFLUSH) | 0b00000001);
 
