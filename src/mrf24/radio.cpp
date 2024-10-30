@@ -124,7 +124,7 @@ namespace MRF24J40{
             buffer_transmiter.head=HEAD; 
             
             std::string msj_ = MSJ;
-            std::vector<uint8_t>buff {};
+            std::vector<uint8_t>buff (msj_.size());
             std::memcpy(buff.data() , msj_.data() , msj_.size()); 
             
             //buffer_transmiter.size=(~buff.size())&0xffff ;
