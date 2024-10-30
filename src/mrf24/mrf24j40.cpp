@@ -222,7 +222,8 @@ namespace MRF24J40{
             interrupts();
         }
         if (last_interrupt & MRF_I_TXNIF) {
-            m_flag_got_tx++;
+            //m_flag_got_tx++;
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
             const uint8_t tmp = read_short(MRF_TXSTAT);
                 // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));

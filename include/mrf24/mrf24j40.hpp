@@ -118,7 +118,8 @@ struct Mrf24j
             //volatile uint8_t m_flag_got_rx{};
                 // Cambia el tipo de m_flag_got_rx a std::atomic
             std::atomic<uint8_t> m_flag_got_rx{};
-            volatile uint8_t m_flag_got_tx{};
+            std::atomic<uint8_t> m_flag_got_tx{};
+            //volatile uint8_t m_flag_got_tx{};
     };
 }
 
