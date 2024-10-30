@@ -371,25 +371,28 @@ namespace MRF24J40{
         write_long(i++, panid & 0xff);  // dest panid
         
         //direccion de destino a enviar el mensaje
-        write_long(i++, (dest64 >> 56 ) & 0xff);
-        write_long(i++, (dest64 >> 48 ) & 0xff);
-        write_long(i++, (dest64 >> 40 ) & 0xff);
-        write_long(i++, (dest64 >> 32 ) & 0xff);
-        write_long(i++, (dest64 >> 24 ) & 0xff);
-        write_long(i++, (dest64 >> 16 ) & 0xff);
-        write_long(i++, (dest64 >> 8  ) & 0xff);
-        write_long(i++, dest64  & 0xff); // uint64_t
+        set_macaddress64(i, dest64 );
+        //write_long(i++, (dest64 >> 56 ) & 0xff);
+        //write_long(i++, (dest64 >> 48 ) & 0xff);
+        //write_long(i++, (dest64 >> 40 ) & 0xff);
+        //write_long(i++, (dest64 >> 32 ) & 0xff);
+        //write_long(i++, (dest64 >> 24 ) & 0xff);
+        //write_long(i++, (dest64 >> 16 ) & 0xff);
+        //write_long(i++, (dest64 >> 8  ) & 0xff);
+        //write_long(i++, dest64  & 0xff); // uint64_t
        
         //lee la direccion mac de 64 bits obtenida
-        const uint64_t origin_64 = address64_read();
-        write_long(i++, origin_64  & 0xff ); // uint64_t
-        write_long(i++, (origin_64 >> 56 ) & 0xff); 
-        write_long(i++, (origin_64 >> 48 ) & 0xff); 
-        write_long(i++, (origin_64 >> 40 ) & 0xff); 
-        write_long(i++, (origin_64 >> 32 ) & 0xff); 
-        write_long(i++, (origin_64 >> 24 ) & 0xff); 
-        write_long(i++, (origin_64 >> 16 ) & 0xff); 
-        write_long(i++, (origin_64 >> 8  ) & 0xff); 
+        //const uint64_t origin_64 = address64_read();
+
+        set_macaddress64(i, address64_read() );
+        //write_long(i++, origin_64  & 0xff ); // uint64_t
+        //write_long(i++, (origin_64 >> 56 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 48 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 40 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 32 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 24 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 16 ) & 0xff); 
+        //write_long(i++, (origin_64 >> 8  ) & 0xff); 
 
 #include <mrf24/mrf24j40._microchip.hpp>
         write_long(RFCTRL2,0x80);
