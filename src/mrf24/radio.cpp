@@ -57,6 +57,7 @@ namespace MRF24J40{
         zigbee->set_pan(PAN_ID);
         // This is _our_ address
 
+
         #ifdef MACADDR16
             zigbee->address16_write(ADDRESS); 
         #elif defined (MACADDR64)
@@ -81,7 +82,10 @@ namespace MRF24J40{
         //mrf24j40_spi->Transfer3bytes(0xE0C1);
         
         flag=true;
-    // Run();
+
+        uint64_t address;
+        zigbee->mrf24j40_get_extended_mac_addr(address);
+        std::printf("get address mac : 0x%x\n" ,address);
 
     }
 
