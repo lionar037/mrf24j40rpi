@@ -725,7 +725,7 @@ namespace MRF24J40{
     //ENERGEST_ON(ENERGEST_TYPE_LISTEN);
     
     //reset_rf_state_machine
-    const uint8_t rfctl = get_short_add_mem(MRF24J40_RFCTL);
+    const uint8_t rfctl = read_short(MRF_RFCTL);
     write_short(MRF_RFCTL, rfctl | 0b00000100);
     write_short(MRF_RFCTL, rfctl & 0b11111011);
   
