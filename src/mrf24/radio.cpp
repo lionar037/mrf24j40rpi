@@ -246,11 +246,11 @@ namespace MRF24J40{
     handle_rx() {
         
         #ifdef MRF24_RECEIVER_ENABLE
-        int fil {POSITIOM_INIT_PRINTS};
-        int col {0};
+        //int fil {POSITIOM_INIT_PRINTS};
+        //int col {0};
         auto  monitor{std::make_unique <FFLUSH::Fflush_t>()};
 
-        fil=POSITIOM_INIT_PRINTS;
+        //fil=POSITIOM_INIT_PRINTS;
 
         monitor->terminal("received a packet ... ");
 
