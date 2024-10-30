@@ -41,18 +41,19 @@ namespace FFLUSH{
     void 
     Fflush_t::terminal(std::string_view str_txt, int& rw, int col) 
     { 
-        message.push_back(str_txt);     
+        message.emplace_back(str_txt);     
     }
 
     void 
     Fflush_t::print_all() 
     { 
-    //system("clear");
-    ///std::cout << "\033[" << 0 << ";" << 0 << std::flush;
-int fil =0;
+    
+    
+        int fil =0;
         for(const auto& msj : message){
             //std::cout<< msj<<"\n";
-            std::cout << "\033[" << ++fil << ";" << 0 << "H"<<msj;
+            std::cout << "\033[" << fil << ";" << 0 << "H"<<msj;
+            fil++;
         }
     }
  
