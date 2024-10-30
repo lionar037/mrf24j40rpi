@@ -20,6 +20,7 @@ namespace DATA{
         //uint16_t size;
         //uint8_t data[107];
         //uint16_t checksum;
+        
         uint8_t ignore[6];
         uint16_t panid;
         uint32_t mac_msb;

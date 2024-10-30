@@ -10,7 +10,6 @@
 #include <sstream>  // Para std::ostringstream
 #include <iomanip>  // Para std::hex y std::setfill
 
-//#include <app/src/data_analisis.h>
 #include <memory>
 #include <string_view>
 

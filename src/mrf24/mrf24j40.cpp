@@ -750,9 +750,7 @@ namespace MRF24J40{
     // bit 0 '0' Enables the TX Normal FIFO transmission interrupt
     
     write_short(MRF_INTCON, 0b11110110);
-    
-    //return 0;
+        
     }
     
-
 }//END NAMESPACE MRF24
