@@ -245,12 +245,10 @@ namespace MRF24J40{
     void 
     handle_rx() {
         
-        #ifdef MRF24_RECEIVER_ENABLE
-        //int fil {POSITIOM_INIT_PRINTS};
-        //int col {0};
+        #ifdef MRF24_RECEIVER_ENABLE                
         auto  monitor{std::make_unique <FFLUSH::Fflush_t>()};
 
-        //fil=POSITIOM_INIT_PRINTS;
+        std::ostringstream oss_zigbee{};        
 
         monitor->terminal("received a packet ... ");
 
@@ -258,14 +256,13 @@ namespace MRF24J40{
         const uint8_t frame_length = zigbee->get_rxinfo()->frame_length;
 
         // Usar std::ostringstream para construir el string en formato hexadecimal
-        std::ostringstream oss;
-        oss << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(frame_length);
+        oss_zigbee << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(frame_length);
 
-        // Obtener el string resultante
-        std::string bufferMonitor = oss.str() ;
-        
-        monitor->terminal(bufferMonitor);
-        
+        // Obtener el string resultante        
+        monitor->terminal(oss_zigbee.str() );
+        oss_zigbee.str("");
+        oss_zigbee.clear(); 
+
         if(zigbee->get_bufferPHY()){
             monitor->terminal(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO
@@ -273,13 +270,16 @@ namespace MRF24J40{
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
-                    oss_info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
+                    oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 }
                 else{
-                    oss_info_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
+                    oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
                 }
             }
-            monitor->terminal("HEX : " + oss_info_zigbee.str());
+            monitor->terminal(oss_zigbee.str());
+            oss_zigbee.str("");   // Limpiar el contenido
+            oss_zigbee.clear();   // Restablecer el estado
+
             #endif
         }            
             SET_COLOR(SET_COLOR_CYAN_TEXT);
@@ -288,17 +288,15 @@ namespace MRF24J40{
             //const auto recevive_data_length = zigbee->rx_datalength();
             monitor->terminal("data_length : " + std::to_string(zigbee->rx_datalength()) );        
 
-            oss_info_zigbee.str("");   // Limpiar el contenido
-            oss_info_zigbee.clear();   // Restablecer el estado
 
         for (auto& byte : zigbee->get_rxinfo()->rx_data)        
             {
-                if(byte!=0x00)oss_info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
+                if(byte!=0x00)oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
             monitor->terminal("info_zigbee : " );
-            monitor->terminal( oss_info_zigbee.str());        
-            oss_info_zigbee.str("");   // Limpiar el contenido
-            oss_info_zigbee.clear();   // Restablecer el estado
+            monitor->terminal( oss_zigbee.str());        
+            oss_zigbee.str("");   // Limpiar el contenido
+            oss_zigbee.clear();   // Restablecer el estado
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
