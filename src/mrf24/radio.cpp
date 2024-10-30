@@ -305,7 +305,6 @@ namespace MRF24J40{
             auto bs = (!buffer_receiver.size)&0xffff;
             monitor->print( "buffer_receiver->size : " + hex_to_text(bs),files,col); 
             std::string txt_tmp ;
-            //txt_tmp.assing( buffer_receiver.data);
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
 
             monitor->print( "data_receiver->data : " + txt_tmp ,files,col);
