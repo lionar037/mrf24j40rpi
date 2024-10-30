@@ -5,10 +5,9 @@
 #include <qr/qr.hpp>
 #include <file/file.hpp>
 #include <display/color.hpp>
-#include <oled/oled.hpp>
 #include <work/rfflush.hpp>
+//#include <oled/oled.hpp>
 
-//#include <memory>
 #include <string_view>
 
 
