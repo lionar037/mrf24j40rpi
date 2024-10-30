@@ -92,7 +92,7 @@ namespace MRF24J40{
         return (a16h << 8 | read_short(MRF_SADRL));
     }
 
-
+    //lee la direccion mac de 64 bits
     const uint64_t Mrf24j::address64_read(void){
         uint64_t address64 ;
         address64  = (read_short(MRF_EADR0));
@@ -368,6 +368,7 @@ namespace MRF24J40{
         write_long(i++, panid >> 8);
         write_long(i++, panid & 0xff);  // dest panid
         
+        //direccion de destino a enviar el mensaje
         write_long(i++, (dest64 >> 56 ) & 0xff);
         write_long(i++, (dest64 >> 48 ) & 0xff);
         write_long(i++, (dest64 >> 40 ) & 0xff);
@@ -377,7 +378,7 @@ namespace MRF24J40{
         write_long(i++, (dest64 >> 8  ) & 0xff);
         write_long(i++, dest64  & 0xff); // uint64_t
        
-
+        //lee la direccion mac de 64 bits obtenida
         const uint64_t origin_64 = address64_read();
         write_long(i++, origin_64  & 0xff ); // uint64_t
         write_long(i++, (origin_64 >> 56 ) & 0xff); 
@@ -393,11 +394,11 @@ namespace MRF24J40{
         //2 bytes on FCS appended by TXMAC
         i+=ignoreBytes;
 
-        //for(const auto& byte : static_cast<const char *>(buf.head) )
-        // for(const auto& byte : static_cast<const char *>(buf.size) )
+                //for(const auto& byte : static_cast<const char *>(buf.head) )
+                // for(const auto& byte : static_cast<const char *>(buf.size) )
         write_long(i++,packet_tx.head);        
-        //write_long(i++,buf.head&0xff);
-        //write_long(i++,(buf.head>>8)&0xff);
+                //write_long(i++,buf.head&0xff);
+                //write_long(i++,(buf.head>>8)&0xff);
 
         for(const auto& byte : packet_tx.data )write_long(i++,byte);
         write_long(i++,packet_tx.checksum>>8);
@@ -455,6 +456,7 @@ namespace MRF24J40{
         write_long(i++, src & 0xff); // src16 low
         write_long(i++, src >> 8); // src16 high
 
+    // si lee una direccion mac de 64 bits la envia
        if(sizeof(src)>2){
             write_long(i++, (src >> 16 ) & 0xff); 
             write_long(i++, (src >> 24 ) & 0xff); 
