@@ -214,6 +214,7 @@ namespace MRF24J40{
     //@params
 
     
+    
     template<typename T>
     void print_to_hex(const T int_to_hex) {
     // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.

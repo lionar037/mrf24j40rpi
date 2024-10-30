@@ -43,7 +43,7 @@
     #define ADDRESS_LONG        0x1122334455667702
     #define ADDRESS_LONG_SLAVE  0x1122334455667701
     #define ADDRESS             0x6001
-    #define PAN_ID              0x1234
+    #define PAN_ID              0x5555
     #define ADDR_SLAVE          0x6002
     #define MRF24_TRANSMITER_ENABLE    
     //#define MRF24_RECEIVER_ENABLE
@@ -52,7 +52,7 @@
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
     #define ADDRESS             0x6002
-    #define PAN_ID              0x1234
+    #define PAN_ID              0x5555
     #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24

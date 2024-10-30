@@ -17,6 +17,7 @@ namespace MRF24J40{
     static tx_info_t tx_info{};
     static RXMCR rxmcr{0x00};
 
+
     Mrf24j::Mrf24j()
     : prt_spi {std::make_unique<SPI::Spi_t>()} , m_bytes_nodata { m_bytes_MHR + m_bytes_FCS}
     {
