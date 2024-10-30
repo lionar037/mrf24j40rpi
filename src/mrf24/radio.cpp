@@ -269,36 +269,36 @@ namespace MRF24J40{
         if(zigbee->get_bufferPHY()){
             monitor->terminal(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO
-        std::ostringstream oss;        
+        std::ostringstream oss_info_zigbee;        
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
-                    oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
+                    oss_info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 }
                 else{
-                    oss <<std::hex<< zigbee->get_rxbuf()[i];
+                    oss_info_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
                 }
             }
-            monitor->terminal("HEX : " + oss.str());
+            monitor->terminal("HEX : " + oss_info_zigbee.str());
             #endif
         }            
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->terminal("ASCII data (relevant data) :");
 
-            const auto recevive_data_length = zigbee->rx_datalength();
-            monitor->terminal("data_length : " + std::to_string(recevive_data_length) );        
+            //const auto recevive_data_length = zigbee->rx_datalength();
+            monitor->terminal("data_length : " + std::to_string(zigbee->rx_datalength()) );        
 
-            oss.str("");   // Limpiar el contenido
-            oss.clear();   // Restablecer el estado
+            oss_info_zigbee.str("");   // Limpiar el contenido
+            oss_info_zigbee.clear();   // Restablecer el estado
 
-        //std::ostringstream info_zigbee;
         for (auto& byte : zigbee->get_rxinfo()->rx_data)        
             {
-                oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
+                if(byte!=0x00)oss_info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
-            monitor->terminal("info_zigbee : " + oss.str());        
-            oss.str("");   // Limpiar el contenido
-            oss.clear();   // Restablecer el estado
+            monitor->terminal("info_zigbee : " );
+            monitor->terminal( oss_info_zigbee.str());        
+            oss_info_zigbee.str("");   // Limpiar el contenido
+            oss_info_zigbee.clear();   // Restablecer el estado
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
