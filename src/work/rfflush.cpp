@@ -8,23 +8,10 @@
 
 namespace FFLUSH{
 
-     void updateValue(int id, int delay, int row, int col) 
-     { //row fila  // col : columna 
-        // auto ff{std::make_unique<Fflush_t>() };
-        // int valor = 0;
-        // while (valor <= 100) {
-            // std::unique_lock<std::mutex> lock(ff->m_mtx);
-        //Mover el cursor a la ubicación de las coordenadas (row, col) y actualizar el valor
-            // std::cout << "\033[" << row << ";" << col << "HVALOR " << id << " : " << valor << std::flush;
-            // lock.unlock();
-            // valor++;
-            // usleep(delay);
-            // 
-        // }
-     }
+
 
     void 
-    Fflush_t::print(std::string_view str_txt, int& rw, int col) 
+    Fflush_t::print(const std::string_view str_txt, int& rw,const int col) 
     { //row fila  // col : columna         
      //SET_COLOR(SET_COLOR_GRAY_TEXT);
     // move(row,col);
@@ -40,8 +27,7 @@ namespace FFLUSH{
     }
 
     void 
-    Fflush_t::insert(std::string_view str_txt) 
-    { 
+    Fflush_t::insert(const std::string_view str_txt) { 
         message.emplace_back(str_txt);     
     }
 
@@ -52,7 +38,6 @@ namespace FFLUSH{
     
         int fil =0;
         for(const auto& msj : message){
-            //std::cout<< msj<<"\n";
             std::cout << "\033[" << fil << ";" << 0 << "H"<<msj;
             fil++;
         }
