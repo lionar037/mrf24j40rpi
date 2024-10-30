@@ -230,7 +230,7 @@ namespace MRF24J40{
         if(zigbee->get_bufferPHY()){
             monitor->print(" Packet data (PHY Payload) :",files++,col);
             #ifdef DBG_PRINT_GET_INFO
-            for (int i = 0; i < zigbee->get_rxinfo()->frame_length; i++) {
+            for (int i = 0; i < zigbee->get_rxinfo()->frame_length+10; i++) {
                 if (i<21){
                     //std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
                     std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
