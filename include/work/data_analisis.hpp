@@ -25,7 +25,7 @@ namespace DATA{
         uint16_t panid;        
         uint32_t mac_lsb;
         uint32_t mac_msb; 
-        uint8_t ignored[4];       
+        uint8_t ignored[6];       
         uint8_t head;
         uint16_t size;
         uint8_t data[107];
