@@ -7,7 +7,7 @@
 #include <spi/spi.hpp>
 
 
-namespace MRF24J40
+namespace MRF24J40{
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.
     static uint8_t rx_buf[127];
 
@@ -537,14 +537,9 @@ namespace MRF24J40
     }
 
 
-    void
-mrf24j40_set_tx_power(uint8_t pwr)
-{
-  set_long_add_mem(MRF24J40_RFCON3, pwr);
-}
 
     void
-    Mrf24j::mrf24j40_init(void)
+    Mrf24j::mrf24j40_init(void){
     
     uint8_t i;
     /*
@@ -726,7 +721,7 @@ mrf24j40_set_tx_power(uint8_t pwr)
     write_short(MRF_INTCON, 0b11110110);
     
     //return 0;
+    }
     
 
-
-//END NAMESPACE MRF24
+}//END NAMESPACE MRF24
