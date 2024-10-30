@@ -96,6 +96,8 @@ struct Mrf24j //: public SPI::Spi
     protected:
         void                    mode_turbo();
         void                    set_macaddress64(int& i ,const uint64_t);
+        void                    reset_rf_state_machine(void);
+        void                    flush_rx_fifo(void);
     private:
         std::unique_ptr<SPI::Spi_t> prt_spi {};
 
