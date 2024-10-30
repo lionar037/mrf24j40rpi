@@ -270,7 +270,9 @@ namespace MRF24J40{
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
-        const uint64_t address_rx_tmp = static_cast<uint64_t> (buffer_receiver.mac_msb << 32 | buffer_receiver.mac_lsb );
+        //const uint64_t address_rx_tmp = static_cast<uint64_t> (buffer_receiver.mac_msb << 32 | buffer_receiver.mac_lsb );
+        const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
+
         if(ADDRESS_LONG_SLAVE == address_rx_tmp){ std::cout<< "\nmac es igual\n"; }
         else { std::cout<< "\nmac no es igual\n" ; }
             std::cout<< "\ndata_receiver->mac : " ; print_to_hex(address_rx_tmp ); 
