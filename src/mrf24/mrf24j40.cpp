@@ -737,7 +737,7 @@ namespace MRF24J40{
 
     //process_start(&mrf24j40_process, NULL);
 
-SETINTCON intcon_config;  // Declaración de la variable        
+
     // Setup interrupts.
     //
     // set INTCON
@@ -777,7 +777,7 @@ SETINTCON intcon_config;  // Declaración de la variable
         #error "Se requiere al menos C++17 para este código."
     #endif
 
-
+//SETINTCON intcon_config;  // Declaración de la variable        
     #if __cplusplus >= 202002L  // C++20 o superior
     const uint8_t intcon_value = set_intcon_value(intcon_config_20) ;       
     #elif __cplusplus >= 201703L  // C++17

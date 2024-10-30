@@ -64,7 +64,6 @@ namespace MRF24J40{
     } SETINTCON;
     
     uint8_t set_intcon_value(const SETINTCON& config) {
-        // Convertir la estructura a un valor uint8_t
         return *reinterpret_cast<const uint8_t*>(&config);
     }
 }
