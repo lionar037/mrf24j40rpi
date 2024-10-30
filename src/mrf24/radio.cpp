@@ -83,7 +83,7 @@ namespace MRF24J40{
 
     }
 
-    void Radio_t::Run(void){
+    void Radio_t::RunProccess(void){
         system("clear"); 
         #ifdef MRF24_RECEIVER_ENABLE
             while(true)
