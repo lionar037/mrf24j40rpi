@@ -294,7 +294,7 @@ namespace MRF24J40{
             {
                 info_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
-            monitor->terminal("info_zigbee : " + info_zigbee.str());
+            monitor->terminal("info_zigbee : " + info_zigbee.str(),fil,col);
         
 
 
