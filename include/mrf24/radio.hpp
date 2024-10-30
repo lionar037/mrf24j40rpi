@@ -48,7 +48,7 @@ namespace MRF24J40{
             void                interrupt_routine();
             void                RunProccess(void);
             friend void                update();  
-            
+            //void                print_to_hex(uint64_t*);
         private :
             unsigned long       last_time{0};
             unsigned long       tx_interval{1000}; 
@@ -70,5 +70,8 @@ namespace MRF24J40{
 
             void handle_tx();
             void handle_rx();
+
+            template<typename T>
+            void print_to_hex(const T int_to_hex) ;
 
 }//end MRF24J40
