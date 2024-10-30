@@ -18,7 +18,7 @@ struct Fflush_t
         
         int funcThread() ;
         void print(std::string_view,int& , int) ;
-        void terminal(std::string_view,const int ,const int) ;
+        void terminal(std::string_view) ;
         void print_all();
     //private:
     protected:
