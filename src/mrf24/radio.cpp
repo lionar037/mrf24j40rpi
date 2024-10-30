@@ -100,6 +100,12 @@ namespace MRF24J40{
         return crc;
     }
 
+    uint32_t calculate_crc32(const uint8_t* data, size_t length) {
+    uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
+    crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
+    return crc;
+    }
+
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
         //uint32_t checksum=0;
@@ -123,7 +129,7 @@ namespace MRF24J40{
             
             auto checksum = calculate_crc32(buffer_transmiter.head);
 
-            checksum += (calculate_crc32 (buff.data()) & 0xffffffff); 
+            checksum += (calculate_crc32 (buff.data()) & 0xffffffff , buff.size()); 
             checksum += (buffer_transmiter.size & 0xffffffff);
             std::memcpy(buffer_transmiter.data ,buff.c_str(),buff.size());
 
