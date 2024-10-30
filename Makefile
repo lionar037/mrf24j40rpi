@@ -162,6 +162,9 @@ clean:
 cleanall: clean
 	$(RM) "./$(APP)"
 
+cleanmrf: 
+	$(RM) -rf obj/mrf24 obj/config 
+
 usr-libs:
 	$(MAKE) -C $(OLED)/
 
