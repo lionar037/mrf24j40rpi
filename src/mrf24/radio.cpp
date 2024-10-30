@@ -267,7 +267,7 @@ namespace MRF24J40{
 
         #ifdef DBG_PRINT_GET_INFO 
           //DATA::PACKET_RX rx_;
-          struct DATA::packet_rx rx__
+          struct DATA::packet_rx rx__;
           std::memcpy (  rx__ , static_cast<DATA::PACKET_RX>(zigbee->get_rxbuf()) , 117);
 
         if(ADDRESS_LONG_SLAVE == add){ std::cout<< "\nmac es igual\n"; }
