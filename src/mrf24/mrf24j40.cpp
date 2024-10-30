@@ -381,11 +381,8 @@ namespace MRF24J40{
 
 
     void 
-    //Mrf24j::send(const uint64_t dest, const std::string& pf) 
     Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> pf) 
     {
-        //const uint8_t len = strlen(data); // get the length of the char* array
-        //const auto len = pf.length();
         const auto len = pf.size();
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
@@ -509,13 +506,16 @@ namespace MRF24J40{
 
                 //for(const auto& byte : static_cast<const char *>(buf.head) )
                 // for(const auto& byte : static_cast<const char *>(buf.size) )
-        write_long(i++,packet_tx.head);        
+        //write_long(i++,packet_tx.head);        
                 //write_long(i++,buf.head&0xff);
                 //write_long(i++,(buf.head>>8)&0xff);
 
-        for(const auto& byte : packet_tx.data )write_long(i++,byte);
-        write_long(i++,packet_tx.checksum>>8);
-        write_long(i++,packet_tx.checksum&0xff);
+        std::vector<uint8_t> vect(sizeof(packet_tx));
+        std::memcpy(vect.data(), &packet_tx, sizeof(packet_tx)); // Copiar los datos de la estructura al vector
+
+        for(const auto& byte : vect)write_long(i++,byte);
+        //write_long(i++,packet_tx.checksum>>8);
+        //write_long(i++,packet_tx.checksum&0xff);
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
         mode_turbo();

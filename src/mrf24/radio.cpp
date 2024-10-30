@@ -115,15 +115,14 @@ namespace MRF24J40{
                 #endif
             #endif
             buffer_transmiter.head=HEAD; 
-            buffer_transmiter.size=(~strlen(MSJ))&0xffff ;
-            std::cout<<"\n strlen(MSJ) : "<<  strlen(MSJ)<<"\n";    
-            //std::strcpy(buffer_transmiter.data , MSJ);
             std::string buff = MSJ;
-            
+            buffer_transmiter.size=(~buff.size())&0xffff ;
+            std::cout<<"\n strlen(MSJ) : "<< std::to_string(buff.size())  <<"\n";    
+                        
             std::memcpy(buffer_transmiter.data ,buff.c_str(),buff.size());
 
-    std::vector<uint8_t> vect(sizeof(buffer_transmiter));
-    std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
+            std::vector<uint8_t> vect(sizeof(buffer_transmiter));
+            std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
 
 
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
@@ -138,9 +137,8 @@ namespace MRF24J40{
             std::cout<<"\n" ;         
             
             #ifdef MACADDR64
-            //zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
-            zigbee->send(ADDRESS_LONG_SLAVE,vect);
-            //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
+            //zigbee->send(ADDRESS_LONG_SLAVE,vect);
+            zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
             
             #elif defined(MACADDR16)
                 zigbee->send(ADDR_SLAVE, msj);
