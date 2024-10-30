@@ -1,11 +1,24 @@
 #pragma once
 
+//#if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
+//    // Si es de 32 bits
+//    #define USE_MRF24_RX
+//#else
+//    // Si es de 64 bits
+//    #define USE_MRF24_TX
+//#endif
 #if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
     // Si es de 32 bits
     #define USE_MRF24_RX
-#else
+#elif defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 8)
     // Si es de 64 bits
-    #define USE_MRF24_TX
+    #if defined(__APPLE__)
+        // Si es macOS
+    #define MACOS
+    #endif
+    #define USE_MRF24_RX
+#else
+    #error "Arquitectura no soportada"
 #endif
 
 #define USE_MAC_ADDRESS_LONG
