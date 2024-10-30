@@ -385,7 +385,8 @@ namespace MRF24J40{
     Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> pf) 
     {
         //const uint8_t len = strlen(data); // get the length of the char* array
-        const auto len = pf.length();
+        //const auto len = pf.length();
+        const auto len = pf.size();
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
                         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
