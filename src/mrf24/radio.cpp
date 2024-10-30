@@ -171,13 +171,13 @@ namespace MRF24J40{
         #endif
         const auto*     packet_data = reinterpret_cast<const char*>(str_view.data());
         
-        std::string  PacketDataTmp (packet_data += positionAdvance);
-        PacketDataTmp.resize(38);
+        std::string  packetData (packet_data += positionAdvance);
+        packetData.resize(38);
 
         SET_COLOR(SET_COLOR_GRAY_TEXT);
     
         #ifdef USE_OLED
-            oled->create(PacketDataTmp.c_str());  
+            oled->create(packetData.c_str());  
         #endif
         #ifdef USE_QR
         auto qr = std::make_unique<QR::QrOled_t>();
@@ -186,7 +186,7 @@ namespace MRF24J40{
         std::string packet_data2 = "1234567890";    
         std::vector<int> infoQrTmp; 
         qr->create_qr(packet_data2, infoQrTmp);
-        monitor->insert( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
+        monitor->insert( std::to_string(infoQrTmp.size()));
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
         #endif
                         
