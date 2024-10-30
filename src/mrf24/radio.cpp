@@ -213,7 +213,7 @@ namespace MRF24J40{
     //@params
     //@params
 
-    void print_to_hex(const uint32_t int_to_hex){
+    void print_to_hex(const uint64_t int_to_hex){
     std::cout << std::hex << std::setw(4) << std::setfill('0') << static_cast<int>(int_to_hex);
     }
     
