@@ -214,6 +214,7 @@ namespace MRF24J40{
     //@params
 
     void handle_rx() {
+        
         #ifdef MRF24_RECEIVER_ENABLE
         int files {POSITIOM_INIT_PRINTS};
         int col {0};
@@ -240,7 +241,6 @@ namespace MRF24J40{
             #ifdef DBG_PRINT_GET_INFO
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
-                    //std::cout << std::to_string(zigbee->get_rxbuf()[i])<<":";
                     std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 }
                 else{
@@ -263,10 +263,12 @@ namespace MRF24J40{
         std::cout<<"\n";
 
     
-        uint64_t add =ADDRESS_LONG;
+        uint64_t add = ADDRESS_LONG;
 
         #ifdef DBG_PRINT_GET_INFO 
-        
+          
+          std::memcpy (  buffer_receiver , zigbee->get_rxbuf() , size_t(zigbee->get_rxbuf()));
+
         if(ADDRESS_LONG_SLAVE == add){ std::cout<< "\nmac es igual\n"; }
         else { std::cout<< "\nmac no es igual\n" ; }
             std::cout<< "\ndata_receiver->mac : " << std::hex<< add<<"\n";
