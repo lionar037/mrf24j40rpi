@@ -51,7 +51,7 @@ namespace MRF24J40{
         #endif
         zigbee = std::make_unique<Mrf24j>();
         
-        zigbee->init();
+        zigbee->mrf24j40_init(); //init();
 
         zigbee->interrupt_handler();
         zigbee->set_pan(PAN_ID);
