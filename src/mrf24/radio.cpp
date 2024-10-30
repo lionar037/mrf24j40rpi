@@ -85,7 +85,7 @@ namespace MRF24J40{
 
         uint64_t address;
         zigbee->mrf24j40_get_extended_mac_addr(address);
-        std::printf("get address mac : 0x%x\n" ,address);
+        std::printf("get address mac : 0x%lx\n" ,address);
 
     }
 
