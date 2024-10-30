@@ -97,6 +97,7 @@ struct Mrf24j
         void                    set_macaddress64(int&,const uint64_t);
         void                    reset_rf_state_machine(void);
         void                    flush_rx_fifo(void);
+    public:    
         void                    mrf24j40_get_extended_mac_addr(uint64_t *);
     private:
         std::unique_ptr<SPI::Spi_t> prt_spi {};
