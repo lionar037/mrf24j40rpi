@@ -6,8 +6,9 @@
 #include <file/file.hpp>
 #include <display/color.hpp>
 #include <work/rfflush.hpp>
-//#include <oled/oled.hpp>
-
+#ifdef USE_OLED
+    #include <oled/oled.hpp>
+#endif
 #include <string_view>
 
 

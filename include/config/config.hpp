@@ -21,9 +21,6 @@
 #define USE_MAC_ADDRESS_LONG
 //#define USE_MAC_ADDRESS_SHORT
 
-//Enable database 
-//#define ENABLE_DATABASE
-//#define USE_QR
 
 #define CHANNEL 24
 #define HEAD 0x40
@@ -94,6 +91,9 @@
 
 #ifdef MODULE_RX
     //#define USE_OLED
+    //Enable database 
+    //#define ENABLE_DATABASE
+    //#define USE_QR
 #endif
 
 
