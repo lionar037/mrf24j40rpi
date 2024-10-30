@@ -22,17 +22,18 @@
 //#define USE_MAC_ADDRESS_SHORT
 
 
-#define CHANNEL 24
 #define HEAD 0x40
 
 #ifdef USE_MRF24_TX
     #define MODULE_TX 
     #define MODULE_TX_RST
     //#define RESET_MRF_SOFTWARE
-#else
+#elif defined(USE_MRF24_RX)
     #define MODULE_RX 
     #define MODULE_RX_RST
     #define RESET_MRF_SOFTWARE
+#else
+    #error "no se configuro el dispositivo"
 #endif
 
 #ifdef USE_MAC_ADDRESS_SHORT
@@ -43,7 +44,6 @@
     //#define MSJ "ABCDEFGHIJKLMKNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQ" 
 #endif
 
-
 #ifdef MODULE_TX
     #define ADDRESS_LONG        0x1122334455667702
     #define ADDRESS_LONG_SLAVE  0x1122334455667701
@@ -53,6 +53,7 @@
     #define MRF24_TRANSMITER_ENABLE    
     //#define MRF24_RECEIVER_ENABLE
     //#define ENABLE_INTERRUPT_MRF24
+    #define CHANNEL 23
 #elif defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
@@ -61,6 +62,7 @@
     #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
+    #define CHANNEL 24
 #else
     #error "no se configuro el dispositivo"
 #endif
