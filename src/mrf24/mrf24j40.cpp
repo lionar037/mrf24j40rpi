@@ -770,16 +770,18 @@ namespace MRF24J40{
     
 
 
-    void
+    void 
     Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)
     {
-      *(((uint8_t *)& address)) =       read_short(MRF_EADR7);
-      *(((uint8_t *)& address) + 1) =   read_short(MRF_EADR6);
-      *(((uint8_t *)& address) + 2) =   read_short(MRF_EADR5);
-      *(((uint8_t *)& address) + 3) =   read_short(MRF_EADR4);
-      *(((uint8_t *)& address) + 4) =   read_short(MRF_EADR3);
-      *(((uint8_t *)& address) + 5) =   read_short(MRF_EADR2);
-      *(((uint8_t *)& address) + 6) =   read_short(MRF_EADR1);
-      *(((uint8_t *)& address) + 7) =   read_short(MRF_EADR0);
+        uint8_t* addr_ptr = reinterpret_cast<uint8_t*>(address);
+        addr_ptr[0] = read_short(MRF_EADR7);
+        addr_ptr[1] = read_short(MRF_EADR6);
+        addr_ptr[2] = read_short(MRF_EADR5);
+        addr_ptr[3] = read_short(MRF_EADR4);
+        addr_ptr[4] = read_short(MRF_EADR3);
+        addr_ptr[5] = read_short(MRF_EADR2);
+        addr_ptr[6] = read_short(MRF_EADR1);
+        addr_ptr[7] = read_short(MRF_EADR0);
     }
+
 }//END NAMESPACE MRF24
