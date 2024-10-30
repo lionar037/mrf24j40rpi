@@ -20,7 +20,13 @@ struct Fflush_t
         void print(std::string_view,int& , int) ;
         void insert(std::string_view) ;
         void print_all();
-    //private:
+
+    // Si quieres que se puedan modificar los mensajes externamente
+    std::vector<std::string>& getAllMessages() { return message; }
+
+    // Si no quieres que los mensajes sean modificables desde fuera de la clase
+    const std::vector<std::string>& getAllMessages() const { return message; }
+    
     protected:
         std::mutex m_mtx;
         //inline static int row={0};

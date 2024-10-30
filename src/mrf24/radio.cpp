@@ -250,23 +250,23 @@ namespace MRF24J40{
 
         std::ostringstream oss_zigbee{};        
 
+        //detecto una interrupcion
         monitor->insert("received a packet ... ");
 
-        // Suponiendo que get_rxinfo()->frame_length devuelve un uint8_t
+        // get_rxinfo()->frame_length devuelve un uint8_t
         const uint8_t frame_length = zigbee->get_rxinfo()->frame_length;
 
         // Usar std::ostringstream para construir el string en formato hexadecimal
         oss_zigbee << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(frame_length);
 
-        // Obtener el string resultante        
+        // Mostrar el string resultante        
         monitor->insert(oss_zigbee.str() );
         oss_zigbee.str("");
         oss_zigbee.clear(); 
 
         if(zigbee->get_bufferPHY()){
             monitor->insert(" Packet data (PHY Payload) :");
-            #ifdef DBG_PRINT_GET_INFO
-               
+            #ifdef DBG_PRINT_GET_INFO               
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<=21){
@@ -284,10 +284,7 @@ namespace MRF24J40{
         }            
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->insert("ASCII data (relevant data) :");
-
-            //const auto recevive_data_length = zigbee->rx_datalength();
             monitor->insert("data_length : " + std::to_string(zigbee->rx_datalength()) );        
-
 
         for (auto& byte : zigbee->get_rxinfo()->rx_data)        
             {
@@ -300,25 +297,29 @@ namespace MRF24J40{
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
-        const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
-        const uint64_t address_tx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
+        const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
+        const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
             monitor->insert (" " );
             monitor->insert (" " );
-        if(ADDRESS_LONG_SLAVE == address_rx_tmp){
-            monitor->insert ("mac es igual" ); }
-        else { 
-            monitor->insert ("mac no es igual" );}
-            monitor->insert( "rx data_receiver->mac : "          + hex_to_text( address_rx_tmp )); 
-            monitor->insert( "tx data_receiver->mac : "          + hex_to_text( address_tx_tmp )); 
+            //compara la direccion de mac "slave" con la mac de "entrada"
+        if(ADDRESS_LONG_SLAVE == mac_address_rx){
+            monitor->insert ("mac aceptada" ); }
+        else { //muestra una direcion mac diferente a la configurada
+            monitor->insert ("mac no es aceptada" );}
+            monitor->insert( "rx data_receiver->mac : "          + hex_to_text( mac_address_rx )); 
+            monitor->insert( "tx data_receiver->mac : "          + hex_to_text( mac_address_tx )); 
             monitor->insert( "buffer_receiver->head : "       + hex_to_text( buffer_receiver.head ));
             //auto bs = (!buffer_receiver.size)&0xffff;
             monitor->insert( "buffer_receiver->size : "       + std::to_string( buffer_receiver.size )); 
             monitor->insert("get panid : "                    + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "   + hex_to_text( buffer_receiver.checksum ));
             monitor->insert( "buffer_receiver->head : "       + std::to_string( buffer_receiver.head ));
+
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
             monitor->insert( "data_receiver->data : "         + txt_tmp );
+
+            //obtiene la direccion de mac seteada en el mrf24j40
             uint64_t mac_address;
             zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
             monitor->insert("get address mac: "               + hex_to_text(mac_address));
@@ -331,11 +332,11 @@ namespace MRF24J40{
             monitor->insert("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) );
         
         
-        
+        //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
         RST_COLOR() ;   
-        SET_COLOR(SET_COLOR_RED_TEXT);
+        //SET_COLOR(SET_COLOR_RED_TEXT);
         
         update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
     
