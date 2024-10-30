@@ -39,7 +39,7 @@ namespace FFLUSH{
     }
 
     void 
-    Fflush_t::terminal(std::string_view str_txt) 
+    Fflush_t::insert(std::string_view str_txt) 
     { 
         message.emplace_back(str_txt);     
     }

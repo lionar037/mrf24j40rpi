@@ -22,9 +22,9 @@ namespace DATA{
         //uint16_t checksum;
 
         uint8_t ignore[6];
-        uint16_t panid;        
-        uint32_t mac_lsb;
+        uint16_t panid;                
         uint32_t mac_msb; 
+        uint32_t mac_lsb;
         uint8_t ignored[6];       
         uint8_t head;
         uint16_t size;
