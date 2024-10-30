@@ -63,7 +63,5 @@ namespace MRF24J40{
         uint8_t sleep_alert      : 1;  // Bit 7: Sleep alert interrupt (0 = enabled, 1 = disabled)
     } SETINTCON;
     
-    uint8_t set_intcon_value(const SETINTCON& config) {
-        return *reinterpret_cast<const uint8_t*>(&config);
-    }
+
 }

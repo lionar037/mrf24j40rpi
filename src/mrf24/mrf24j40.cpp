@@ -571,6 +571,10 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
+    uint8_t set_intcon_value(const SETINTCON& config) {
+        return *reinterpret_cast<const uint8_t*>(&config);
+    }
+
     void
     Mrf24j::mrf24j40_init(void){
     
@@ -803,12 +807,6 @@ namespace MRF24J40{
         addr_ptr[6] = read_short(MRF_EADR1);
         addr_ptr[7] = read_short(MRF_EADR0);
     }
-
-//        void Mrf24j::print_to_uin8_t() const {
-//        std::bitset<8> bits(to_uint8());
-//        std::cout << "INTCON value (binary): " << bits << '\n';
-//        std::printf("INTCON value (hex): 0x%02x\n", to_uint8());
-//    }
 
 
 
