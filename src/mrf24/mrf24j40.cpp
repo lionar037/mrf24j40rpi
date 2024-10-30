@@ -481,18 +481,18 @@ namespace MRF24J40{
         mode_turbo();
     }
 
-void Mrf24j::mode_turbo(){
-            // Define TURBO_MODE if more bandwidth is required
+    void Mrf24j::mode_turbo(){
+        // Define TURBO_MODE if more bandwidth is required
         // to enable radio to operate to TX/RX maximum 
         // 625Kbps
-        #ifdef TURBO_MODE
-        
+        #ifdef TURBO_MODE        
             write_short(WRITE_BBREG0, 0x01);
             write_short(WRITE_BBREG3, 0x38);
             write_short(WRITE_BBREG4, 0x5C);            
             write_short(WRITE_RFCTL,0x04);
-            write_short(WRITE_RFCTL,0x00);
-    
-        #endif          }
+            write_short(WRITE_RFCTL,0x00);    
+        #endif          
+    }
+
 
 }//END NAMESPACE MRF24
