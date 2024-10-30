@@ -15,10 +15,11 @@ struct Fflush_t
         /* data */
         
         int funcThread() ;
-        void print(std::string_view, int, int) ;
+        void print(std::string_view,int& , int) ;
     //private:
     protected:
         std::mutex m_mtx;
+        static int row{0};
 
 };
 

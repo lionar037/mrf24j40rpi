@@ -23,7 +23,7 @@ namespace FFLUSH{
         // }
      }
 
-    void Fflush_t::print(std::string_view str_txt, int row, int col) 
+    void Fflush_t::print(std::string_view str_txt, int& rw, int col) 
     { //row fila  // col : columna         
      //SET_COLOR(SET_COLOR_GRAY_TEXT);
     // move(row,col);
@@ -33,6 +33,7 @@ namespace FFLUSH{
             //std::cout << "\033[" << row << ";" << col << "H" << str_txt.data();//<< std::flush;
             //lock.unlock();                
             //std::cout<<str_txt.data();
+            row++;
     return ;    
     }
 
