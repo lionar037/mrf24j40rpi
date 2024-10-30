@@ -120,8 +120,9 @@ namespace MRF24J40{
             std::strcpy(buffer_transmiter.data , MSJ);
 
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
+
             //  const auto* buff {reinterpret_cast<const char *>(mrf24j40_spi.get_rxinfo()->rx_data)};
-            std::cout<<"\n MSJ : size ( "<<  strlen(msj) <<" , "<<sizeof(msj) << " )\n" ;
+            std::cout<<"\nTX MSJ : size ( "<<  strlen(msj) <<" , "<<sizeof(msj) << " )\n" ;
             std::cout<<"\n" ;
         
         const std::string pf(msj);
@@ -130,7 +131,7 @@ namespace MRF24J40{
             std::cout<<"\n" ;         
             
             #ifdef MACADDR64
-                zigbee->send(ADDRESS_LONG_SLAVE, msj);
+                zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
             //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
             
             #elif defined(MACADDR16)

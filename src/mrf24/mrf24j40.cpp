@@ -399,7 +399,7 @@ namespace MRF24J40{
 
         const uint16_t panid = get_pan();
         #ifdef DBG
-            printf("\npanid: 0x%X\n",panid);
+            printf("\npanid : 0x%X\n",panid);
         #endif
 
         write_long(i++, panid & 0xff);  // dest panid
