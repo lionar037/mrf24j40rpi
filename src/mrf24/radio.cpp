@@ -306,14 +306,14 @@ namespace MRF24J40{
             monitor->insert ("mac aceptada" ); }
         else { //muestra una direcion mac diferente a la configurada
             monitor->insert ("mac no es aceptada" );}
-            monitor->insert( "rx data_receiver->mac : "          + hex_to_text( mac_address_rx )); 
-            monitor->insert( "tx data_receiver->mac : "          + hex_to_text( mac_address_tx )); 
-            monitor->insert( "buffer_receiver->head : "       + hex_to_text( buffer_receiver.head ));
+            monitor->insert( "rx data_receiver->mac : "         + hex_to_text( mac_address_rx )); 
+            monitor->insert( "tx data_receiver->mac : "         + hex_to_text( mac_address_tx )); 
+            monitor->insert( "buffer_receiver->head : "         + hex_to_text( buffer_receiver.head ));
             //auto bs = (!buffer_receiver.size)&0xffff;
-            monitor->insert( "buffer_receiver->size : "       + std::to_string( buffer_receiver.size )); 
-            monitor->insert("get panid : "                    + hex_to_text( buffer_receiver.panid ));
-            monitor->insert( "buffer_receiver->checksum : "   + hex_to_text( buffer_receiver.checksum ));
-            monitor->insert( "buffer_receiver->head : "       + std::to_string( buffer_receiver.head ));
+            monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
+            monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
+            monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));
+            monitor->insert( "buffer_receiver->head : "         + std::to_string( buffer_receiver.head ));
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
