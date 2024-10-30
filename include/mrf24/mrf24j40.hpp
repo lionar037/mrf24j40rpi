@@ -86,8 +86,8 @@ struct Mrf24j //: public SPI::Spi
         template <typename T>
         void                    send_template(uint64_t, const T&) ;
 
-        void                    send(const uint64_t ,const std::string& );
-        //void                    send64(uint64_t ,const std::string&);
+        //void                    send(const uint64_t ,const std::string& );
+        void                    send(const uint64_t , const std::vector<uint8_t>) ;
         void                    send64(const uint64_t , const struct DATA::packet_tx);
         void                    interrupt_handler(void);
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());

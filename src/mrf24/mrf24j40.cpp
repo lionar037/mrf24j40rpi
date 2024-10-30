@@ -381,7 +381,8 @@ namespace MRF24J40{
 
 
     void 
-    Mrf24j::send(const uint64_t dest, const std::string& pf) 
+    //Mrf24j::send(const uint64_t dest, const std::string& pf) 
+    Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> pf) 
     {
         //const uint8_t len = strlen(data); // get the length of the char* array
         const auto len = pf.length();
@@ -442,7 +443,7 @@ namespace MRF24J40{
                 //2 bytes on FCS appended by TXMAC
          i+=ignoreBytes;
 
-        for(const auto& byte : pf) write_long(i++,static_cast<char>(byte));
+        for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));

@@ -122,6 +122,10 @@ namespace MRF24J40{
             
             std::memcpy(buffer_transmiter.data ,buff.c_str(),buff.size());
 
+    std::vector<uint8_t> vect(sizeof(buffer_transmiter));
+    std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
+
+
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
 
             //  const auto* buff {reinterpret_cast<const char *>(mrf24j40_spi.get_rxinfo()->rx_data)};
@@ -134,7 +138,8 @@ namespace MRF24J40{
             std::cout<<"\n" ;         
             
             #ifdef MACADDR64
-            zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
+            //zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
+            zigbee->send(ADDRESS_LONG_SLAVE,vect);
             //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
             
             #elif defined(MACADDR16)
