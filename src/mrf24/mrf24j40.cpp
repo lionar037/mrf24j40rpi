@@ -349,13 +349,13 @@ namespace MRF24J40{
 
 
     void Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
-        //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
-        const uint8_t len = strlen(packet_tx); // get the length of the char* array
+        const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
+        //const uint8_t len = strlen(packet_tx); // get the length of the char* array
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
                         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
                         // default: ignoreBytes = 0;
-        write_long(i++, m_bytes_MHR+ignoreBytes+len);
+        write_long(i++, m_bytes_MHR+ignoreBytes+len+10);
 
                         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
         write_long(i++, 0b01100001); // first byte of Frame Control
