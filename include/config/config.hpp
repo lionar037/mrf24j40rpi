@@ -1,12 +1,6 @@
 #pragma once
 
-//#if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
-//    // Si es de 32 bits
-//    #define USE_MRF24_RX
-//#else
-//    // Si es de 64 bits
-//    #define USE_MRF24_TX
-//#endif
+
 #if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
     // Si es de 32 bits
     #define USE_MRF24_RX
@@ -37,7 +31,7 @@
 #ifdef USE_MRF24_TX
     #define MODULE_TX 
     #define MODULE_TX_RST
-    #define RESET_MRF_SOFTWARE
+    //#define RESET_MRF_SOFTWARE
 #else
     #define MODULE_RX 
     #define MODULE_RX_RST
@@ -45,12 +39,10 @@
 #endif
 
 #ifdef USE_MAC_ADDRESS_SHORT
-    //#define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQRS" 
-    //#define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNO_____________"
      #define MSJ "@ABCDE"
 #else 
-    //#define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"
-    #define MSJ "ABCDEFGHIJKLMNOP@"
+    //#define MSJ "ABCDEFGHIJKLMNOP@"
+    #define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"    
     //#define MSJ "ABCDEFGHIJKLMKNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQ" 
 #endif
 
@@ -64,7 +56,7 @@
     #define MRF24_TRANSMITER_ENABLE    
     //#define MRF24_RECEIVER_ENABLE
     //#define ENABLE_INTERRUPT_MRF24
-#elif  defined(MODULE_RX)
+#elif defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
     #define ADDRESS             0x6002
@@ -72,7 +64,10 @@
     #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
+#else
+    #error "no se configuro el dispositivo"
 #endif
+
 
 
 #define LOG_FILENAME "log_mrf_"

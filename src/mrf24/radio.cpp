@@ -48,15 +48,12 @@ namespace MRF24J40{
         #ifdef DBG_RADIO
         std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
         #endif
-        zigbee = std::make_unique<Mrf24j>();
-        
+        zigbee = std::make_unique<Mrf24j>();        
         //zigbee->mrf24j40_init(); 
         zigbee->init();
-
         zigbee->interrupt_handler();
         zigbee->set_pan(PAN_ID);
         // This is _our_ address
-
 
         #ifdef MACADDR16
             zigbee->address16_write(ADDRESS); 
@@ -66,23 +63,21 @@ namespace MRF24J40{
 
         // uncomment if you want to receive any packet on this channel
     //mrf24j40_spi->set_promiscuous(true);
-    zigbee->settings_mrf();
+        zigbee->settings_mrf();
     
         // uncomment if you want to enable PA/LNA external control
-    zigbee->set_palna(true);    // Enable PA/LNA on MRF24J40MB module.
+        zigbee->set_palna(true);    // Enable PA/LNA on MRF24J40MB module.
     //zigbee->set_palna(false);     //disable PA/LNA on MRF24J40MB module.
     
         // uncomment if you want to buffer all PHY Payload
-    zigbee->set_bufferPHY(true);
+        zigbee->set_bufferPHY(true);
 
         //attachInterrupt(0, interrupt_routine, CHANGE); // interrupt 0 equivalent to pin 2(INT0) on ATmega8/168/328
         //last_time = millis();
 
         //Single send cmd
-        //mrf24j40_spi->Transfer3bytes(0xE0C1);
-        
-        flag=true;
-                        
+        //mrf24j40_spi->Transfer3bytes(0xE0C1);        
+        flag=true;                        
     }
 
     void Radio_t::RunProccess(void){
