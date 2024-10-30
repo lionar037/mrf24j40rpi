@@ -809,7 +809,7 @@ namespace MRF24J40{
     Mrf24j::mrf24j40_get_short_mac_addr(uint16_t *address)
     {
         uint16_t* addr_ptr = reinterpret_cast<uint16_t*>(address);        
-        addr_ptr = read_short(MRF_SADRL)<< 8 | read_short(MRF_SADRH) ;
+        addr_ptr = reinterpret_cast<uint16_t*> ((read_short(MRF_SADRL)<< 8 )| read_short(MRF_SADRH) );
     }
     
     void
