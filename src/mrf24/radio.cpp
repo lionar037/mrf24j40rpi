@@ -138,6 +138,9 @@ namespace MRF24J40{
         for(const auto& byte : pf) std::cout << byte ; 
             std::cout<<"\n" ;         
             
+        uint64_t mac_address;
+        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+        std::cout<<"get address mac: " ;  print_to_hex(mac_address);
             
             #ifdef MACADDR64
             zigbee->send(ADDRESS_LONG_SLAVE,vect);
