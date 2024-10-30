@@ -32,7 +32,5 @@ namespace DATA{
             uint16_t checksum;
         }PACKET_TX;
 
-
-
 #pragma pack(pop)
 }

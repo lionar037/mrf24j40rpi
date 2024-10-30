@@ -117,7 +117,10 @@ namespace MRF24J40{
             buffer_transmiter.head=HEAD; 
             buffer_transmiter.size=(~strlen(MSJ))&0xffff ;
             std::cout<<"\n strlen(MSJ) : "<<  strlen(MSJ)<<"\n";    
-            std::strcpy(buffer_transmiter.data , MSJ);
+            //std::strcpy(buffer_transmiter.data , MSJ);
+            std::string buff = MSJ;
+            
+            std::memset(buffer_transmiter.data ,buff.c_str(),buff.size());
 
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
 
@@ -131,8 +134,8 @@ namespace MRF24J40{
             std::cout<<"\n" ;         
             
             #ifdef MACADDR64
-            //    zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
-            zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
+            zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
+            //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
             
             #elif defined(MACADDR16)
                 zigbee->send(ADDR_SLAVE, msj);
