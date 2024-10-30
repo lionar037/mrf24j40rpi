@@ -213,12 +213,18 @@ namespace MRF24J40{
     //@params
     //@params
 
-    template<typename T>
-    void print_to_hex(const T int_to_hex){
-    std::cout << std::hex << std::setw(size_t(int_to_hex)) << std::setfill('0') << static_cast<int>(int_to_hex)<<"\n";
-    }
     
-    void handle_rx() {
+    template<typename T>
+    void print_to_hex(const T int_to_hex) {
+    // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.
+    std::cout << std::hex 
+              << std::setw(sizeof(T) * 2)  // Ancho basado en el tamaño del tipo de dato.
+              << std::setfill('0')         // Rellena con ceros si es necesario.
+              << +int_to_hex               // El símbolo '+' asegura que el tipo char se trate como número.
+              << "\n";
+}
+    void 
+    handle_rx() {
         
         #ifdef MRF24_RECEIVER_ENABLE
         int files {POSITIOM_INIT_PRINTS};
