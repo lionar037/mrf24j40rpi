@@ -749,27 +749,27 @@ namespace MRF24J40{
     // bit 1 '1' Disables the TX GTS1 FIFO transmission interrupt
     // bit 0 '0' Enables the TX Normal FIFO transmission interrupt
 //#if __cplusplus >= 202002L  // C++20 o superior
-    SETINTCON intcon_config = {
-        .tx_normal_fifo    = 0, // Bit 0: habilitado
-        .tx_gts1_fifo      = 1, // Bit 1: deshabilitado
-        .tx_gts2_fifo      = 1, // Bit 2: deshabilitado
-        .rx_fifo           = 0, // Bit 3: habilitado
-        .sec_key_req       = 1, // Bit 4: deshabilitado
-        .half_symbol_timer = 1, // Bit 5: deshabilitado
-        .wake_up_alert     = 1, // Bit 6: deshabilitado
-        .sleep_alert       = 1  // Bit 7: deshabilitado
-    };
-//#elif __cplusplus >= 201703L  // C++17
-//    SETINTCON intcon_config = { 
-//        0,  // tx_normal_fifo (Bit 0: habilitado)
-//        1,  // tx_gts1_fifo (Bit 1: deshabilitado)
-//        1,  // tx_gts2_fifo (Bit 2: deshabilitado)
-//        0,  // rx_fifo (Bit 3: habilitado)
-//        1,  // sec_key_req (Bit 4: deshabilitado)
-//        1,  // half_symbol_timer (Bit 5: deshabilitado)
-//        1,  // wake_up_alert (Bit 6: deshabilitado)
-//        1   // sleep_alert (Bit 7: deshabilitado)
+//    SETINTCON intcon_config = {
+//        .tx_normal_fifo    = 0, // Bit 0: habilitado
+//        .tx_gts1_fifo      = 1, // Bit 1: deshabilitado
+//        .tx_gts2_fifo      = 1, // Bit 2: deshabilitado
+//        .rx_fifo           = 0, // Bit 3: habilitado
+//        .sec_key_req       = 1, // Bit 4: deshabilitado
+//        .half_symbol_timer = 1, // Bit 5: deshabilitado
+//        .wake_up_alert     = 1, // Bit 6: deshabilitado
+//        .sleep_alert       = 1  // Bit 7: deshabilitado
 //    };
+//#elif __cplusplus >= 201703L  // C++17
+    SETINTCON intcon_config = { 
+        0,  // tx_normal_fifo (Bit 0: habilitado)
+        1,  // tx_gts1_fifo (Bit 1: deshabilitado)
+        1,  // tx_gts2_fifo (Bit 2: deshabilitado)
+        0,  // rx_fifo (Bit 3: habilitado)
+        1,  // sec_key_req (Bit 4: deshabilitado)
+        1,  // half_symbol_timer (Bit 5: deshabilitado)
+        1,  // wake_up_alert (Bit 6: deshabilitado)
+        1   // sleep_alert (Bit 7: deshabilitado)
+    };
 //#else
 //    #error "Se requiere al menos C++17 para este código."
 //#endif
