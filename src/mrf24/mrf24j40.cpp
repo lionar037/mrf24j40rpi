@@ -775,13 +775,12 @@ namespace MRF24J40{
 //#endif
 
 
-    // Obtener el valor binario a escribir
-    uint8_t intcon_value = set_intcon_value(intcon_config);
 
+    // Obtener el valor binario a escribir
+    uint8_t intcon_value ;//= set_intcon_value(intcon_config);
+    std::memset(intcon_value ,intcon_config,sizeof(intcon_config) );
     // Escribir el valor (por ejemplo, al registro MRF_INTCON)
-    write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);
-    
-    
+    write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);        
     }
     
 
