@@ -125,13 +125,13 @@ namespace MRF24J40{
             
             std::string msj_ = MSJ;
             std::vector<uint8_t>buff {};
-            std::memcpy(buff.data() , msj_.data() , sizeof(MSJ)); 
+            std::memcpy(buff.data() , msj_.data() , msj_.size()); 
             
             //buffer_transmiter.size=(~buff.size())&0xffff ;
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
             std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
             
-            auto checksum = calculate_crc32(reinterpret_cast<const char*>(buffer_transmiter.head));
+            uint32_t checksum ;//= calculate_crc32(reinterpret_cast<const char*>(buffer_transmiter.head));
 
             checksum += (calculate_crc32 (buff.data(), buff.size()) & 0xffffffff); 
             checksum += (buffer_transmiter.size & 0xffffffff);
