@@ -213,6 +213,9 @@ namespace MRF24J40{
     //@params
     //@params
 
+void print_to_hex(const uint32_t int_to_hex){
+std::cout << std::hex << std::setw(4) << std::setfill('0') << static_cast<int>(int_to_hex) << ;
+}
     void handle_rx() {
         
         #ifdef MRF24_RECEIVER_ENABLE
@@ -272,12 +275,12 @@ namespace MRF24J40{
 
         if(ADDRESS_LONG_SLAVE == add){ std::cout<< "\nmac es igual\n"; }
         else { std::cout<< "\nmac no es igual\n" ; }
-            std::cout<< "\ndata_receiver->mac : " << std::hex<< add<<"\n";
-            std::cout<< "buffer_receiver->head : " << std::hex << buffer_receiver.head <<"\n";
+            std::cout<< "\ndata_receiver->mac : " ; print_to_hex(add); std::cout<<"\n";
+            std::cout<< "buffer_receiver->head : " << print_to_hex( buffer_receiver.head);std::cout <<"\n";
             auto bs = (!buffer_receiver.size)&0xffff;
-            std::cout<< "buffer_receiver->size : " << reinterpret_cast<const int *>(bs)<<"\n";
-            std::cout<< "data_receiver->data : " <<reinterpret_cast<const char *>(buffer_receiver.data)<<"\n";
-            std::cout<<"\nbuff: \n"<<buffer_receiver.size;
+            std::cout<< "buffer_receiver->size : " << print_to_hex(bs); std::cout <<"\n";
+            std::cout<< "data_receiver->data : " <<print_to_hex(buffer_receiver.data);std::cout <<"\n";
+            std::cout<<"\nbuff: \n"<<std::to_string(buffer_receiver.size);
             std::cout<<"\r\n";
         #endif
         
