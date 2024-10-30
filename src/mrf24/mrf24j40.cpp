@@ -805,4 +805,17 @@ namespace MRF24J40{
         addr_ptr[7] = read_short(MRF_EADR0);
     }
 
+    void
+    Mrf24j::mrf24j40_get_short_mac_addr(uint16_t *addr)
+    {
+        addr_ptr[0] = read_short(MRF_SADRH);
+        addr_ptr[1] = read_short(MRF_SADRL);
+    }
+    
+    void
+    Mrf24j::mrf24j40_set_tx_power(uint8_t& pwr)
+    {
+      //write_long(MRF_RFCON3, pwr);
+      pwr = read_long(MRF_RFCON3);
+    }
 }//END NAMESPACE MRF24
