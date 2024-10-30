@@ -7,7 +7,7 @@
 #include <spi/spi.hpp>
 
 
-namespace MRF24J40{
+namespace MRF24J40
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.
     static uint8_t rx_buf[127];
 
@@ -536,30 +536,17 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
+
+    void
+mrf24j40_set_tx_power(uint8_t pwr)
+{
+  set_long_add_mem(MRF24J40_RFCON3, pwr);
+}
+
     void
     Mrf24j::mrf24j40_init(void)
-    {
+    
     uint8_t i;
-    
-    /* Set the IO pins direction */
-    //MRF24J40_PINDIRECTION_INIT();
-    
-    /* Set interrupt registers and reset flags */
-    //MRF24J40_INTERRUPT_INIT(6, 3);
-
-    //if(MRF24J40_SPI_PORT_INIT(10000000, SPI_DEFAULT) < 0)
-    //  return -1;
-
-    //PRINTF("MRF24J40 Initialization started\n");
-
-    //MRF24J40_HARDRESET_LOW();
-
-    //clock_delay_usec(2500);
-    
-    //MRF24J40_HARDRESET_HIGH();
-    
-    //clock_delay_usec(2500);
-
     /*
     * bit 7:3 reserved: Maintain as ‘0’
     * bit 2   RSTPWR: Power Management Reset bit
@@ -569,18 +556,16 @@ namespace MRF24J40{
     * bit 0   RSTMAC: MAC Reset bit
     *         1 = Reset MAC circuitry (bit is automatically cleared to ‘0’ by hardware)
     */
-    //set_short_add_mem(MRF24J40_SOFTRST, 0b00000111);
+    write_short(MRF_SOFTRST, 0b00000111);
 
     /*
     * wait until the radio reset is completed
     */
-    //do {
-    //  i = get_short_add_mem(MRF24J40_SOFTRST);
-    //} while((i & 0b0000111) != 0);
+
+    do {
+      i = read_short(MRF_SOFTRST);
+    } while((i & 0b0000111) != 0);
     
-    //clock_delay_usec(2500);
-
-
     /*
     * bit 7   FIFOEN: FIFO Enable bit 1 = Enabled (default). Always maintain this bit as a ‘1’.
     * bit 6   reserved: Maintain as ‘0’
@@ -591,49 +576,51 @@ namespace MRF24J40{
     *         Transmitter on time before beginning of packet. TXONT is a 9-bit value. TXONT<6:0> bits are located
     *         in SYMTICKH<7:1>. Units: tick (50 ns). Default value = 0x028 (40 * 50 ns = 2 μs).
     */
+
     write_short(MRF_PACON2, 0b10011000);
 
     set_channel(CHANNEL);
 
-    write_long(MRF_RFCON1, 0b00000010);      /* program the RF and Baseband Register */
-                                                        /* as suggested by the datasheet */
-    write_long(MRF_RFCON2, 0b10000000);      /* enable PLL */
+    write_long(MRF_RFCON1, 0b00000010);      // program the RF and Baseband Register 
+                                                        // as suggested by the datasheet 
+    write_long(MRF_RFCON2, 0b10000000);      // enable PLL 
 
-    //mrf24j40_set_tx_power(0b00000000);                  /* set power 0dBm (plus 20db power amplifier 20dBm)*/
-
-    /* 
-    * Set up 
-    * 
-    * bit 7   '1' as suggested by the datasheet
-    * bit 6:5 '00' reserved
-    * bit 4   '1' recovery from sleep 1 usec
-    * bit 3   '0' battery monitor disabled
-    * bit 2:0 '000' reserved
-    */
+    //mrf24j40_set_tx_power                 // set power 0dBm (plus 20db power amplifier 20dBm)
+    write_long(MRF_RFCON3, 0b00000000);
+    
+    // Set up 
+    // 
+    // bit 7   '1' as suggested by the datasheet
+    // bit 6:5 '00' reserved
+    // bit 4   '1' recovery from sleep 1 usec
+    // bit 3   '0' battery monitor disabled
+    // bit 2:0 '000' reserved
+    
     write_long(MRF_RFCON6, 0b10010000);
-    write_long(MRF_RFCON7, 0b10000000);      /* Sleep clock = 100kHz */
-    write_long(MRF_RFCON8, 0b00000010);      /* as suggested by the datasheet */
-    write_long(MRF_SLPCON1, 0b00100001);     /* as suggested by the datasheet */
+    write_long(MRF_RFCON7, 0b10000000);      // Sleep clock = 100kHz 
+    write_long(MRF_RFCON8, 0b00000010);      // as suggested by the datasheet 
+    write_long(MRF_SLPCON1, 0b00100001);     // as suggested by the datasheet 
 
-    /* Program CCA, RSSI threshold values */
-    write_short(MRF_BBREG2, 0b01111000);     /* Recommended value by the datashet */
-    write_short(MRF_CCAEDTH, 0b01100000);    /* Recommended value by the datashet */
+    // Program CCA, RSSI threshold values 
+    write_short(MRF_BBREG2, 0b01111000);     // Recommended value by the datashet 
+    write_short(MRF_CCAEDTH, 0b01100000);    // Recommended value by the datashet 
 
     #ifdef MRF24J40MB
-    /* Activate the external amplifier needed by the MRF24J40MB */
+    // Activate the external amplifier needed by the MRF24J40MB 
     write_long(MRF_TESTMODE, 0b0001111);
     std::printf("MRF24J40 Init Amplifier activated \n");
     #endif
 
     #ifdef ADD_RSSI_AND_LQI_TO_PACKET
-    /* Enable the packet RSSI */
+    // Enable the packet RSSI 
     write_short(MRF_BBREG6, 0b01000000);
     std::printf("MRF24J40 Init append RSSI and LQI to packet\n");
     #endif
 
-    /*
-    * Wait until the radio state machine is not on rx mode
-    */
+    //
+    // Wait until the radio state machine is not on rx mode
+    //
+
     do {
         i = read_long(RFSTATE);
     } while((i & 0xA0) != 0xA0);
@@ -666,40 +653,40 @@ namespace MRF24J40{
     std::printf("MRF24J40 Init PROMISCUOUS MODE\n");
     #endif
 
-    /*
-    * Set the RXMCR register.
-    * Default setting i = 0x00, which means:
-    * - Automatic ACK;
-    * - Device is not a PAN coordinator;
-    * - Device is not a coordinator;
-    * - Accept only packets with good CRC
-    * - Discard packet when there is a MAC address mismatch,
-    *   illegal frame type, dPAN/sPAN or MAC short address mismatch.
-    */
+    
+    // Set the RXMCR register.
+    // Default setting i = 0x00, which means:
+    // - Automatic ACK;
+    // - Device is not a PAN coordinator;
+    // - Device is not a coordinator;
+    // - Accept only packets with good CRC
+    // - Discard packet when there is a MAC address mismatch,
+    //   illegal frame type, dPAN/sPAN or MAC short address mismatch.
+    
     write_short(MRF_RXMCR, i);
     std::printf("RXMCR 0x%X\n", i);
 
-    /*
-    * Set the TXMCR register.
-    * bit 7   '0' Enable No Carrier Sense Multiple Access (CSMA) Algorithm.
-    * bit 6   '0' Disable Battery Life Extension Mode bit.
-    * bit 5   '0' Disable Slotted CSMA-CA Mode bit.
-    * bit 4:3 '11' MAC Minimum Backoff Exponent bits (macMinBE).
-    * bit 2:0 '100' CSMA Backoff bits (macMaxCSMABackoff)
-    */
+    
+    // Set the TXMCR register.
+    // bit 7   '0' Enable No Carrier Sense Multiple Access (CSMA) Algorithm.
+    // bit 6   '0' Disable Battery Life Extension Mode bit.
+    // bit 5   '0' Disable Slotted CSMA-CA Mode bit.
+    // bit 4:3 '11' MAC Minimum Backoff Exponent bits (macMinBE).
+    // bit 2:0 '100' CSMA Backoff bits (macMaxCSMABackoff)
+    
     write_short(MRF_TXMCR, 0b00011100);
 
     i = read_short(MRF_TXMCR);
     std::printf("TXMCR 0x%X\n", i);
     
-        /*
-        * Set TX turn around time as defined by IEEE802.15.4 standard
-        */
+        //
+        // Set TX turn around time as defined by IEEE802.15.4 standard
+        //
     write_short(MRF_TXSTBL, 0b10010101);
     write_short(MRF_TXTIME, 0b00110000);
 
     #ifdef INT_POLARITY_HIGH
-    /* Set interrupt edge polarity high */
+    // Set interrupt edge polarity high 
     write_long(MRF_SLPCON0, 0b00000011);
     std::printf("MRF24J40 Init INT Polarity High\n");
     #else
@@ -718,29 +705,28 @@ namespace MRF24J40{
     
     //reset_rf_state_machine();
 
-    /* Flush RX FIFO */
-    //flush_rx_fifo();
+    // Flush RX FIFO 
+    //flush_rx_fifo
+    set_short_add_mem(MRF_RXFLUSH, read_short(MRF_RXFLUSH) | 0b00000001);
 
     //process_start(&mrf24j40_process, NULL);
-
-    /*
-    *
-    * Setup interrupts.
-    *
-    * set INTCON
-    * bit 7 '1' Disables the sleep alert interrupt
-    * bit 6 '1' Disables the wake-up alert interrupt
-    * bit 5 '1' Disables the half symbol timer interrupt
-    * bit 4 '1' Disables the security key request interrupt
-    * bit 3 '0' Enables the RX FIFO reception interrupt
-    * bit 2 '1' Disables the TX GTS2 FIFO transmission interrupt
-    * bit 1 '1' Disables the TX GTS1 FIFO transmission interrupt
-    * bit 0 '0' Enables the TX Normal FIFO transmission interrupt
-    */
+        
+    // Setup interrupts.
+    //
+    // set INTCON
+    // bit 7 '1' Disables the sleep alert interrupt
+    // bit 6 '1' Disables the wake-up alert interrupt
+    // bit 5 '1' Disables the half symbol timer interrupt
+    // bit 4 '1' Disables the security key request interrupt
+    // bit 3 '0' Enables the RX FIFO reception interrupt
+    // bit 2 '1' Disables the TX GTS2 FIFO transmission interrupt
+    // bit 1 '1' Disables the TX GTS1 FIFO transmission interrupt
+    // bit 0 '0' Enables the TX Normal FIFO transmission interrupt
+    
     write_short(MRF_INTCON, 0b11110110);
     
     //return 0;
-    }
+    
 
 
-}//END NAMESPACE MRF24
+//END NAMESPACE MRF24
