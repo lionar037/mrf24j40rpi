@@ -322,6 +322,7 @@ namespace MRF24J40{
             monitor->terminal(" RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,files,col);
         //printf("\nLQI : %d , ",zigbee->get_rxinfo()->lqi);
         //printf("RSSI : %d \n",zigbee->get_rxinfo()->rssi);
+        
         monitor->print_all();
         #endif
         RST_COLOR() ;   
