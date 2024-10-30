@@ -1,10 +1,13 @@
 #pragma once
+#include <config/config.hpp>
+#include <spi/spi.hpp>
+
     #include <iostream>
     #include <memory>
     #include <cstring>
-
-    #include <config/config.hpp>
-    #include <spi/spi.hpp>
+    #include <atomic>
+    
+    
     
 namespace DATA{
         struct packet_tx;
