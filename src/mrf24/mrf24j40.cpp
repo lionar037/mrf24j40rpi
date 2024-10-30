@@ -777,7 +777,7 @@ namespace MRF24J40{
 
 
     // Obtener el valor binario a escribir
-    const uint8_t intcon_value = {intcon_config};//= set_intcon_value(intcon_config);
+    const uint8_t intcon_value = static_cast<uint8_t>(intcon_config);//= set_intcon_value(intcon_config);
 //    std::memset(intcon_value ,intcon_config,sizeof(intcon_config) );
     
     // Escribir el valor (por ejemplo, al registro MRF_INTCON)
