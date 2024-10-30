@@ -46,7 +46,7 @@ Radio_t::Radio_t()
         #endif
     #endif
           
-    #ifdef DBG
+    #ifdef DBG_RADIO
     std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
     #endif
     zigbee = std::make_unique<Mrf24j>();
@@ -99,13 +99,12 @@ void Radio_t::Run(void){
 
 
 void Radio_t::Init(bool& flag) {
-
     flag = zigbee->check_flags(&handle_rx, &handle_tx);
     const unsigned long current_time = 10000;//1000000 original
     if (current_time - last_time > tx_interval) {
         last_time = current_time;
     #ifdef MRF24_TRANSMITER_ENABLE
-        #ifdef DBG
+        #ifdef DBG_RADIO
             #ifdef MACADDR64
                 std::cout<<"send msj 64() ... \n";
             #else
@@ -140,9 +139,9 @@ void Radio_t::Init(bool& flag) {
     }
 }
 
-void Radio_t::interrupt_routine() {
-    zigbee->interrupt_handler(); // mrf24 object interrupt routine
-}
+    void Radio_t::interrupt_routine() {
+        zigbee->interrupt_handler(); // mrf24 object interrupt routine
+    }
 
 void update(std::string_view str_view){
     
@@ -163,19 +162,20 @@ void update(std::string_view str_view){
 
     SET_COLOR(SET_COLOR_GRAY_TEXT);
   
-
     #ifdef USE_OLED
         oled->create(PacketDataTmp.c_str());  
     #endif
-    //auto qr = std::make_unique<QR::QrOled_t>();
+    #ifdef USE_QR
+    auto qr = std::make_unique<QR::QrOled_t>();
 
     //De momento no hace nada
-    //std::string_view packet_data2 = "1234567890";    
-    //std::vector<int> infoQrTmp; 
-    //qr->create_qr(packet_data2, infoQrTmp);
-    //monitor->print( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
-    //std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
-    
+    std::string packet_data2 = "1234567890";    
+    std::vector<int> infoQrTmp; 
+    qr->create_qr(packet_data2, infoQrTmp);
+    monitor->print( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
+    std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
+    #endif
+
     fs->create(packet_data);
     std::cout<<"\n";
     #ifdef USE_QR
@@ -283,7 +283,7 @@ void handle_rx() {
 }
 
     Radio_t::~Radio_t() {
-        #ifdef DBG
+        #ifdef DBG_RADIO
             std::cout<<"~Radio_t()\n";
         #endif
     }
