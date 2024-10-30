@@ -305,8 +305,7 @@ namespace MRF24J40{
             //auto bs = (!buffer_receiver.size)&0xffff;
             monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
             monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
-            monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));
-            monitor->insert( "buffer_receiver->head : "         + std::to_string( buffer_receiver.head ));
+            monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
