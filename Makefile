@@ -53,8 +53,8 @@ DEPFLAGS = -MMD -MP
 
 #APP         := bin/mrf24_app
 CFLAGS     	:= -Wall -pedantic
-CCFLAGS     := $(CFLAGS) -std=c++17
-
+#CCFLAGS     := $(CFLAGS) -std=c++17
+CCFLAGS     := $(CFLAGS) -std=c++20
 # Modifica los flags del compilador para incluir DEPFLAGS
 CFLAGS += $(DEPFLAGS)
 CCFLAGS += $(DEPFLAGS)
