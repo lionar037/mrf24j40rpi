@@ -33,8 +33,8 @@
     //#define MSJ "ABCDEFGHIJKLMKNOFGHIJKLMKNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNO_____________"
      #define MSJ "@ABCDE"
 #else 
-    //#define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"
-    #define MSJ "ABCDEFGHIJKLMNOP@"
+    #define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"
+    //#define MSJ "ABCDEFGHIJKLMNOP@"
     //#define MSJ "ABCDEFGHIJKLMKNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456@ABCDEFGHIJKLMKNOPQRS@ABCDEFGHIJKLMKNOPQ" 
 #endif
 
@@ -46,6 +46,8 @@
     #define PAN_ID              0x1234
     #define ADDR_SLAVE          0x6002
     #define MRF24_TRANSMITER_ENABLE    
+    //#define MRF24_RECEIVER_ENABLE
+    #define ENABLE_INTERRUPT_MRF24
 #elif  defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
