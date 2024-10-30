@@ -22,13 +22,14 @@ namespace DATA{
         //uint16_t checksum;
 
         uint8_t ignore[4];
-        uint16_t panid;                
-        uint32_t mac_msb; 
+        uint16_t panid;                         
         uint32_t mac_lsb;
-        uint8_t ignored[6];       
+        uint32_t mac_msb;
+        uint32_t mac_lsb_rx;
+        uint32_t mac_msb_rx;     
         uint8_t head;
+        uint8_t data[107];                
         uint16_t size;
-        uint8_t data[107];
         uint16_t checksum;
     }PACKET_RX;
 
@@ -42,10 +43,6 @@ namespace DATA{
         }PACKET_TX;
 
 #pragma pack(pop)
-
-
-
-
 
 }
 

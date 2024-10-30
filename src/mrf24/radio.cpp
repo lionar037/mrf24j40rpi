@@ -300,14 +300,16 @@ namespace MRF24J40{
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
-        const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
+        const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
+        const uint64_t address_tx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
             monitor->insert (" " );
             monitor->insert (" " );
         if(ADDRESS_LONG_SLAVE == address_rx_tmp){
             monitor->insert ("mac es igual" ); }
         else { 
             monitor->insert ("mac no es igual" );}
-            monitor->insert( "data_receiver->mac : "          + hex_to_text( address_rx_tmp )); 
+            monitor->insert( "rx data_receiver->mac : "          + hex_to_text( address_rx_tmp )); 
+            monitor->insert( "tx data_receiver->mac : "          + hex_to_text( address_tx_tmp )); 
             monitor->insert( "buffer_receiver->head : "       + hex_to_text( buffer_receiver.head ));
             //auto bs = (!buffer_receiver.size)&0xffff;
             monitor->insert( "buffer_receiver->size : "       + std::to_string( buffer_receiver.size )); 
