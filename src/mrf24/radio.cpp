@@ -10,7 +10,8 @@
     #include <oled/oled.hpp>
 #endif
 #include <string_view>
-
+#include <zlib.h>  // Para usar crc32
+#include <string>
 
 
 namespace MRF24J40{ 
@@ -92,8 +93,16 @@ namespace MRF24J40{
         }
     }
 
+    uint32_t calculate_crc32(const std::string& data) {
+        // CRC32 necesita un valor inicial (0xFFFFFFFF es el más común)
+        uint32_t crc = crc32(0L, Z_NULL, 0);
+        crc = crc32(crc, reinterpret_cast<const unsigned char*>(data.c_str()), data.size());
+        return crc;
+    }
+
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
+        //uint32_t checksum=0;
         const unsigned long current_time = 100000;//1000000 original
         if (current_time - last_time > tx_interval) {
             last_time = current_time;
@@ -111,8 +120,13 @@ namespace MRF24J40{
             //buffer_transmiter.size=(~buff.size())&0xffff ;
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
             std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
-                        
+            
+            auto checksum = calculate_crc32(buffer_transmiter.head);
+
+            checksum += (calculate_crc32 (buff.data()) & 0xffffffff); 
+            checksum += (buffer_transmiter.size & 0xffffffff);
             std::memcpy(buffer_transmiter.data ,buff.c_str(),buff.size());
+
             buffer_transmiter.checksum=0xffff;
 
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
