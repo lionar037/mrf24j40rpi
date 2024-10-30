@@ -114,6 +114,7 @@ namespace MRF24J40{
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
+            
             buffer_transmiter.head=HEAD; 
             std::string buff = MSJ;
             buffer_transmiter.size=(~buff.size())&0xffff ;
