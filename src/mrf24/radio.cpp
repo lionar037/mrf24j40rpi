@@ -186,7 +186,7 @@ namespace MRF24J40{
         std::string packet_data2 = "1234567890";    
         std::vector<int> infoQrTmp; 
         qr->create_qr(packet_data2, infoQrTmp);
-        monitor->print( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
+        monitor->terminal( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
         #endif
                         
@@ -252,7 +252,7 @@ namespace MRF24J40{
 
         files=POSITIOM_INIT_PRINTS;
 
-        monitor->print("received a packet ... ",files,col);
+        monitor->terminal("received a packet ... ",files,col);
 
         // Suponiendo que get_rxinfo()->frame_length devuelve un uint8_t
         const uint8_t frame_length = zigbee->get_rxinfo()->frame_length;
@@ -264,10 +264,10 @@ namespace MRF24J40{
         // Obtener el string resultante
         std::string bufferMonitor = oss.str() + "\n";
         
-        monitor->print(bufferMonitor,files,col);
+        monitor->terminal(bufferMonitor,files,col);
         
         if(zigbee->get_bufferPHY()){
-            monitor->print(" Packet data (PHY Payload) :",files,col);
+            monitor->terminal(" Packet data (PHY Payload) :",files,col);
             #ifdef DBG_PRINT_GET_INFO
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
@@ -281,10 +281,10 @@ namespace MRF24J40{
         }
             std::cout << "\n";
             SET_COLOR(SET_COLOR_CYAN_TEXT);
-            monitor->print("ASCII data (relevant data) :",files,col);
+            monitor->terminal("ASCII data (relevant data) :",files,col);
 
             const auto recevive_data_length = zigbee->rx_datalength();
-            monitor->print("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files,col);        
+            monitor->terminal("\t\tdata_length : " + std::to_string(recevive_data_length) + "\n",files,col);        
 
         for (auto& byte : zigbee->get_rxinfo()->rx_data)        
             {
@@ -297,37 +297,36 @@ namespace MRF24J40{
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
         const uint64_t address_rx_tmp = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
 
-
-        if(ADDRESS_LONG_SLAVE == address_rx_tmp){monitor->print ("mac es igual" ,files,col); }
-        else { monitor->print ("mac no es igual" ,files,col);}
-            monitor->print( "\ndata_receiver->mac : " + hex_to_text(address_rx_tmp ),files,col); 
-            monitor->print( "buffer_receiver->head : " + hex_to_text( buffer_receiver.head),files,col);
+        if(ADDRESS_LONG_SLAVE == address_rx_tmp){
+            monitor->terminal ("mac es igual" ,files,col); }
+        else { 
+            monitor->terminal ("mac no es igual" ,files,col);}
+            monitor->terminal( "\ndata_receiver->mac : " + hex_to_text(address_rx_tmp ),files,col); 
+            monitor->terminal( "buffer_receiver->head : " + hex_to_text( buffer_receiver.head),files,col);
             auto bs = (!buffer_receiver.size)&0xffff;
-            monitor->print( "buffer_receiver->size : " + hex_to_text(bs),files,col); 
+            monitor->terminal( "buffer_receiver->size : " + hex_to_text(bs),files,col); 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
-
-            monitor->print( "data_receiver->data : " + txt_tmp ,files,col);
-
-            monitor->print( "buffer_receiver->checksum : " + hex_to_text( buffer_receiver.checksum),files,col);
-            monitor->print("buff: " + std::to_string(buffer_receiver.size),files,col);
-            //monitor->print("\r\n)";
+            monitor->terminal( "data_receiver->data : " + txt_tmp ,files,col);
+            monitor->terminal( "buffer_receiver->checksum : " + hex_to_text( buffer_receiver.checksum),files,col);
+            monitor->terminal("buff: " + std::to_string(buffer_receiver.size),files,col);
             uint64_t mac_address;
             zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-            monitor->print("get address mac: " +  hex_to_text(mac_address),files,col);
+            monitor->terminal("get address mac: " +  hex_to_text(mac_address),files,col);
         #endif
         
             RST_COLOR() ; 
             SET_COLOR(SET_COLOR_RED_TEXT);
-            //files++;files++;files++;files++;
-            monitor->print(" LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,files,col);
-            monitor->print(" RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,files,col);
+            files++;files++;//files++;files++;
+            monitor->terminal(" LQI : " + std::to_string(zigbee->get_rxinfo()->lqi) ,files,col);
+            monitor->terminal(" RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) ,files,col);
         //printf("\nLQI : %d , ",zigbee->get_rxinfo()->lqi);
         //printf("RSSI : %d \n",zigbee->get_rxinfo()->rssi);
 
         #endif
         RST_COLOR() ;   
         SET_COLOR(SET_COLOR_RED_TEXT);
+        monitor->print_all();
         update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
     
     }

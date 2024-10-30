@@ -23,7 +23,8 @@ namespace FFLUSH{
         // }
      }
 
-    void Fflush_t::print(std::string_view str_txt, int& rw, int col) 
+    void 
+    Fflush_t::print(std::string_view str_txt, int& rw, int col) 
     { //row fila  // col : columna         
      //SET_COLOR(SET_COLOR_GRAY_TEXT);
     // move(row,col);
@@ -36,6 +37,21 @@ namespace FFLUSH{
             row++;
     return ;    
     }
+
+    void 
+    Fflush_t::terminal(std::string_view str_txt, int& rw, int col) 
+    { 
+        message.emplace_back(str_txt);     
+    }
+
+    void 
+    Fflush_t::print_all() 
+    { 
+        for(const auto msj : message){
+            std::cout<< msj<<"\n";
+        }
+    }
+ 
 
 int Fflush_t::funcThread() 
 {
