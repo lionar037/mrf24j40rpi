@@ -120,7 +120,7 @@ namespace MRF24J40{
             //std::strcpy(buffer_transmiter.data , MSJ);
             std::string buff = MSJ;
             
-            std::memset(buffer_transmiter.data ,buff.c_str(),buff.size());
+            std::memset(buffer_transmiter.data ,buff.data(),buff.size());
 
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
 
