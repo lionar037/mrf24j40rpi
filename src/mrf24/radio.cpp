@@ -9,7 +9,6 @@
 #include <work/rfflush.hpp>
 #include <sstream>  // Para std::ostringstream
 #include <iomanip>  // Para std::hex y std::setfill
-
 #include <memory>
 #include <string_view>
 
