@@ -535,7 +535,7 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
-    int
+    void
     Mrf24j::mrf24j40_init(void)
     {
     uint8_t i;
@@ -738,7 +738,7 @@ namespace MRF24J40{
     */
     write_short(MRF_INTCON, 0b11110110);
     
-    return 0;
+    //return 0;
     }
 
 

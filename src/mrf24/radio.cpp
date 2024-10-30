@@ -50,7 +50,9 @@ namespace MRF24J40{
         std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
         #endif
         zigbee = std::make_unique<Mrf24j>();
-        zigbee->init();
+        
+        zigbee->mrf24j40_init();
+
         zigbee->interrupt_handler();
         zigbee->set_pan(PAN_ID);
         // This is _our_ address

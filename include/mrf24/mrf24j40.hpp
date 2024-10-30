@@ -36,7 +36,7 @@ struct Mrf24j //: public SPI::Spi
 
        // void reset(void);
         void                init                (void);
-        int                mrf24j40_init       (void);
+        void                mrf24j40_init       (void);
 
         const uint8_t       read_short          (const uint8_t);            //address
         const uint8_t       read_long           (const uint16_t);            //address
