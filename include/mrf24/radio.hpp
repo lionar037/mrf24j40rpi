@@ -54,7 +54,7 @@ namespace MRF24J40{
             unsigned long       tx_interval{1000}; 
             bool                status{false};
             bool                flag {false};
-            std::ostringstream oss_info_zigbee;                         
+            std::ostringstream oss_info_zigbee{};
             
         #ifdef ENABLE_INTERRUPT_MRF24 // rx
             std::unique_ptr<DATABASE::Database_t>   database{};
