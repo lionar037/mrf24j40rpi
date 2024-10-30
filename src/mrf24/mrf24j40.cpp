@@ -701,8 +701,7 @@ namespace MRF24J40{
     //reset_rf_state_machine();
 
     // Flush RX FIFO 
-    //flush_rx_fifo
-    set_short_add_mem(MRF_RXFLUSH, read_short(MRF_RXFLUSH) | 0b00000001);
+    write_short(MRF_RXFLUSH, read_short(MRF_RXFLUSH) | 0b00000001);
 
     //process_start(&mrf24j40_process, NULL);
         
