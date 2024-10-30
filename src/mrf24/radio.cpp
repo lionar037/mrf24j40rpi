@@ -186,10 +186,7 @@ namespace MRF24J40{
         monitor->print( std::to_string(infoQrTmp.size()),N_FILE_INIT+10,17);
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
         #endif
-
-        uint64_t mac_address;
-        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-        monitor->print("get address mac: " +  static_cast<unsigned long long>(mac_address),1,1);
+                        
 
         fs->create(packet_data);
         std::cout<<"\n";
@@ -293,6 +290,9 @@ namespace MRF24J40{
             std::cout<< "buffer_receiver->checksum : " ; print_to_hex( buffer_receiver.checksum);
             std::cout<<"\nbuff: \n" ; std::to_string(buffer_receiver.size);
             std::cout<<"\r\n";
+            uint64_t mac_address;
+            zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+            std::cout<<"get address mac: " ;  print_to_hex(mac_address);
         #endif
         
             RST_COLOR() ; 
