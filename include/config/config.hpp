@@ -12,14 +12,17 @@
     #define USE_MRF24_RX
 #elif defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 8)
     // Si es de 64 bits
+    #define USE_MRF24_TX
     #if defined(__APPLE__)
         // Si es macOS
-    #define MACOS
+        #undef USE_MRF24_TX    // Elimina la definición anterior
+        #define USE_MRF24_RX   // Redefine a USE_MRF24_RX
+        #define MACOS          // Define MACOS para macOS
     #endif
-    #define USE_MRF24_RX
 #else
     #error "Arquitectura no soportada"
 #endif
+
 
 #define USE_MAC_ADDRESS_LONG
 //#define USE_MAC_ADDRESS_SHORT
