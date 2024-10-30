@@ -131,8 +131,8 @@ namespace MRF24J40{
             std::cout<<"\n" ;         
             
             #ifdef MACADDR64
-                zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
-            //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
+            //    zigbee->send(ADDRESS_LONG_SLAVE, pf.data());
+            zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
             
             #elif defined(MACADDR16)
                 zigbee->send(ADDR_SLAVE, msj);
