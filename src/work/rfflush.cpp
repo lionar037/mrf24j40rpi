@@ -41,7 +41,7 @@ namespace FFLUSH{
     void 
     Fflush_t::terminal(std::string_view str_txt, int& rw, int col) 
     { 
-        message.emplace_back(str_txt);     
+        message.push_back(str_txt);     
     }
 
     void 
