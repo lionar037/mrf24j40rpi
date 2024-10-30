@@ -7,10 +7,10 @@
 #include <display/color.hpp>
 #include <oled/oled.hpp>
 #include <work/rfflush.hpp>
-#include <sstream>  // Para std::ostringstream
-#include <iomanip>  // Para std::hex y std::setfill
-#include <memory>
+
+//#include <memory>
 #include <string_view>
+
 
 
 namespace MRF24J40{ 
@@ -269,7 +269,7 @@ namespace MRF24J40{
         if(zigbee->get_bufferPHY()){
             monitor->terminal(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO
-        std::ostringstream oss_info_zigbee;        
+               
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
                 if (i<21){
