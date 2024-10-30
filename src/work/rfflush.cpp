@@ -47,7 +47,7 @@ namespace FFLUSH{
     void 
     Fflush_t::print_all() 
     { 
-    system("clear");
+    //system("clear");
     ///std::cout << "\033[" << 0 << ";" << 0 << std::flush;
 int col =0;
         for(const auto& msj : message){
