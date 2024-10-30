@@ -46,7 +46,7 @@
     #define PAN_ID              0x1234
     #define ADDR_SLAVE          0x6002
     #define MRF24_TRANSMITER_ENABLE    
-    #define MRF24_RECEIVER_ENABLE
+    //#define MRF24_RECEIVER_ENABLE
     //#define ENABLE_INTERRUPT_MRF24
 #elif  defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667701
