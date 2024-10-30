@@ -66,8 +66,8 @@ Radio_t::Radio_t()
   zigbee->settings_mrf();
   
     // uncomment if you want to enable PA/LNA external control
-  //zigbee->set_palna(true);    // Enable PA/LNA on MRF24J40MB module.
-  zigbee->set_palna(false);     //disable PA/LNA on MRF24J40MB module.
+  zigbee->set_palna(true);    // Enable PA/LNA on MRF24J40MB module.
+  //zigbee->set_palna(false);     //disable PA/LNA on MRF24J40MB module.
   
     // uncomment if you want to buffer all PHY Payload
   zigbee->set_bufferPHY(true);
