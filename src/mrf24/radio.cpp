@@ -310,7 +310,7 @@ namespace MRF24J40{
             monitor->insert( "data_receiver->mac : "          + hex_to_text( address_rx_tmp )); 
             monitor->insert( "buffer_receiver->head : "       + hex_to_text( buffer_receiver.head ));
             //auto bs = (!buffer_receiver.size)&0xffff;
-            monitor->insert( "buffer_receiver->size : "       + hex_to_text( buffer_receiver.size )); 
+            monitor->insert( "buffer_receiver->size : "       + std::to_string( buffer_receiver.size )); 
             monitor->insert("get panid : "                    + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "   + hex_to_text( buffer_receiver.checksum ));
             monitor->insert( "buffer_receiver->head : "       + std::to_string( buffer_receiver.head ));
