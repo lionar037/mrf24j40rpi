@@ -77,15 +77,18 @@ namespace MRF24J40{
             void update(std::string_view str_view);
             const uint8_t calculate_crc8(const uint8_t* data, size_t length);
             
-            void handle_tx();
-            void handle_rx();
+
 
 }//end MRF24J40
 
+struct MRF24J40::Mrf24j;
+extern std::unique_ptr<MRF24J40::> zigbee;
+extern MRF24J40::DATA::PACKET_RX buffer_receiver;
 
 namespace MRF24J40 {
-    struct Mrf24j;
-    extern std::unique_ptr<Mrf24j> zigbee;
-    extern DATA::PACKET_RX buffer_receiver;
+    //struct Mrf24j;
+    
+    
 }
+
 
