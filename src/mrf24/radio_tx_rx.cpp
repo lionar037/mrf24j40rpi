@@ -109,7 +109,6 @@ namespace MRF24J40{
             monitor->insert( "rx data_receiver->mac : "         + hex_to_text( mac_address_rx )); 
             monitor->insert( "tx data_receiver->mac : "         + hex_to_text( mac_address_tx )); 
             monitor->insert( "buffer_receiver->head : "         + hex_to_text( buffer_receiver.head ));
-            //auto bs = (!buffer_receiver.size)&0xffff;
             monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
             monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
@@ -134,10 +133,7 @@ namespace MRF24J40{
         //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
-        RST_COLOR() ;   
-        //SET_COLOR(SET_COLOR_RED_TEXT);
-        
-        update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));
-    
+        RST_COLOR() ;           
+        update(reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data));    
     }//end rx
 }// end namespace
