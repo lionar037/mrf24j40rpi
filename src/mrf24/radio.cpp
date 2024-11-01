@@ -12,12 +12,14 @@
 #include <string_view>
 #include <zlib.h>  // Para usar crc32
 #include <string>
+#include <cstdint>
+#include <cstddef>
+
 
 
 namespace MRF24J40{ 
 
     std::unique_ptr<Mrf24j> zigbee ;
-    //struct DATA::packet_rx  buffer_receiver{};
     DATA::PACKET_RX buffer_receiver{};
 
     Radio_t::Radio_t() 
@@ -101,9 +103,27 @@ namespace MRF24J40{
     }
 
     uint32_t calculate_crc32(const uint8_t* data, size_t length) {
-    uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
-    crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
-    return crc;
+        uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
+        crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
+        return crc;
+    }
+
+
+    uint8_t calculate_crc8(const uint8_t* data, size_t length) {
+        uint8_t crc = 0x00;  // Inicialización del CRC
+
+        for (size_t i = 0; i < length; ++i) {
+            crc ^= data[i];  // XOR el byte actual con el CRC
+
+            for (uint8_t j = 0; j < 8; ++j) {  // Procesar cada bit del byte
+                if (crc & 0x80) {  // Si el bit más alto está encendido
+                    crc = (crc << 1) ^ 0x07;  // Desplazar y aplicar polinomio (0x07 es común para CRC-8)
+                } else {
+                    crc <<= 1;  // Solo desplazar si no es necesario aplicar el polinomio
+                }
+            }
+        }
+        return crc;  // Retornar el CRC de 8 bits
     }
 
     void Radio_t::Init(bool& flag) {
@@ -131,16 +151,13 @@ namespace MRF24J40{
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
             std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total :( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
             
-            uint32_t checksum =0 ;
+            uint8_t checksum calculate_crc8 (buff.data(), buff.size()); 
+
+            buffer_transmiter.checksum = (checksum + buffer_transmiter.size) & 0xff;
             
-
-            checksum += (calculate_crc32 (buff.data(), buff.size()) & 0xffffffff); 
-            checksum += (buffer_transmiter.size & 0xffffffff);
-
+            
             std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());
-
-            buffer_transmiter.checksum=checksum;
-            //const std::string  txto = print_to_hex(checksum);
+            
             std::cout<<"checksum : " << std::to_string(checksum)<<"\n";
  
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));

@@ -7,8 +7,7 @@
 #include <work/data_analisis.hpp>
 #include <qr/qr.hpp>
 
-#include <iostream>
-#include <memory>
+
 #include <mysql_driver.h>
 #include <mysql_connection.h>
 #include <cppconn/driver.h>
@@ -18,7 +17,8 @@
 #include <vector>
 #include <sstream>  // Para std::ostringstream
 #include <iomanip>  // Para std::hex y std::setfill
-
+#include <iostream>
+#include <memory>
 
 
 #ifdef USE_MAC_ADDRESS_LONG 
@@ -76,4 +76,6 @@ namespace MRF24J40{
             template<typename T>
             std::string hex_to_text(const T int_to_hex) ;
 
+
+            uint8_t calculate_crc8(const uint8_t* data, size_t length);
 }//end MRF24J40
