@@ -125,6 +125,7 @@ namespace MRF24J40{
         }
         return crc;  // Retornar el CRC de 8 bits
     }
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -162,8 +163,9 @@ namespace MRF24J40{
             std::cout<<"hex checksum : " <<hex_to_text(checksum);
  
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
-            std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
 
+            std::memcpy(vect.data(), &buffer_transmiter, vect.size()); // Copiar los datos de la estructura al vector
+            std::cout<<"( "<< std::to_string(vect.size() ) << " ) compare ( " <<std::to_string(sizeof(buffer_transmiter)) <<" ) \n";
 
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
 

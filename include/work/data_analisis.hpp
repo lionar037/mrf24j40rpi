@@ -11,9 +11,7 @@ namespace DATA{
     }MACADDRESS;
 
 
-    typedef struct packet_rx
-    {
-
+    typedef struct packet_rx{
         uint8_t ignore[4];
         uint16_t panid;                         
         uint32_t mac_lsb;
@@ -24,17 +22,15 @@ namespace DATA{
         uint16_t size;
         uint8_t data[107];                        
         uint8_t checksum;
-
     }PACKET_RX;
 
 
-    typedef struct packet_tx
-        {
+    typedef struct packet_tx{
             uint8_t head;            
             uint16_t size;
             uint8_t data[107];            
             uint8_t checksum;
-        }PACKET_TX;
+    }PACKET_TX;
 
 #pragma pack(pop)
 
