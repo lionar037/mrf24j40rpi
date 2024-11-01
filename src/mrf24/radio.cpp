@@ -151,7 +151,7 @@ namespace MRF24J40{
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
             std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total :( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
             
-            uint8_t checksum calculate_crc8 (buff.data(), buff.size()); 
+            uint8_t checksum = calculate_crc8 (buff.data(), buff.size()); 
 
             buffer_transmiter.checksum = (checksum + buffer_transmiter.size) & 0xff;
             
