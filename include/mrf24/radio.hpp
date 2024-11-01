@@ -1,7 +1,7 @@
 //radio.hpp
 
 #pragma once
-//#include <mrf24/mrf24j40.hpp>
+#include <mrf24/mrf24j40.hpp>
 
 #include <gpio/gpio.hpp>
 #include <file/database.hpp>
@@ -88,7 +88,7 @@ namespace MRF24J40{
 
 
 namespace MRF24J40 {
-    struct Mrf24j;
+    //struct Mrf24j;
     //extern DATA::PACKET_RX buffer_receiver;
     //extern std::unique_ptr<Mrf24j> zigbee;
 
