@@ -125,7 +125,9 @@ namespace MRF24J40{
         }
         return crc;  // Retornar el CRC de 8 bits
     }
-//#define MRF24_TRANSMITER_ENABLE
+
+
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -155,7 +157,7 @@ namespace MRF24J40{
             uint8_t checksum = calculate_crc8 (buff.data(), buff.size()); 
 
             buffer_transmiter.checksum = (checksum + buffer_transmiter.size) & 0xff;
-            
+            buffer_transmiter.end=0xff;
             
             std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());
             
@@ -228,8 +230,7 @@ namespace MRF24J40{
         qr->create_qr(packet_data2, infoQrTmp);
         monitor->insert( std::to_string(infoQrTmp.size()));
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
-        #endif
-                        
+        #endif                        
 
         fs->create(packet_data);
         std::cout<<"\n";
@@ -239,7 +240,8 @@ namespace MRF24J40{
     return ;    
     }
 
-    void handle_tx() {
+    void 
+    handle_tx() {
         #ifdef MRF24_TRANSMITER_ENABLE
         const auto status = zigbee->get_txinfo()->tx_ok;
             if (status) {
