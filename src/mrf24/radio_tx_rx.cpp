@@ -4,8 +4,8 @@
 //#include <mrf24/mrf24j40_template.tpp>
 //#include <qr/qr.hpp>
 //#include <file/file.hpp>
-//#include <display/color.hpp>
-//#include <work/rfflush.hpp>
+#include <display/color.hpp>
+#include <work/rfflush.hpp>
 #ifdef USE_OLED
     //#include <oled/oled.hpp>
 #endif
