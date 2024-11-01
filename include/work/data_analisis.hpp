@@ -23,7 +23,7 @@ namespace DATA{
         uint8_t head;
         uint16_t size;
         uint8_t data[107];                        
-        uint32_t checksum;
+        uint8_t checksum;
 
     }PACKET_RX;
 
@@ -33,7 +33,7 @@ namespace DATA{
             uint8_t head;            
             uint16_t size;
             uint8_t data[107];            
-            uint32_t checksum;
+            uint8_t checksum;
         }PACKET_TX;
 
 #pragma pack(pop)

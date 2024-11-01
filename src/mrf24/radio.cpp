@@ -158,7 +158,8 @@ namespace MRF24J40{
             
             std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());
             
-            std::cout<<"checksum : " << std::to_string(checksum)<<"\n";
+            std::cout<<"dec checksum : " << std::to_string(checksum)<<"\n";
+            std::cout<<"hex checksum : " <<hex_to_text(checksum);
  
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
             std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
@@ -305,14 +306,14 @@ namespace MRF24J40{
             monitor->insert(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO               
 
-            for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++) {
+            for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++){
                 //if (i<=21){
                 //    oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 //}
                 //else
-                {
-                    oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
-                }
+                //{
+                oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
+                //}
             }
             monitor->insert(oss_zigbee.str());
             oss_zigbee.str("");   // Limpiar el contenido

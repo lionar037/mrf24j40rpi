@@ -6,7 +6,7 @@
     #define USE_MRF24_RX
 #elif defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 8)
     // Si es de 64 bits
-    #define USE_MRF24_TX
+    #define USE_MRF24_RX
     #if defined(__APPLE__)
         // Si es macOS
         #undef USE_MRF24_RX    // Elimina la definición anterior
