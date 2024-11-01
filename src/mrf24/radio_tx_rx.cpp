@@ -19,6 +19,9 @@
 
 namespace MRF24J40{
 
+std::unique_ptr<Mrf24j> zigbee ;
+DATA::PACKET_RX buffer_receiver{};
+
     void 
     handle_tx() {
     #ifdef MRF24_TRANSMITER_ENABLE
