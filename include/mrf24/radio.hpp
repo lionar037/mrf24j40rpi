@@ -73,5 +73,7 @@ namespace MRF24J40{
 
             template<typename T>
             void print_to_hex(const T int_to_hex) ;
+            template<typename T>
+            std::string hex_to_text(const T int_to_hex) ;
 
 }//end MRF24J40
