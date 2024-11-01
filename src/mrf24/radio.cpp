@@ -1,7 +1,7 @@
 //radio.cpp
 #include <mrf24/radio.hpp>
 #include <mrf24/mrf24j40.hpp>
-//#include <mrf24/mrf24j40_template.tpp>
+#include <mrf24/mrf24j40_template.tpp>
 //#include <qr/qr.hpp>
 #include <file/file.hpp>
 #include <display/color.hpp>
@@ -219,34 +219,7 @@ extern DATA::PACKET_RX buffer_receiver;
     return ;    
     }
 
-    //@brief 
-    //@params
-    //@params        
-    template<typename T>
-    void print_to_hex(const T int_to_hex) {
-    // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.
-    std::cout << std::hex 
-              << std::setw(sizeof(T) * 2)  // Ancho basado en el tamaño del tipo de dato.
-              << std::setfill('0')         // Rellena con ceros si es necesario.
-              << +int_to_hex               // El símbolo '+' asegura que el tipo char se trate como número.
-              << "\n";
-}
 
-    template<typename T>
-    std::string hex_to_text(const T int_to_hex) {
-        // Crear un flujo de salida para construir la cadena hexadecimal.
-        std::ostringstream oss;
-
-        // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.
-        oss << std::hex 
-            << std::setw(sizeof(T) * 2)   // Ancho basado en el tamaño del tipo de dato.
-            << std::setfill('0')          // Rellena con ceros si es necesario.
-            << +int_to_hex;               // El símbolo '+' asegura que el tipo char se trate como número.
-
-        // Devolver la cadena construida.
-        return oss.str();
-    }
-    
         Radio_t::~Radio_t() {
             #ifdef DBG_RADIO
                 std::cout<<"~Radio_t()\n";

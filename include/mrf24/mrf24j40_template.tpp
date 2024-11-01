@@ -89,3 +89,44 @@ namespace MRF24J40
 
 
 }
+
+
+namespace MRF24J40
+{
+
+//template<typename T>
+//void print_to_hex(const T int_to_hex) ;
+//template<typename T>
+//std::string hex_to_text(const T int_to_hex) ;
+
+
+
+    //@brief 
+    //@params
+    //@params        
+    template<typename T>
+    void print_to_hex(const T int_to_hex) {
+    // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.
+    std::cout << std::hex 
+              << std::setw(sizeof(T) * 2)  // Ancho basado en el tamaño del tipo de dato.
+              << std::setfill('0')         // Rellena con ceros si es necesario.
+              << +int_to_hex               // El símbolo '+' asegura que el tipo char se trate como número.
+              << "\n";
+}
+
+    template<typename T>
+    std::string hex_to_text(const T int_to_hex) {
+        // Crear un flujo de salida para construir la cadena hexadecimal.
+        std::ostringstream oss;
+
+        // El tamaño en bytes del tipo de dato se multiplica por 2 para obtener el número de dígitos en hexadecimal.
+        oss << std::hex 
+            << std::setw(sizeof(T) * 2)   // Ancho basado en el tamaño del tipo de dato.
+            << std::setfill('0')          // Rellena con ceros si es necesario.
+            << +int_to_hex;               // El símbolo '+' asegura que el tipo char se trate como número.
+
+        // Devolver la cadena construida.
+        return oss.str();
+    }
+    
+}
