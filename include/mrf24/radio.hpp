@@ -69,16 +69,15 @@ namespace MRF24J40{
     };
 
 
-            template<typename T>
-            void print_to_hex(const T int_to_hex) ;
-            template<typename T>
-            std::string hex_to_text(const T int_to_hex) ;
+    template<typename T>
+    void print_to_hex(const T int_to_hex) ;
+    
+    template<typename T>
+    std::string hex_to_text(const T int_to_hex) ;
 
-            void update(std::string_view str_view);
-            const uint8_t calculate_crc8(const uint8_t* data, size_t length);
+    void update(std::string_view str_view);
+    const uint8_t calculate_crc8(const uint8_t* data, size_t length);
             
-
-
 }//end MRF24J40
 
 struct MRF24J40::Mrf24j;
