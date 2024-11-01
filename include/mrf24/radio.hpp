@@ -85,9 +85,9 @@ namespace MRF24J40{
 
 
 namespace MRF24J40 {
-    struct MRF24J40::Mrf24j;
-    extern MRF24J40::DATA::PACKET_RX buffer_receiver;
-    extern std::unique_ptr<MRF24J40::Mrf24j> zigbee;
+    struct Mrf24j;
+    extern DATA::PACKET_RX buffer_receiver;
+    extern std::unique_ptr<Mrf24j> zigbee;
 }
 
 
