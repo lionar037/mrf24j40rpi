@@ -129,9 +129,10 @@ namespace MRF24J40{
             
             //buffer_transmiter.size=(~buff.size())&0xffff ;
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
-            std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
+            std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total :( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";    
             
-            uint32_t checksum =0 ;//= calculate_crc32(reinterpret_cast<const char*>(buffer_transmiter.head));
+            uint32_t checksum =0 ;
+            
 
             checksum += (calculate_crc32 (buff.data(), buff.size()) & 0xffffffff); 
             checksum += (buffer_transmiter.size & 0xffffffff);
@@ -139,6 +140,7 @@ namespace MRF24J40{
             std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());
 
             buffer_transmiter.checksum=checksum;
+            std::cout<<"checksum : " << checksum << "\n";
 
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
             std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
