@@ -125,7 +125,7 @@ namespace MRF24J40{
         }
         return crc;  // Retornar el CRC de 8 bits
     }
-#define MRF24_TRANSMITER_ENABLE
+//#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
