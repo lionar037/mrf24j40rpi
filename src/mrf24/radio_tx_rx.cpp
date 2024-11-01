@@ -19,7 +19,7 @@
 
 namespace MRF24J40{
 
-std::unique_ptr<Mrf24j> zigbee ;
+std::unique_ptr<Mrf24j> zigbee = nullptr ;
 DATA::PACKET_RX buffer_receiver{};
 
     void 
