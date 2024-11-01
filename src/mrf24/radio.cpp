@@ -282,6 +282,7 @@ namespace MRF24J40{
         // Devolver la cadena construida.
         return oss.str();
     }
+    
     void 
     handle_rx() {
         
@@ -337,7 +338,10 @@ namespace MRF24J40{
             oss_zigbee.clear();   // Restablecer el estado
 
         #ifdef DBG_PRINT_GET_INFO                     
-          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
+          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
+          
+          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(zigbee->get_rxbuf()));
+
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
             monitor->insert (" " );
@@ -354,6 +358,9 @@ namespace MRF24J40{
             monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
             monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
+
+            monitor->insert( "buffer_receiver->ignore : "     + hex_to_text( buffer_receiver.ignore ));            
+            monitor->insert( "buffer_receiver->end : "     + hex_to_text( buffer_receiver.end ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));

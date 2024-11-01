@@ -22,6 +22,7 @@ namespace DATA{
         uint16_t size;
         uint8_t data[107];                        
         uint8_t checksum;
+        uint8_t end[8];
     }PACKET_RX;
 
 
