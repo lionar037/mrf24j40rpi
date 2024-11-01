@@ -95,21 +95,21 @@ namespace MRF24J40{
         }
     }
 
-    uint32_t calculate_crc32(const std::string& data) {
+    const uint32_t calculate_crc32(const std::string& data) {
         // CRC32 necesita un valor inicial (0xFFFFFFFF es el más común)
         uint32_t crc = crc32(0L, Z_NULL, 0);
         crc = crc32(crc, reinterpret_cast<const unsigned char*>(data.c_str()), data.size());
         return crc;
     }
 
-    uint32_t calculate_crc32(const uint8_t* data, size_t length) {
+    const uint32_t calculate_crc32(const uint8_t* data, size_t length) {
         uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
         crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
         return crc;
     }
 
 
-    uint8_t calculate_crc8(const uint8_t* data, size_t length) {
+    const uint8_t calculate_crc8(const uint8_t* data, size_t length) {
         uint8_t crc = 0x00;  // Inicialización del CRC
 
         for (size_t i = 0; i < length; ++i) {
