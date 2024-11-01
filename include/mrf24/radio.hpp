@@ -83,9 +83,9 @@ namespace MRF24J40{
     void handle_rx();
 }//end MRF24J40
 
-//struct MRF24J40::Mrf24j;
-//extern std::unique_ptr<MRF24J40::> zigbee;
-//extern MRF24J40::DATA::PACKET_RX buffer_receiver;
+struct MRF24J40::Mrf24j;
+extern std::unique_ptr<MRF24J40::> zigbee;
+extern MRF24J40::DATA::PACKET_RX buffer_receiver;
 
 namespace MRF24J40 {
     //struct Mrf24j;  
