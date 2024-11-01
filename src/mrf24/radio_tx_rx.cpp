@@ -83,8 +83,7 @@ namespace MRF24J40{
             monitor->insert("ASCII data (relevant data) :");
             monitor->insert("data_length : " + std::to_string(zigbee->rx_datalength()) );        
 
-        for (auto& byte : zigbee->get_rxinfo()->rx_data)        
-            {
+        for (auto& byte : zigbee->get_rxinfo()->rx_data){
                 if(byte!=0x00)oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
             monitor->insert("info_zigbee : " );
