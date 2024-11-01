@@ -140,8 +140,8 @@ namespace MRF24J40{
             std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());
 
             buffer_transmiter.checksum=checksum;
-            std::cout<<"checksum : " << checksum << "\n";
-
+            std::cout<<"checksum : " << print_to_hex(checksum);
+ 
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
             std::memcpy(vect.data(), &buffer_transmiter, sizeof(buffer_transmiter)); // Copiar los datos de la estructura al vector
 
