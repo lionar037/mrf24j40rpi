@@ -1,12 +1,13 @@
+//radio_tx_rx.cpp
 #include <mrf24/radio.hpp>
-#include <mrf24/mrf24j40.hpp>
-#include <mrf24/mrf24j40_template.tpp>
-#include <qr/qr.hpp>
-#include <file/file.hpp>
-#include <display/color.hpp>
-#include <work/rfflush.hpp>
+//#include <mrf24/mrf24j40.hpp>
+//#include <mrf24/mrf24j40_template.tpp>
+//#include <qr/qr.hpp>
+//#include <file/file.hpp>
+//#include <display/color.hpp>
+//#include <work/rfflush.hpp>
 #ifdef USE_OLED
-    #include <oled/oled.hpp>
+    //#include <oled/oled.hpp>
 #endif
 #include <string_view>
 #include <zlib.h>  // Para usar crc32
@@ -15,11 +16,6 @@
 #include <cstddef>
 
 
-
-namespace MRF24J40{
-    //extern std::unique_ptr<Mrf24j> zigbee ;
-    //extern DATA::PACKET_RX buffer_receiver;
-}
 
 namespace MRF24J40{
 
