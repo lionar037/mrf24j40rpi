@@ -93,9 +93,9 @@ namespace MRF24J40{
             oss_zigbee.clear();   // Restablecer el estado
 
         #ifdef DBG_PRINT_GET_INFO                     
-          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
+          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
           
-          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(zigbee->get_rxbuf()));
+          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(zigbee->get_rxbuf()));
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
