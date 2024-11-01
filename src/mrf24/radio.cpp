@@ -18,7 +18,8 @@
 
 
 namespace MRF24J40{ 
-
+extern std::unique_ptr<Mrf24j> zigbee ;
+extern DATA::PACKET_RX buffer_receiver;
 
     Radio_t::Radio_t() 
     #ifdef ENABLE_INTERRUPT_MRF24
