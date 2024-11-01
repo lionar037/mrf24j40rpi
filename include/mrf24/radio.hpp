@@ -77,5 +77,5 @@ namespace MRF24J40{
             std::string hex_to_text(const T int_to_hex) ;
 
 
-            uint8_t calculate_crc8(const uint8_t* data, size_t length);
+            const uint8_t calculate_crc8(const uint8_t* data, size_t length);
 }//end MRF24J40
