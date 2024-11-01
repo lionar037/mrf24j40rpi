@@ -77,8 +77,8 @@ namespace MRF24J40{
             void update(std::string_view str_view);
             const uint8_t calculate_crc8(const uint8_t* data, size_t length);
             
-            extern void handle_tx();
-            extern void handle_rx();
+            void handle_tx();
+            void handle_rx();
 
 }//end MRF24J40
 
