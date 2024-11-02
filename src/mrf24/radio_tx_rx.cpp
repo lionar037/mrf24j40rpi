@@ -7,7 +7,7 @@
 #include <display/color.hpp>
 #include <work/rfflush.hpp>
 #ifdef USE_OLED
-    //#include <oled/oled.hpp>
+    #include <oled/oled.hpp>
 #endif
 #include <string_view>
 #include <zlib.h>  // Para usar crc32

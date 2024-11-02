@@ -140,17 +140,16 @@ extern DATA::PACKET_RX buffer_receiver;
             std::vector<uint8_t>buff (msj_.size());
             std::memcpy(buff.data() , msj_.data() , msj_.size()); 
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
-            std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total :( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size : ( " << std::to_string(buff.size())  <<" )\n";                
-            uint8_t checksum = calculate_crc8 (buff.data(), buff.size()); 
-            buffer_transmiter.checksum = (checksum + buffer_transmiter.size) & 0xff;                        
-            std::memcpy(buffer_transmiter.data ,buff.data(),buff.size());            
-            std::cout<<"dec checksum : " << std::to_string(checksum)<<"\n";
-            std::cout<<"hex checksum : " <<hex_to_text(checksum);
+            std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size :  \n";                            
+            buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
+            std::memcpy(buffer_transmiter.data ,msj_.data(),msj_.size());            
+            std::cout<<"dec checksum : " << std::to_string(buffer_transmiter.checksum)<<"\n";
+            std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
             std::vector<uint8_t> vect(sizeof(buffer_transmiter));
             std::memcpy(vect.data(), &buffer_transmiter, vect.size()); // Copiar los datos de la estructura al vector
             std::cout<<"\n( "<< std::to_string(vect.size() ) << " ) compare ( " <<std::to_string(sizeof(buffer_transmiter)) <<" ) \n";
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
-            std::cout<<"\nTX Vect : size ( "<<  std::to_string(vect.size()) <<" , "<<sizeof(msj) << " )\n" ;
+            std::cout<<"\nTX Vect : size ( "<<  to_hex(vect.size()) <<" , "<<sizeof(msj) << " )\n" ;
             std::cout<<"\n" ;
         
         const std::string pf(msj);
