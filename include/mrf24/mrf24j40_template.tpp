@@ -130,7 +130,7 @@ namespace MRF24J40
     std::cout << std::hex 
               << std::setw(sizeof(T) * 2)  // Ancho basado en el tamaño del tipo de dato.
               << std::setfill('0')         // Rellena con ceros si es necesario.
-              << +int_to_hex               // El símbolo '+' asegura que el tipo char se trate como número.
+              << +int_to_hex    ;           // El símbolo '+' asegura que el tipo char se trate como número.
               //<< "\n";
     }
 
