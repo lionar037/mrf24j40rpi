@@ -120,6 +120,8 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
+#define MRF24_TRANSMITER_ENABLE
+
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
         const unsigned long current_time = 100000;//1000000 original
@@ -138,7 +140,7 @@ extern DATA::PACKET_RX buffer_receiver;
             
             std::string msj_ = MSJ;
             std::vector<uint8_t>buff (msj_.size());
-            std::memcpy(buff.data() , msj_.data() , msj_.size()); 
+            std::memcpy(buff.data() , msj_.data() , msj_.size());
             buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
             std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size :  \n";                            
             buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
@@ -153,13 +155,13 @@ extern DATA::PACKET_RX buffer_receiver;
             std::cout<<"\n" ;
         
         const std::string pf(msj);
-            
-        for(const auto& byte : pf) std::cout << byte ; 
+            //imprime lo que tendria en la salida del dispositivo zigbee
+        for(const auto& byte : vect) std::cout << byte ; 
             std::cout<<"\n" ;         
             
         uint64_t mac_address;
         zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-        std::cout<<"get address mac: " ;  print_to_hex(mac_address);
+        std::cout<<"local address mac: " ;  print_to_hex(mac_address);
             
             #ifdef MACADDR64
             zigbee->send(ADDRESS_LONG_SLAVE,vect);
