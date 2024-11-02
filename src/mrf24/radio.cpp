@@ -149,7 +149,7 @@ extern DATA::PACKET_RX buffer_receiver;
             std::memcpy(vect.data(), &buffer_transmiter, vect.size()); // Copiar los datos de la estructura al vector
             std::cout<<"\n( "<< std::to_string(vect.size() ) << " ) compare ( " <<std::to_string(sizeof(buffer_transmiter)) <<" ) \n";
             const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
-            std::cout<<"\nTX Vect : size ( "<<  to_hex(vect.size()) <<" , "<<sizeof(msj) << " )\n" ;
+            std::cout<<"\nTX Vect : size ( "<<  hex_to_text(vect.size()) <<" , "<<sizeof(msj) << " )\n" ;
             std::cout<<"\n" ;
         
         const std::string pf(msj);
