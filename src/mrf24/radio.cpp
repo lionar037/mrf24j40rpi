@@ -136,26 +136,26 @@ extern DATA::PACKET_RX buffer_receiver;
                 #endif
             #endif
 
-struct DATA::packet_tx buffer_transmiter{};
-buffer_transmiter.head=HEAD; 
+struct DATA::packet_tx bufferTransReceiver{};
+ 
 std::string msj_ = MSJ;
 
-std::memcpy(buffer_transmiter.data , msj_.data() , msj_.size());
-//buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
+std::memcpy(bufferTransReceiver.data , msj_.data() , msj_.size());
 //buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
-buffer_transmiter.checksum = calculate_crc8 (buffer_transmiter.data , buffer_transmiter.size ); 
-buffer_transmiter.size =  sizeof(buffer_transmiter.data) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
+bufferTransReceiver.head=HEAD;
+bufferTransReceiver.checksum = calculate_crc8 (static_cast<uint8_t>(bufferTransReceiver.data ),static_cast<uint8_t>(bufferTransReceiver.size)); 
+bufferTransReceiver.size =  sizeof(bufferTransReceiver.data) + sizeof(bufferTransReceiver.head) + sizeof(bufferTransReceiver.checksum) ;
 
 
 
 //std::vector<uint8_t>buff (msj_.size());
 //std::memcpy(buff.data() , msj_.data() , msj_.size());
             
-std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(buffer_transmiter.size) << " ) , budeffer size :  \n";                            
+std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
   
 //std::memcpy(buffer_transmiter.data ,msj_.data(),msj_.size());            
-std::cout<<"dec checksum : " << std::to_string(buffer_transmiter.checksum)<<"\n";
-std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
+std::cout<<"dec checksum : " << std::to_string(bufferTransReceiver.checksum)<<"\n";
+std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
 //std::vector<uint8_t> vect(sizeof(buffer_transmiter));
 //std::memcpy(vect.data(), &buffer_transmiter, vect.size()); // Copiar los datos de la estructura al vector
 //std::cout<<"\n( "<< std::to_string(vect.size() ) << " ) compare ( " <<std::to_string(sizeof(buffer_transmiter)) <<" ) \n";
@@ -168,9 +168,9 @@ std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
         std::cout<<"\nBUFFER : \n";
             //imprime lo que tendria en la salida del dispositivo zigbee            
         
-        std::vector<uint8_t> vect(sizeof(buffer_transmiter));
+        std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
 
-std::memcpy(vect.data(),&buffer_transmiter,vect.size());
+std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
 
         for(const auto& byte : vect) std::cout << byte ; 
             std::cout<<"\n" ;         
