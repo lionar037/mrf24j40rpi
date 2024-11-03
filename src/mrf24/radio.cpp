@@ -167,7 +167,9 @@ std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
 
         std::cout<<"\nBUFFER : \n";
             //imprime lo que tendria en la salida del dispositivo zigbee            
-        std::vector<uint8_t>vect(buffer_transmiter);
+        
+        std::vector<uint8_t> vect(sizeof(buffer_transmiter));
+
         for(const auto& byte : vect) std::cout << byte ; 
             std::cout<<"\n" ;         
             
