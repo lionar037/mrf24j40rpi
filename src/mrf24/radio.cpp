@@ -141,8 +141,11 @@ buffer_transmiter.head=HEAD;
 std::string msj_ = MSJ;
 
 std::memcpy(buffer_transmiter.data , msj_.data() , msj_.size());
-buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
+//buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
 buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
+buffer_transmiter.checksum = calculate_crc8 (buffer_transmiter.data , buffer_transmiter.size ); 
+
+
 //std::vector<uint8_t>buff (msj_.size());
 //std::memcpy(buff.data() , msj_.data() , msj_.size());
             
