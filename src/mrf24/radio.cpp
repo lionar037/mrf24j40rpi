@@ -142,8 +142,10 @@ std::string msj_ = MSJ;
 
 std::memcpy(buffer_transmiter.data , msj_.data() , msj_.size());
 //buffer_transmiter.checksum = calculate_crc8 (buff.data(), buff.size()); 
-buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
+//buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
 buffer_transmiter.checksum = calculate_crc8 (buffer_transmiter.data , buffer_transmiter.size ); 
+buffer_transmiter.size =  sizeof(buffer_transmiter.data) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
+
 
 
 //std::vector<uint8_t>buff (msj_.size());
@@ -164,8 +166,9 @@ std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
         //const std::string pf(msj);
 
         std::cout<<"\nBUFFER : \n";
-            //imprime lo que tendria en la salida del dispositivo zigbee
-        for(const auto& byte : buffer_transmiter) std::cout << byte ; 
+            //imprime lo que tendria en la salida del dispositivo zigbee            
+        std::vector<uint8_t>vect(buffer_transmiter);
+        for(const auto& byte : vect) std::cout << byte ; 
             std::cout<<"\n" ;         
             
         uint64_t mac_address;
