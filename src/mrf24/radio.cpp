@@ -170,7 +170,7 @@ std::cout<<"hex checksum : " <<hex_to_text(buffer_transmiter.checksum);
         
         std::vector<uint8_t> vect(sizeof(buffer_transmiter));
 
-std::memcpy(vect.data(),buffer_transmiter,vect.size());
+std::memcpy(vect.data(),&buffer_transmiter,vect.size());
 
         for(const auto& byte : vect) std::cout << byte ; 
             std::cout<<"\n" ;         
