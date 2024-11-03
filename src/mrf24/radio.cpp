@@ -143,7 +143,7 @@ std::string msj_ = MSJ;
 std::memcpy(bufferTransReceiver.data , msj_.data() , msj_.size());
 //buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
 bufferTransReceiver.head=HEAD;
-bufferTransReceiver.checksum = calculate_crc8 ( reinterpret_cast<const uint8_t >(bufferTransReceiver.data ) , sizeof(bufferTransReceiver.data)); 
+bufferTransReceiver.checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(bufferTransReceiver.data ) , sizeof(bufferTransReceiver.data)); 
 bufferTransReceiver.size =  sizeof(bufferTransReceiver.data) + sizeof(bufferTransReceiver.head) + sizeof(bufferTransReceiver.checksum) ;
 
 
