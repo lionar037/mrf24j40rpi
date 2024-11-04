@@ -93,6 +93,9 @@ DATA::PACKET_RX buffer_receiver{};
         for (auto& byte : zigbee->get_rxinfo()->rx_data){                
                 oss_zigbee << byte;
             }
+
+            monitor->insert(" " );
+            monitor->insert(" " );
             monitor->insert("info_zigbee : " );
             monitor->insert( oss_zigbee.str());        
             oss_zigbee.str("");   // Limpiar el contenido
