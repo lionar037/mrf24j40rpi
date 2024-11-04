@@ -120,7 +120,7 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-#define MRF24_TRANSMITER_ENABLE
+//#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -141,32 +141,17 @@ struct DATA::packet_tx bufferTransReceiver{};
 std::string msj_ = MSJ;
 
 std::memcpy(bufferTransReceiver.data , msj_.data() , msj_.size());
-//buffer_transmiter.size = static_cast<uint16_t>(buff.size()) + sizeof(buffer_transmiter.head) + sizeof(buffer_transmiter.checksum) ;
 bufferTransReceiver.head=HEAD;
 bufferTransReceiver.checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(bufferTransReceiver.data ) , sizeof(bufferTransReceiver.data)); 
 bufferTransReceiver.size =  sizeof(bufferTransReceiver.data) + sizeof(bufferTransReceiver.head) + sizeof(bufferTransReceiver.checksum) ;
-
-
-
-//std::vector<uint8_t>buff (msj_.size());
-//std::memcpy(buff.data() , msj_.data() , msj_.size());
             
 std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
   
-//std::memcpy(buffer_transmiter.data ,msj_.data(),msj_.size());            
 std::cout<<"dec checksum : " << std::to_string(bufferTransReceiver.checksum)<<"\n";
 std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
-//std::vector<uint8_t> vect(sizeof(buffer_transmiter));
-//std::memcpy(vect.data(), &buffer_transmiter, vect.size()); // Copiar los datos de la estructura al vector
-//std::cout<<"\n( "<< std::to_string(vect.size() ) << " ) compare ( " <<std::to_string(sizeof(buffer_transmiter)) <<" ) \n";
-//const char* msj = reinterpret_cast<const char* >(&buffer_transmiter);
-//std::cout<<"\nTX Vect : size ( "<<  hex_to_text(vect.size()) <<" , "<<sizeof(msj) << " )\n" ;
-//std::cout<<"\n" ;
-        
-        //const std::string pf(msj);
 
         std::cout<<"\nBUFFER : \n";
-            //imprime lo que tendria en la salida del dispositivo zigbee            
+        //imprime lo que tendria en la salida del dispositivo zigbee            
         
         std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
 
