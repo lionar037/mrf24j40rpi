@@ -143,7 +143,7 @@ void Radio_t::Init(bool& flag) {
             size_t total_size = buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
 
             // Configuración del paquete de transmisión
-            struct DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(total_size), {}, checksum };
+            struct DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(total_size), checksum ,{} };
             std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
 
             // Información de depuración opcional
