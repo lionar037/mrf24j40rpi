@@ -136,10 +136,13 @@ extern DATA::PACKET_RX buffer_receiver;
                 #endif
             #endif
         const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
-        
+
+        // Acortar a los primeros 100 caracteres
+        const std::string msj_to_zb_short = msj_to_zb.substr(0, 100);
+
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , msj_to_zb.size()); 
 
-        std::vector <uint8_t> buffer_zb (msj_to_zb.begin() , msj_to_zb.end());
+        std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
         
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum};
         

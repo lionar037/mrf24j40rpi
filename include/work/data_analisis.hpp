@@ -28,10 +28,10 @@ namespace DATA{
 //total 116 Max de para  short Address //112
 
     typedef struct packet_tx{
-            uint8_t head;            
-            uint16_t size;            
-            uint8_t data[MAX_PACKET_TX];            
-            uint8_t checksum;
+            uint8_t head;                   //1 : byte    
+            uint16_t size;                  //2 : byte      
+            uint8_t data[MAX_PACKET_TX];    //100 : byte               
+            uint8_t checksum;               //1 : byte    
         
     }PACKET_TX;
 
