@@ -205,7 +205,7 @@ namespace MRF24J40{
             // printf(" frame length : %d \n",frame_length);
             // printf(" rx datalength : %d \n",rx_datalength());
 
-            for(uint16_t i = 0; i < frame_length ; ++i) {//original
+            for(uint16_t i = 0; i < frame_length ; i++) {//original
             //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
