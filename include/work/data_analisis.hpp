@@ -20,18 +20,18 @@ namespace DATA{
         uint32_t mac_msb_rx;     
         uint8_t head;
         uint16_t size;        
-        uint8_t data[107];                                
+        uint8_t data[103];                                
         uint8_t checksum;
-        uint8_t end;
+        
     }PACKET_RX;
 
 
     typedef struct packet_tx{
             uint8_t head;            
             uint16_t size;            
-            uint8_t data[107];            
+            uint8_t data[103];            
             uint8_t checksum;
-            uint8_t end;
+        
     }PACKET_TX;
 
 #pragma pack(pop)
