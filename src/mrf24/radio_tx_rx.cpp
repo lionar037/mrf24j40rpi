@@ -139,12 +139,12 @@ DATA::PACKET_RX buffer_receiver{};
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->insert("LQI : " + std::to_string (zigbee->get_rxinfo()->lqi) );
             monitor->insert("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) );
-monitor->insert( " " );
-monitor->insert( " " );
+//monitor->insert( " " );
+//monitor->insert( " " );
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-            monitor->insert( "sizeof - buffer_receiverRX.panid : "  +  std::to_string(sizeof(buffer_receiver.panid) ) );
-            monitor->insert( "sizeof - buffer_receiverRX.size : "  +  std::to_string(sizeof(buffer_receiver.size) ) );
+            //monitor->insert( "sizeof - buffer_receiverRX.panid : "  +  std::to_string(sizeof(buffer_receiver.panid) ) );
+            //monitor->insert( "sizeof - buffer_receiverRX.size : "  +  std::to_string(sizeof(buffer_receiver.size) ) );
             
                 
 
