@@ -58,6 +58,8 @@
     //#define MRF24_RECEIVER_ENABLE
     //#define ENABLE_INTERRUPT_MRF24
     #define CHANNEL 24
+
+
 #elif defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667701
     #define ADDRESS_LONG_SLAVE  0x1122334455667702
@@ -67,6 +69,7 @@
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
     #define CHANNEL 24
+    
 #else
     #error "no se configuro el dispositivo"
 #endif
@@ -103,6 +106,13 @@
 #endif
 
 
+#ifdef USE_MAC_ADDRESS_LONG
+    #define MAX_PACKET_TX 100//size packet max : 127 - buffer extra : 23 - buffer vect add : 4 
+#else
+    #define MAX_PACKET_TX 112//size packet max : 127 - buffer extra : 11 - buffer vect add : 4 
+#endif
+
+
 //config MRF24J40
 #define ADD_RSSI_AND_LQI_TO_PACKET
 #define MRF24J40_DISABLE_AUTOMATIC_ACK
@@ -111,3 +121,4 @@
 #define MRF24J40_ACCEPT_WRONG_CRC_PKT
 #define MRF24J40_PROMISCUOUS_MODE
 #define INT_POLARITY_HIGH
+

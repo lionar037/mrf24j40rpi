@@ -17,7 +17,9 @@ namespace MRF24J40{
 
 typedef struct _rx_info_t{
     uint8_t         frame_length         ;
-    uint8_t         rx_data         [116]; //max data length = (127 aMaxPHYPacketSize - 2 Frame control - 1 sequence number - 2 panid - 2 shortAddr Destination - 2 shortAddr Source - 2 FCS)
+    //max data length = (127 aMaxPHYPacketSize - 2 Frame control - 1 sequence number - 2 panid - 2 shortAddr Destination - 2 shortAddr Source - 2 FCS)  //2+2+2+2+1+2
+    //max data length = (127 aMaxPHYPacketSize - 2 Frame control - 1 sequence number - 2 panid - 8 longAddr Destination - 8 longAddr Source - 2 FCS)    //8+8+2+2+1+2
+    uint8_t         rx_data         [116]; 
     uint8_t         lqi                  ;
     uint8_t         rssi                 ;
 } rx_info_t;
