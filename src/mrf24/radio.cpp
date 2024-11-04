@@ -145,7 +145,7 @@ extern DATA::PACKET_RX buffer_receiver;
         //}PACKET_TX;            
 
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
-        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),MSJ,checksum,{}};
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),MSJ,checksum,0xff};
         
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
