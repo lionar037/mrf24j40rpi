@@ -144,21 +144,12 @@ extern DATA::PACKET_RX buffer_receiver;
 //        uint8_t end;
 //}PACKET_TX;            
 
-auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
-
-struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ),MSJ,checksum,{}};
- 
-        //std::string msj_ = MSJ;
-        //std::memcpy(bufferTransReceiver.data , msj_.data() , msj_.size());
-        //bufferTransReceiver.head=HEAD;
-        //bufferTransReceiver.size =  sizeof(bufferTransReceiver.data) + sizeof(bufferTransReceiver.head) + sizeof(bufferTransReceiver.checksum) ;
-            
+        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ),MSJ,checksum};
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
-
-        std::cout<<"dec checksum : " << std::to_string(bufferTransReceiver.checksum)<<"\n";
+        std::cout<<"dec checksum : " << std::to_string(sizeof(MSJ))<<"\n";
         std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
-
-        std::cout<<"\nBUFFER : \n";
+        std::cout<<"\nBuffer Send : \n";
         //imprime lo que tendria en la salida del dispositivo zigbee            
         
         std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
