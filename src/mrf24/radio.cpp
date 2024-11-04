@@ -135,27 +135,17 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-        
-        //typedef struct packet_tx{
-        //        uint8_t head;            
-        //        uint16_t size;
-        //        uint8_t data[107];            
-        //        uint8_t checksum;
-        //        uint8_t end;
-        //}PACKET_TX;            
 
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
-        const uint32_t cf = 0x12347f7f;
-        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),MSJ,{0x1f},0xff};
+        
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),MSJ,0x1f};
         
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
         std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
-
         std::cout<<"\nBuffer Send : \n";
 
-        //imprime lo que tendria en la salida del dispositivo zigbee            
-        
+        //imprime lo que tendria en la salida del dispositivo zigbee                    
         std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
         std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
 
@@ -167,9 +157,7 @@ extern DATA::PACKET_RX buffer_receiver;
         std::cout<<"local address mac: " ;  print_to_hex(mac_address);
             
             #ifdef MACADDR64
-            zigbee->send(ADDRESS_LONG_SLAVE,vect);
-            //zigbee->send64(ADDRESS_LONG_SLAVE, buffer_transmiter);
-            
+            zigbee->send(ADDRESS_LONG_SLAVE,vect);            
             #elif defined(MACADDR16)
                 zigbee->send(ADDR_SLAVE, vect);                                
             #endif
