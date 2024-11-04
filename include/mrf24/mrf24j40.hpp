@@ -84,11 +84,9 @@ struct Mrf24j
                     * Set PA/LNA external control
                     */
         void                 set_palna(const bool);
-       // void                 send16(uint16_t ,const char*);
         template <typename T>
         void                    send_template(uint64_t, const T&) ;
 
-        //void                    send(const uint64_t ,const std::string& );
         void                    send(const uint64_t , const std::vector<uint8_t>) ;
         void                    send64(const uint64_t , const struct DATA::packet_tx);
         void                    interrupt_handler(void);
@@ -101,6 +99,7 @@ struct Mrf24j
         void                    reset_rf_state_machine(void);
         void                    flush_rx_fifo(void);
         void                    mrf24j40_set_tx_power(uint8_t&);
+
     public:    
         void                    mrf24j40_get_extended_mac_addr(uint64_t *);
         void                    mrf24j40_get_short_mac_addr(uint16_t *);
@@ -115,11 +114,9 @@ struct Mrf24j
             const int m_bytes_FCS {2}; // FCS length = 2
             const int m_bytes_nodata { }; // no_data bytes in PHY payload,  header length + FCS
 
-            //volatile uint8_t m_flag_got_rx{};
-                // Cambia el tipo de m_flag_got_rx a std::atomic
+            // Cambia el tipo de m_flag_got_rx a std::atomic
             std::atomic<uint8_t> m_flag_got_rx{};
             std::atomic<uint8_t> m_flag_got_tx{};
-            //volatile uint8_t m_flag_got_tx{};
     };
 }
 

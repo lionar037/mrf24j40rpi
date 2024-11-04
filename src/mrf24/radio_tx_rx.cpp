@@ -64,13 +64,7 @@ DATA::PACKET_RX buffer_receiver{};
             #ifdef DBG_PRINT_GET_INFO               
 
             for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); ++i){
-                //if (i<=21){
-                //    oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
-                //}
-                //else
-                //{
                 oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
-                //}
             }
             monitor->insert(oss_zigbee.str());
             oss_zigbee.str("");   // Limpiar el contenido
@@ -144,12 +138,12 @@ DATA::PACKET_RX buffer_receiver{};
 //monitor->insert( " " );
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-            std::string tc(sizeof(buffer_receiver.data));
-tc = reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data);
-            monitor->insert( "Data : "  +  tc.c_str());
-            //monitor->insert( "sizeof - buffer_receiverRX.panid : "  +  std::to_string(sizeof(buffer_receiver.panid) ) );
-            //monitor->insert( "sizeof - buffer_receiverRX.size : "  +  std::to_string(sizeof(buffer_receiver.size) ) );
-            
+  //          std::string tc(sizeof(buffer_receiver.data));
+//tc = reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data);
+//
+
+            //monitor->insert( "Data : "  +  tc.c_str());
+    
                 
 
         //imprime todo los datos obtenidos
