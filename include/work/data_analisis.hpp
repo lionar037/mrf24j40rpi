@@ -20,8 +20,8 @@ namespace DATA{
         uint32_t mac_msb_rx;     
         uint8_t head;
         uint16_t size;
-        uint8_t data[107];                        
         uint8_t checksum;
+        uint8_t data[107];                                
         //uint32_t end;
     }PACKET_RX;
 
@@ -29,8 +29,9 @@ namespace DATA{
     typedef struct packet_tx{
             uint8_t head;            
             uint16_t size;
-            uint8_t data[107];            
             uint8_t checksum;
+            uint8_t data[107];            
+            
             //uint32_t end;
     }PACKET_TX;
 
