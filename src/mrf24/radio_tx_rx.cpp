@@ -127,7 +127,7 @@ DATA::PACKET_RX buffer_receiver{};
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
-            monitor->insert( "data_receiver->data ( "   + sizeof(buffer_receiver.data) + " ) : "      + txt_tmp );
+            monitor->insert( "data_receiver->data ( "   + std::to_string(sizeof(buffer_receiver.data))+ " ) : "      + txt_tmp );
 
             //obtiene la direccion de mac seteada en el mrf24j40
             uint64_t mac_address;
