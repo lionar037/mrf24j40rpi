@@ -143,7 +143,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         
 
-        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,{},0x1f};
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum,0x1f};
         
         std::memcpy(bufferTransReceiver.data,t.c_str(),t.size());
 
