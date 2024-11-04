@@ -98,7 +98,6 @@ DATA::PACKET_RX buffer_receiver{};
 
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
-          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(zigbee->get_rxbuf()));
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
@@ -115,9 +114,7 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
             monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
-
-            monitor->insert( "buffer_receiver->ignore : "       + hex_to_text( buffer_receiver.ignore ));            
-            //monitor->insert( "buffer_receiver->end : "          + hex_to_text( buffer_receiver.end ));            
+            monitor->insert( "buffer_receiver->end : "     + hex_to_text( buffer_receiver.end ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
@@ -134,18 +131,9 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) );
             monitor->insert("Frame Length : " + std::to_string(zigbee->get_rxinfo()->frame_length) );
             
-//monitor->insert( " " );
-//monitor->insert( " " );
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-  //          std::string tc(sizeof(buffer_receiver.data));
-//tc = reinterpret_cast<const char*>(zigbee->get_rxinfo()->rx_data);
-//
-
-            //monitor->insert( "Data : "  +  tc.c_str());
-    
-                
-
+                        
         //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
