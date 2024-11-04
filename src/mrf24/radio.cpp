@@ -144,7 +144,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
         
-        auto max = sizeof(buffer_zb) + sizeof(HEAD) + sizeof(checksum);
+        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
 
         struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , { } , checksum};
         
