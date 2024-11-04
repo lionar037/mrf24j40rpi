@@ -443,10 +443,6 @@ namespace MRF24J40{
          i+=ignoreBytes;
 
         for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
-
-std::cout<<"\nDatos enviados : \n";
-        for(const auto& byte : pf) std::cout<<byte;
-std::cout<<"\n";
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
