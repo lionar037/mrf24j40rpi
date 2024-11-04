@@ -120,7 +120,7 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-//#define MRF24_TRANSMITER_ENABLE
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -135,17 +135,18 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-        const std::string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
         
-        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , t.size()); 
+        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , msj_to_zb.size()); 
 
-        std::vector <uint8_t> f (t.begin() , t.end());
+        std::vector <uint8_t> buffer_zb (msj_to_zb.begin() , msj_to_zb.end());
 
         
 
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum,0x1f};
         
-        std::memcpy(bufferTransReceiver.data,f.c_str(),t.size());
+        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
+        
 
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
