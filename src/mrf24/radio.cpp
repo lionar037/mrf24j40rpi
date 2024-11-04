@@ -139,13 +139,13 @@ extern DATA::PACKET_RX buffer_receiver;
         
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , t.size()); 
 
-        std::vector <uint8_t> f (t.size());
+        std::vector <uint8_t> f (t.begin() , t.end());
 
         
 
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum,0x1f};
         
-        std::memcpy(bufferTransReceiver.data,t.c_str(),t.size());
+        std::memcpy(bufferTransReceiver.data,f.c_str(),t.size());
 
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
