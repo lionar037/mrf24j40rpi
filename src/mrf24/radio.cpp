@@ -152,7 +152,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         //imprime lo que tendria en la salida del dispositivo zigbee                    
         std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
-        //std::memset(vect.data(),0xff,vect.size());
+
         std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
 
         for(const auto& byte : vect) std::cout << byte ; 
