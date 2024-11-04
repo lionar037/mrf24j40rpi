@@ -141,7 +141,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         std::vector <uint8_t> buffer_zb (msj_to_zb.begin() , msj_to_zb.end());
         
-        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum,0x1f};
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),{},checksum};
         
         std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
         
