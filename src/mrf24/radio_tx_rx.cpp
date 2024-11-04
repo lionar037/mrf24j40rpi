@@ -144,7 +144,7 @@ DATA::PACKET_RX buffer_receiver{};
 //monitor->insert( " " );
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-            monitor->insert( "Data : "  + zigbee->get_rxinfo()->rx_data);
+            monitor->insert( "Data : "  + reinterpret_cast<const char *> (zigbee->get_rxinfo()->rx_data));
             //monitor->insert( "sizeof - buffer_receiverRX.panid : "  +  std::to_string(sizeof(buffer_receiver.panid) ) );
             //monitor->insert( "sizeof - buffer_receiverRX.size : "  +  std::to_string(sizeof(buffer_receiver.size) ) );
             
