@@ -122,62 +122,59 @@ extern DATA::PACKET_RX buffer_receiver;
 
 //#define MRF24_TRANSMITER_ENABLE
 
-void Radio_t::Init(bool& flag) {
-    // Actualización de estado a través del controlador Zigbee
-    flag = zigbee->check_flags(&handle_rx, &handle_tx);
-    const unsigned long current_time = 100000;  // Tiempo actual simulado para el ejemplo
-
-    if (current_time - last_time > tx_interval) {
-        last_time = current_time;
-
+    void Radio_t::Init(bool& flag) {
+        flag = zigbee->check_flags(&handle_rx, &handle_tx);
+        const unsigned long current_time = 100000;//1000000 original
+        if (current_time - last_time > tx_interval) {
+            last_time = current_time;
         #ifdef MRF24_TRANSMITER_ENABLE
-            // Mensaje de transmisión configurado a 100 caracteres
-            const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
-            const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
-
-            // Cálculo de checksum
-            uint8_t checksum = calculate_crc8(reinterpret_cast<const uint8_t*>(msj_to_zb_short.c_str()), msj_to_zb_short.size());
-
-            // Creación del buffer de transmisión
-            std::vector<uint8_t> buffer_zb(msj_to_zb_short.begin(), msj_to_zb_short.end());
-            size_t total_size = buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
-
-            // Configuración del paquete de transmisión
-            struct DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(total_size), checksum ,{} };
-            std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
-
-            // Información de depuración opcional
             #ifdef DBG_RADIO
-                std::cout << "\nTotal packet size: " << bufferTransReceiver.size << ", Buffer size: " << buffer_zb.size() << "\n";
-                std::cout << "Checksum (hex): " << hex_to_text(bufferTransReceiver.checksum) << "\n";
-                std::cout << "Sending Buffer:\n";
+                #ifdef MACADDR64
+                    std::cout<<"send msj 64() ... \n";
+                #else
+                    std::cout<<"send msj 16() ... \n";
+                #endif
             #endif
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
 
-            // Convertir bufferTransReceiver en un vector para enviar
-            std::vector<uint8_t> transmission_buffer(sizeof(bufferTransReceiver));
-            std::memcpy(transmission_buffer.data(), &bufferTransReceiver, transmission_buffer.size());
+        // Acortar a los primeros 100 caracteres
+        const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
 
-            // Mostrar el contenido del buffer en hexadecimal
-            for (const auto& byte : transmission_buffer) {
-                std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ' ';
-            }
-            std::cout << std::endl;
+        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
 
-            // Envío del paquete según la configuración de dirección
-            uint64_t mac_address;
-            zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-            std::cout << "Local MAC address: "; 
-            print_to_hex(mac_address);
+        std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
+        
+        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
 
+        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , checksum ,{ } };
+        
+        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
+        
+        std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
+        std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
+        std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
+        std::cout<<"\nBuffer Send : \n";
+
+        //imprime lo que tendria en la salida del dispositivo zigbee                    
+        std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
+
+        std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
+
+        for(const auto& byte : vect) std::cout << byte ; 
+            std::cout<<"\n" ;         
+            
+        uint64_t mac_address;
+        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+        std::cout<<"local address mac: " ;  print_to_hex(mac_address);
+            
             #ifdef MACADDR64
-                zigbee->send(ADDRESS_LONG_SLAVE, transmission_buffer);
+            zigbee->send(ADDRESS_LONG_SLAVE,vect);            
             #elif defined(MACADDR16)
-                zigbee->send(ADDR_SLAVE, transmission_buffer);
+                zigbee->send(ADDR_SLAVE, vect);                                
             #endif
         #endif
+        }
     }
-}
-
 
     void Radio_t::interrupt_routine() {
         zigbee->interrupt_handler(); // mrf24 object interrupt routine
