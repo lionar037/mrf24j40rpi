@@ -151,7 +151,7 @@ extern DATA::PACKET_RX buffer_receiver;
         std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
         
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
-        std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
+        std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
         std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
         std::cout<<"\nBuffer Send : \n";
 
