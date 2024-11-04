@@ -6,10 +6,12 @@
 #include <work/data_analisis.hpp>
 #include <spi/spi.hpp>
 
+//aMaxPHYPacketSize
+#define A_MAX_PHY_PACKET_SIZE 127
 
 namespace MRF24J40{
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.
-    static uint8_t rx_buf[127];
+    static uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
 
     static int ignoreBytes { 0 }; // bytes to ignore, some modules behaviour.
     static bool bufPHY { false }; // flag to buffer all bytes in PHY Payload, or not
@@ -31,13 +33,12 @@ namespace MRF24J40{
             // 0 top for short addressing, 0 bottom for read
         const uint8_t tmp = (address<<1 & 0b01111110);
         const uint8_t ret = prt_spi->Transfer2bytes(tmp); // envia 16 , los mas significativos en 0x00 , los menos significativos envia el comando
-//printf("2:0x%x ",ret);
         return ret;
     }
 
     void 
     Mrf24j::write_short(const uint8_t address,const uint8_t data) {
-            // 0 for top short address, 1 bottom for write
+    // 0 for top short address, 1 bottom for write
     const uint16_t lsb_tmp = ( (address<<1 & 0b01111110) | 0x01 ) | (data<<8);
         prt_spi->Transfer2bytes(lsb_tmp);
         return;
@@ -50,10 +51,7 @@ namespace MRF24J40{
         const uint8_t msb_address = (address << 5) & 0xE0;//0xe0
 
         const uint32_t tmp = ( (0x80 | lsb_address) | (msb_address <<8) ) &  0x0000ffff;
-	  //  const uint8_t ret = 
        return prt_spi->Transfer3bytes(tmp);
-        
-    //return ret;
     }
 
     void 
@@ -62,7 +60,7 @@ namespace MRF24J40{
         const uint8_t msb_address = (address << 5) & 0xE0;
         const uint32_t comp = ( (0x80 | lsb_address) | ( (msb_address | 0x10) << 8 ) | (data<<16) ) & 0xffffff;
         prt_spi->Transfer3bytes(comp);
-        return;
+        //return;
     }
 
     const uint16_t 
@@ -93,7 +91,6 @@ namespace MRF24J40{
         write_short(MRF_EADR2,(addressLong>>16)&0xff);
         write_short(MRF_EADR1,(addressLong>>8 )&0xff);
         write_short(MRF_EADR0,(addressLong)&0xff);
-    //return ;
     }
 
     const  uint16_t 
@@ -128,8 +125,8 @@ namespace MRF24J40{
         write_short(MRF_INTCON, 0b11110110);
     }
 
-            /** use the 802.15.4 channel numbers..
-            */
+    /** use the 802.15.4 channel numbers..
+    */
     void 
     Mrf24j::set_channel(const uint8_t channel) {
         write_long(MRF_RFCON0, (((channel - 11) << 4) | 0x03));
@@ -223,7 +220,7 @@ namespace MRF24J40{
             //m_flag_got_tx++;
             m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
             const uint8_t tmp = read_short(MRF_TXSTAT);
-                // 1 means it failed, we want 1 to mean it worked.
+            // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
             tx_info.retries = tmp >> 6;
             tx_info.channel_busy = (tmp & (1 << CCAFAIL));
@@ -349,19 +346,16 @@ namespace MRF24J40{
 
     void 
     Mrf24j::pinMode(const int i,const bool b){
-    //return;
     }
 
     void 
     Mrf24j::digitalWrite(const int i,const bool b){
-    //return;
     }
 
     void 
     Mrf24j::delay(const uint16_t t){
         TYME::Time_t time ;
         time.delay_ms(t);
-    //return;
     }
 
     void 
@@ -458,13 +452,14 @@ namespace MRF24J40{
         const uint8_t len =sizeof(packet_tx.data);
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
-                        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
-                        // default: ignoreBytes = 0;
+
+        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
+        // default: ignoreBytes = 0;
         write_long(i++, m_bytes_MHR+ignoreBytes+len);//9 + 2 + tamaño del paquete
 
-                        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
+        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
         write_long(i++, 0b01100001); // first byte of Frame Control
-                        // 16 bit source, 802.15.4 (2003), 16 bit dest,
+        // 16 bit source, 802.15.4 (2003), 16 bit dest,
         write_long(i++, 0b10001000); // second byte of frame control
         write_long(i++, 1);  // sequence number 1
 
@@ -477,27 +472,11 @@ namespace MRF24J40{
         
         //direccion de destino a enviar el mensaje
         set_macaddress64(i, dest64 );
-        //write_long(i++, (dest64 >> 56 ) & 0xff);
-        //write_long(i++, (dest64 >> 48 ) & 0xff);
-        //write_long(i++, (dest64 >> 40 ) & 0xff);
-        //write_long(i++, (dest64 >> 32 ) & 0xff);
-        //write_long(i++, (dest64 >> 24 ) & 0xff);
-        //write_long(i++, (dest64 >> 16 ) & 0xff);
-        //write_long(i++, (dest64 >> 8  ) & 0xff);
-        //write_long(i++, dest64  & 0xff); // uint64_t
-       
+
         //lee la direccion mac de 64 bits obtenida
         //const uint64_t origin_64 = address64_read();
 
         set_macaddress64(i, address64_read() );
-        //write_long(i++, origin_64  & 0xff ); // uint64_t
-        //write_long(i++, (origin_64 >> 56 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 48 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 40 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 32 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 24 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 16 ) & 0xff); 
-        //write_long(i++, (origin_64 >> 8  ) & 0xff); 
 
 #include <mrf24/mrf24j40._microchip.hpp>
         write_long(RFCTRL2,0x80);
@@ -506,18 +485,10 @@ namespace MRF24J40{
         //2 bytes on FCS appended by TXMAC
         i+=ignoreBytes;
 
-                //for(const auto& byte : static_cast<const char *>(buf.head) )
-                // for(const auto& byte : static_cast<const char *>(buf.size) )
-        //write_long(i++,packet_tx.head);        
-                //write_long(i++,buf.head&0xff);
-                //write_long(i++,(buf.head>>8)&0xff);
-
         std::vector<uint8_t> vect(sizeof(packet_tx));
         std::memcpy(vect.data(), &packet_tx, sizeof(packet_tx)); // Copiar los datos de la estructura al vector
 
         for(const auto& byte : vect)write_long(i++,byte);
-        //write_long(i++,packet_tx.checksum>>8);
-        //write_long(i++,packet_tx.checksum&0xff);
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));        
         mode_turbo();
@@ -551,8 +522,7 @@ namespace MRF24J40{
     }
 
     void
-    Mrf24j::flush_rx_fifo(void)
-    {
+    Mrf24j::flush_rx_fifo(void){
       write_short(MRF_RXFLUSH, read_short(MRF_RXFLUSH) | 0b00000001);
     }
 
@@ -563,16 +533,15 @@ namespace MRF24J40{
       /*
        * Reset RF state machine
        */
-
       const uint8_t rfctl = read_short(MRF_RFCTL);
 
       write_short(MRF_RFCTL, rfctl | 0b00000100);
-      write_short(MRF_RFCTL, rfctl & 0b11111011);
-    
+      write_short(MRF_RFCTL, rfctl & 0b11111011);    
       //TYME::delay_us(2500);
     }
 
-    uint8_t set_intcon_value(const SETINTCON& config) {
+    uint8_t 
+    set_intcon_value(const SETINTCON& config) {
         return *reinterpret_cast<const uint8_t*>(&config);
     }
 
@@ -708,7 +677,6 @@ namespace MRF24J40{
     i = read_short(MRF_TXMCR);
     std::printf("TXMCR 0x%X\n", i);
     
-    //
         // Set TX turn around time as defined by IEEE802.15.4 standard
         //
     write_short(MRF_TXSTBL, 0b10010101);
@@ -753,9 +721,7 @@ namespace MRF24J40{
     // bit 3 '0' Enables the RX FIFO reception interrupt
     // bit 2 '1' Disables the TX GTS2 FIFO transmission interrupt
     // bit 1 '1' Disables the TX GTS1 FIFO transmission interrupt
-    // bit 0 '0' Enables the TX Normal FIFO transmission interrupt
-    
-
+    // bit 0 '0' Enables the TX Normal FIFO transmission interrupt    
     #if __cplusplus >= 202002L  // C++20 o superior
         constexpr SETINTCON intcon_config_20 = {
             .tx_normal_fifo    = 0,
