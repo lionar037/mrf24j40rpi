@@ -63,7 +63,7 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO               
 
-            for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); i++){
+            for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); ++i){
                 //if (i<=21){
                 //    oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(zigbee->get_rxbuf()[i]) << ":";
                 //}
@@ -103,8 +103,7 @@ DATA::PACKET_RX buffer_receiver{};
             
 
         #ifdef DBG_PRINT_GET_INFO                     
-          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));
-          
+          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
           //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(zigbee->get_rxbuf()));
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
@@ -124,11 +123,11 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
 
             monitor->insert( "buffer_receiver->ignore : "       + hex_to_text( buffer_receiver.ignore ));            
-            //monitor->insert( "buffer_receiver->end : "          + hex_to_text( buffer_receiver.end ));            
+            monitor->insert( "buffer_receiver->end : "          + hex_to_text( buffer_receiver.end ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
-            monitor->insert( "data_receiver->data : "         + txt_tmp );
+            monitor->insert( "data_receiver->data ( "   + sizeof(buffer_receiver.data) + " ) : "      + txt_tmp );
 
             //obtiene la direccion de mac seteada en el mrf24j40
             uint64_t mac_address;
