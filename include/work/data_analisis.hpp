@@ -19,9 +19,8 @@ namespace DATA{
         uint32_t mac_msb_rx;     
         uint8_t head;
         uint16_t size;        
-        uint8_t data[MAX_PACKET_TX];                                
         uint8_t checksum;
-        
+        uint8_t data[MAX_PACKET_TX];                                                
     }PACKET_RX;
 
 //total 104 Max de para  long Address //100
@@ -30,8 +29,9 @@ namespace DATA{
     typedef struct packet_tx{
             uint8_t head;                   //1 : byte    
             uint16_t size;                  //2 : byte      
-            uint8_t data[MAX_PACKET_TX];    //100 : byte               
             uint8_t checksum;               //1 : byte    
+            uint8_t data[MAX_PACKET_TX];    //100 : byte               
+            
         
     }PACKET_TX;
 
