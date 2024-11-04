@@ -144,9 +144,9 @@ extern DATA::PACKET_RX buffer_receiver;
         
 
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,{},0x1f};
-        bufferTransReceiver
-        std::memcpy(bufferTransReceiver.data,t.data(),t.size());
         
+        std::memcpy(bufferTransReceiver.data,t.data(),t.size());
+
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
         std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
