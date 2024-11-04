@@ -135,9 +135,11 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
+        const std::string t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
+        
+        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , t.size()); 
 
-        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
-        std::string t = MSJ;
+
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,t.c_str(),0x1f};
         
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
