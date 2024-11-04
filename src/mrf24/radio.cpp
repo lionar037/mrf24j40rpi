@@ -120,7 +120,7 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-//#define MRF24_TRANSMITER_ENABLE
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -137,8 +137,8 @@ extern DATA::PACKET_RX buffer_receiver;
             #endif
 
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(MSJ ) , sizeof(MSJ)); 
-        
-        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,MSJ,0x1f};
+        std::string t = MSJ;
+        struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,t.c_str(),0x1f};
         
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
