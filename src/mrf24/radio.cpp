@@ -213,7 +213,6 @@ extern DATA::PACKET_RX buffer_receiver;
         std::cout << " Size info of Qr Buffer : " << infoQrTmp.size() << std::endl;    
         #endif
                         
-
         fs->create(packet_data);
         std::cout<<"\n";
         #ifdef USE_QR
