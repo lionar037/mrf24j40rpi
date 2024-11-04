@@ -114,7 +114,7 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
             monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
             monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.checksum ));            
-            monitor->insert( "buffer_receiver->end : "     + hex_to_text( buffer_receiver.end ));            
+            //monitor->insert( "buffer_receiver->end : "     + hex_to_text( buffer_receiver.end ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));

@@ -120,7 +120,7 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-//#define MRF24_TRANSMITER_ENABLE
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -145,7 +145,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         struct DATA::packet_tx bufferTransReceiver{HEAD,sizeof(MSJ)+sizeof(HEAD)+sizeof(checksum),checksum,{},0x1f};
         
-        std::memcpy(bufferTransReceiver.data,t.data(),t.size());
+        std::memcpy(bufferTransReceiver.data,t.c_str(),t.size());
 
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(sizeof(MSJ))<<"\n";
@@ -154,7 +154,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         //imprime lo que tendria en la salida del dispositivo zigbee                    
         std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
-        std::memset(vect.data(),0xff,vect.size());
+        //std::memset(vect.data(),0xff,vect.size());
         std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
 
         for(const auto& byte : vect) std::cout << byte ; 
