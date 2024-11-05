@@ -123,7 +123,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
 
     std::vector<uint8_t> Radio_t::getVectorZigbee(){
-        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQ@STUVWXYZ0123456789abcdefghijklmnopqrstuv";
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123@56789abcdefghijklmnopqrstuv";
 
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
