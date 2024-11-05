@@ -177,7 +177,7 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-            
+            getVectorZigbee();
                 #ifdef MACADDR64
             //zigbee->send64(ADDRESS_LONG_SLAVE,getVectorZigbee());            
             //zigbee->send64(ADDRESS_LONG_SLAVE,bufferTransReceiver);            
