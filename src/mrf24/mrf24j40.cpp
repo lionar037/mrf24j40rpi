@@ -484,7 +484,8 @@ namespace MRF24J40{
 
         // All testing seems to indicate that the next two bytes are ignored.
         //2 bytes on FCS appended by TXMAC
-        i+=ignoreBytes;
+        
+        //i+=ignoreBytes;
 
         std::vector<uint8_t> vect(sizeof(packet_tx));
         std::memcpy(vect.data(), &packet_tx, sizeof(packet_tx)); // Copiar los datos de la estructura al vector
