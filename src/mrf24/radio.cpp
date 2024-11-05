@@ -128,7 +128,7 @@ extern DATA::PACKET_RX buffer_receiver;
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
 
-        std::cout<<msj_to_zb_short<<"\n";
+        //std::cout<<msj_to_zb_short<<"\n";
 
         auto crc8 = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
 
@@ -149,8 +149,8 @@ extern DATA::PACKET_RX buffer_receiver;
         std::cout<<"\nBuffer Send : \n";
 
         //imprime lo que tendria en la salida del dispositivo zigbee                    
-        std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
-
+        const std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
+ std::cout<<"\nSIZE vect : "   vect.size()<<"\n" ;
         std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
 
         for(const auto& byte : vect) std::cout << byte ; 
