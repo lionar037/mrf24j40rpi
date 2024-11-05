@@ -120,7 +120,6 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-#define MRF24_TRANSMITER_ENABLE
 
 
     const std::vector<uint8_t>& Radio_t::getVectorZigbee(){
