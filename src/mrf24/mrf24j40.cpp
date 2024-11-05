@@ -256,7 +256,7 @@ namespace MRF24J40{
      * Set RX mode to promiscuous, or normal
      */
     void 
-    Mrf24j::set_promiscuous(bool enabled) {
+    Mrf24j::set_promiscuous(const bool enabled) {
         if (enabled) {
             write_short(MRF_RXMCR, 0x01);
         } else {
