@@ -39,10 +39,11 @@ struct Mrf24j
         Mrf24j( );
         ~Mrf24j( );
 
-        void                init                (void);
-        void                mrf24j40_init       (void);
+        void                    init                (void);
+        void                    mrf24j40_init       (void);
         void                    send(const uint64_t , const std::vector<uint8_t>) ;
         void                    send64(const uint64_t , const struct DATA::packet_tx);
+        void                    interrupt_handler(void);
 
 protected:
         const uint8_t       read_short          (const uint8_t);            //address
@@ -97,7 +98,7 @@ protected:
 
 
 
-        void                    interrupt_handler(void);
+
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
         void                    settings_mrf(void);
 
