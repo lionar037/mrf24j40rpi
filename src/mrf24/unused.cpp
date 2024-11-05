@@ -2,6 +2,8 @@
 //unused.cpp
 #include <mrf24/radio.hpp>
 #include <mrf24/mrf24j40.hpp>
+#include <mrf24/mrf24j40._microchip.hpp>
+#include <mrf24/mrf24j40_cmd.hpp>
 
 #include <string_view>
 #include <zlib.h>  // Para usar crc32
