@@ -63,9 +63,10 @@ DATA::PACKET_RX buffer_receiver{};
             monitor->insert(" Packet data (PHY Payload) :");
             #ifdef DBG_PRINT_GET_INFO               
 
-            for (std::size_t i = 0; i < std::size_t(zigbee->get_rxinfo()->frame_length); ++i){
+            for (uint8_t i = 0; i < frame_length; i++){
                 oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
             }
+
             monitor->insert(oss_zigbee.str());
             oss_zigbee.str("");   // Limpiar el contenido
             oss_zigbee.clear();   // Restablecer el estado
