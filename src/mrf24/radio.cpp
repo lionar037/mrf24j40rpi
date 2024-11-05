@@ -135,7 +135,7 @@ std::vector<uint8_t> Radio_t::getVectorZigbee(){
 
     auto max = buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
 
-    struct DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(max), { }, crc8 };
+    DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(max), { }, crc8 };
 
     // Copiar los datos del mensaje a bufferTransReceiver
     std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));

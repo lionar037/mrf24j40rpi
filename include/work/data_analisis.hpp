@@ -28,17 +28,13 @@ namespace DATA{
 
     typedef struct packet_tx{
             uint8_t head;                   //1 : byte   
-            uint16_t size;                  //2 : byte      
-              
+            uint16_t size;                  //2 : byte                    
             uint8_t data[MAX_PACKET_TX];    //100 : byte               
-            uint8_t crc8;               //1 : byte  
-            
-        
+            uint8_t crc8;               //1 : byte                      
     }PACKET_TX;
 
 #pragma pack(pop)
-
-}
+}//END name space MRF24J40
 
 
 namespace MRF24J40{
@@ -54,5 +50,4 @@ namespace MRF24J40{
         uint8_t sleep_alert      : 1;  // Bit 7: Sleep alert interrupt (0 = enabled, 1 = disabled)
     } SETINTCON;
     
-
 }
