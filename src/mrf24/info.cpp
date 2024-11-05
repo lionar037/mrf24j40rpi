@@ -1,5 +1,6 @@
 #include <mrf24/radio.hpp>
 #include <work/data_analisis.hpp>
+#include <mrf24j40.hpp>
 
 #include <iostream>
 #include <vector>
