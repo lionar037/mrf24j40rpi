@@ -62,12 +62,9 @@ extern std::unique_ptr<Mrf24j> zigbee ;
         std::cout << "CRC8: 0x" << std::hex << std::setw(2) << std::setfill('0') << (int)packet.crc8 << std::dec << std::endl;
         std::cout << "Data size: " << data.size() << " bytes" << std::endl;
         std::cout << "Data: ";
-        std::string txt ;
-        std::memcpy(txt.data()  ,data.data(),data.size());
-        std::cout << "Data: ";
-        std::cout << txt.c_str()<<"\n";
-        //print_hex(data.data(), data.size());
-        std::cout << "------------------------\n";
+        // Convertir directamente a std::string si los datos son texto ASCII
+        std::string txt(data.begin(), data.end());  // Usamos el constructor de string para convertir el vector
+        std::cout << "Data: " << txt.c_str()<<"\n" << "------------------------\n";
     }
 
 
