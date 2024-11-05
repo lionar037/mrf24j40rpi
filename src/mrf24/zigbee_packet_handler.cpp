@@ -3,13 +3,11 @@
 #include <mrf24/mrf24j40.hpp>
 #include <config/config.hpp>
 
-
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <iomanip> // Para formatear la salida en hexadecimal
 #include <algorithm> // Para std::min
-
 
 namespace MRF24J40{
 
@@ -26,20 +24,6 @@ extern std::unique_ptr<Mrf24j> zigbee ;
     }
 
 
-/*
-    const uint32_t calculate_crc32(const std::string& data) {
-        // CRC32 necesita un valor inicial (0xFFFFFFFF es el más común)
-        uint32_t crc = crc32(0L, Z_NULL, 0);
-        crc = crc32(crc, reinterpret_cast<const unsigned char*>(data.c_str()), data.size());
-        return crc;
-    }
-
-    const uint32_t calculate_crc32(const uint8_t* data, size_t length) {
-        uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
-        crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
-        return crc;
-    }
-*/
     // Función auxiliar para calcular CRC8 (implementación de ejemplo)
     const uint8_t 
     calculate_crc8(const uint8_t* data, size_t size) {
