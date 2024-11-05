@@ -276,6 +276,7 @@ namespace MRF24J40{
         write_short(MRF_RXMCR, *reinterpret_cast<uint8_t*>(&rxmcr));
         return;
     }
+    
 
     rx_info_t* 
     Mrf24j::get_rxinfo(void) {
