@@ -130,19 +130,22 @@ extern DATA::PACKET_RX buffer_receiver;
 
         std::cout<<"msj : \n"<<msj_to_zb_short<<"\n";
 
-        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
+        auto crc8 = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
 
         std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
 
-        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
+        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
 
-        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , checksum ,{ } };
+        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , crc8 ,{ } };
 
         std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
 
         std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
+
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
+
         std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
+        
         std::cout<<"\nBuffer Send : \n";
 
         //imprime lo que tendria en la salida del dispositivo zigbee                    
@@ -174,11 +177,11 @@ extern DATA::PACKET_RX buffer_receiver;
                 #endif
             #endif
             
-            #ifdef MACADDR64
+                #ifdef MACADDR64
             zigbee->send(ADDRESS_LONG_SLAVE,getVectorZigbee());            
-            #elif defined(MACADDR16)
-                zigbee->send(ADDR_SLAVE, vect);                                
-            #endif
+                #elif defined(MACADDR16)
+            zigbee->send(ADDR_SLAVE, getVectorZigbee());                                
+                #endif
         #endif
         }
     }
