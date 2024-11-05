@@ -178,7 +178,7 @@ extern DATA::PACKET_RX buffer_receiver;
             #endif
             
                 #ifdef MACADDR64
-            zigbee->(ADDRESS_LONG_SLAVE,getVectorZigbee());            
+            zigbee->send(ADDRESS_LONG_SLAVE,getVectorZigbee());            
                 #elif defined(MACADDR16)
             zigbee->send(ADDR_SLAVE, getVectorZigbee());                                
                 #endif
