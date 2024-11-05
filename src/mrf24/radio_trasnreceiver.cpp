@@ -53,14 +53,19 @@ namespace MRF24J40{
 
         // Usar std::ostringstream para construir el string en formato hexadecimal
         oss_zigbee << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(frame_length);
+monitor->insert(" ");
 
         // Mostrar el string resultante        
         monitor->insert(oss_zigbee.str() );
+
         oss_zigbee.str("");
         oss_zigbee.clear(); 
+monitor->insert(" ");
+monitor->insert(" ");
 
+        monitor->insert(" Packet data (PHY Payload) :" +  std::to_string( frame_length  ));
+monitor->insert(" ");
         if(zigbee->get_bufferPHY()){
-            monitor->insert(" Packet data (PHY Payload) :" +  std::to_string( frame_length  ));
             #ifdef DBG_PRINT_GET_INFO               
 
             for (uint8_t i = 0; i < frame_length; ++i){
