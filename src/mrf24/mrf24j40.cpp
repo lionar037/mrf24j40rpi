@@ -121,7 +121,7 @@ namespace MRF24J40{
 
     void 
     Mrf24j::set_interrupts(void) {
-            // interrupts for rx and tx normal complete
+        // interrupts for rx and tx normal complete
         write_short(MRF_INTCON, 0b11110110);
     }
 
@@ -179,19 +179,20 @@ namespace MRF24J40{
     void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
-        if(last_interrupt & MRF_I_RXIF) {
-            //m_flag_got_rx++;
-             m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);
-                // read out the packet data...
+        if(last_interrupt & MRF_I_RXIF) {            
+            m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_rx++;//fue reemplazado por ++
+
+            // read out the packet data...
             noInterrupts();
             rx_disable();
-                // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const uint8_t frame_length = read_long(0x300);
+            
+            // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
+            const size_t frame_length = read_long(0x300);
 
                 // buffer all bytes in PHY Payload
             if(bufPHY){
                 int rb_ptr = 0;
-                for (int i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
@@ -202,7 +203,7 @@ namespace MRF24J40{
             // printf(" frame length : %d \n",frame_length);
             // printf(" rx datalength : %d \n",rx_datalength());
 
-            for(uint16_t i = 0; i < 127 ; i++) {//original
+            for(size_t i = 0; i < frame_length ; ++i) {//original
             //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
@@ -227,12 +228,12 @@ namespace MRF24J40{
         }
     }
 
-    /**
-     * Call this function periodically, it will invoke your nominated handlers
-     */
+    //
+    //Call this function periodically, it will invoke your nominated handlers
+    //
     bool 
     Mrf24j::check_flags(void (*rx_handler)(), void (*tx_handler)()){
-            // TODO - we could check whether the flags are > 1 here, indicating data was lost?
+    // TODO - we could check whether the flags are > 1 here, indicating data was lost?
         if (m_flag_got_rx) {
             m_flag_got_rx = 0;
             #ifdef DBG
