@@ -264,7 +264,7 @@ namespace MRF24J40{
         }
     }
 
-
+    //configuracion MRF24J40
     void 
     Mrf24j::settings_mrf(void){
         rxmcr.PANCOORD=true;
