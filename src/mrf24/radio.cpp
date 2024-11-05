@@ -136,7 +136,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
 
-        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , crc8 ,{ } };
+        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , { } ,crc8};
 
         std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
 
