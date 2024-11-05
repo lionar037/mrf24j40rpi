@@ -153,7 +153,8 @@ extern DATA::PACKET_RX buffer_receiver;
         
         
 
-        std::memcpy( vect.data() , &bufferTransReceiver , vect.size());
+        //std::memcpy( vect.data() , &bufferTransReceiver , vect.size());
+        std::memcpy(vect.data(), &bufferTransReceiver, sizeof(bufferTransReceiver));
 std::cout<<"\nSIZE vect : " <<  vect.size() <<"\n" ;
 std::cout<<"\nBuffer Send : \n";
         for(const auto& byte : vect) std::cout << byte ; 
