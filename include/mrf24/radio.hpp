@@ -2,14 +2,12 @@
 
 #pragma once
 #include <mrf24/mrf24j40.hpp>
-
 #include <gpio/gpio.hpp>
 #include <file/database.hpp>
 #include <config/config.hpp>
 #include <work/work.hpp>
 #include <work/data_analisis.hpp>
 #include <qr/qr.hpp>
-
 
 #include <mysql_driver.h>
 #include <mysql_connection.h>
@@ -71,7 +69,6 @@ namespace MRF24J40{
         #endif                     
         std::unique_ptr<GPIO::Gpio_t> gpio{};                           
     };
-
 
 
     void update(std::string_view str_view);
