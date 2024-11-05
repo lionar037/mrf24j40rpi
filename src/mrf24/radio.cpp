@@ -128,6 +128,8 @@ extern DATA::PACKET_RX buffer_receiver;
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
 
+        std::cout<<msj_to_zb_short<<"\n";
+
         auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
 
         std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
