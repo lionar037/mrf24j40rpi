@@ -77,7 +77,8 @@ extern DATA::PACKET_RX buffer_receiver;
         flag=true;                        
     }
 
-    void Radio_t::RunProccess(void){
+    void 
+    Radio_t::RunProccess(void){
         system("clear"); 
         #ifdef MRF24_RECEIVER_ENABLE
             while(true)
@@ -92,7 +93,8 @@ extern DATA::PACKET_RX buffer_receiver;
 
 
     //initcializacion 
-    void Radio_t::Init(bool& flag) {
+    void 
+    Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
         const unsigned long current_time = 100000;//1000000 original
         if (current_time - last_time > tx_interval) {
@@ -115,11 +117,13 @@ extern DATA::PACKET_RX buffer_receiver;
         }
     }
 
-    void Radio_t::interrupt_routine() {
+    void 
+    Radio_t::interrupt_routine() {
         zigbee->interrupt_handler(); // mrf24 object interrupt routine
     }
 
-    void update(std::string_view str_view){
+    void 
+    update(std::string_view str_view){
         
         const int positionAdvance{15};
         auto            fs          { std::make_unique<FILESYSTEM::File_t> () };
@@ -161,11 +165,11 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
 
-        Radio_t::~Radio_t() {
-            #ifdef DBG_RADIO
-                std::cout<<"~Radio_t()\n";
-            #endif
-        }
+    Radio_t::~Radio_t() {
+        #ifdef DBG_RADIO
+            std::cout<<"~Radio_t()\n";
+        #endif
+    }
 }
 
 
