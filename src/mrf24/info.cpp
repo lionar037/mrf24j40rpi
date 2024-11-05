@@ -1,6 +1,8 @@
 #include <mrf24/radio.hpp>
 #include <work/data_analisis.hpp>
 #include <mrf24/mrf24j40.hpp>
+#include <config/config.hpp>
+
 
 #include <iostream>
 #include <vector>
@@ -8,10 +10,6 @@
 #include <iomanip> // Para formatear la salida en hexadecimal
 #include <algorithm> // Para std::min
 
-
-// Definiciones de constantes
-#define MAX_PACKET_TX 100
-#define HEAD 0xA5 // Ejemplo de valor para el encabezado
 
 namespace MRF24J40{
 
