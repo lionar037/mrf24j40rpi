@@ -4,6 +4,7 @@
 #include <mrf24/mrf24j40.hpp>
 #include <mrf24/mrf24j40._microchip.hpp>
 #include <mrf24/mrf24j40_cmd.hpp>
+#include <work/data_analisis.hpp>
 
 #include <string_view>
 #include <zlib.h>  // Para usar crc32
@@ -12,6 +13,7 @@
 #include <cstddef>
 
 namespace MRF24J40{
+
     uint8_t 
     set_intcon_value(const SETINTCON& config) {
         return *reinterpret_cast<const uint8_t*>(&config);
