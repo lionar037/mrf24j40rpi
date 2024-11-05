@@ -78,7 +78,7 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
     void Radio_t::RunProccess(void){
-        system("clear"); 
+        //system("clear"); 
         #ifdef MRF24_RECEIVER_ENABLE
             while(true)
         #endif

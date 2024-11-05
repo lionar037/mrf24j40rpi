@@ -35,7 +35,7 @@ namespace FFLUSH{
     Fflush_t::print_all() 
     { 
     
-    
+    system("clear"); 
         int fil =0;
         for(const auto& msj : message){
             std::cout << "\033[" << fil << ";" << 0 << "H"<<msj;
