@@ -19,7 +19,7 @@ namespace DATA{
         uint32_t mac_msb_rx;     
         uint8_t head;
         uint16_t size;                
-        uint8_t data[MAX_PACKET_TX+10];                                                
+        uint8_t data[MAX_PACKET_TX];                                                
         uint8_t crc8;
     }PACKET_RX;
 
