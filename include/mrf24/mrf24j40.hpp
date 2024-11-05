@@ -39,11 +39,16 @@ namespace MRF24J40{
             Mrf24j( );
             ~Mrf24j( );
 
-            void                    init                (void);
-            void                    mrf24j40_init       (void);
-            void                    send(const uint64_t , const std::vector<uint8_t>) ;
-            void                    send64(const uint64_t , const struct DATA::packet_tx);
-            void                    interrupt_handler(void);
+            void                    init                    (void);
+            void                    mrf24j40_init           (void);
+            void                    send    (const uint64_t , const std::vector<uint8_t>) ;
+            void                    send64  (const uint64_t , const struct DATA::packet_tx);
+            void                    interrupt_handler       (void);
+            void                    set_pan                 (const uint16_t);               //panid
+            void                    address16_write     (const uint16_t);
+            void                    address64_write     (const uint64_t);
+            void                    settings_mrf        (void);
+
 
     protected:
             const uint8_t       read_short          (const uint8_t);                //address
@@ -51,9 +56,9 @@ namespace MRF24J40{
             void                write_short         (const uint8_t ,const uint8_t); //address ,data
             void                write_long          (const uint16_t,const uint8_t); //address ,data
             const uint16_t      get_pan             (void);
-            void                set_pan             (const uint16_t);               //panid
-            void                address16_write     (const uint16_t);               //address16
-            void                address64_write     (const uint64_t);
+            
+                           //address16
+            
             const uint16_t      address16_read      (void);
             const uint64_t      address64_read      (void);
             void                set_interrupts      (void);
@@ -89,7 +94,7 @@ namespace MRF24J40{
             void                 set_bufferPHY(const bool);
             bool                 get_bufferPHY(void);
 
-            protected: 
+             
 
             //
             //Set PA/LNA external control
@@ -98,8 +103,7 @@ namespace MRF24J40{
 
 
             bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
-            void                    settings_mrf(void);
-        
+    protected:        
             void                    mode_turbo();
             void                    set_macaddress64(int&,const uint64_t);
             void                    reset_rf_state_machine(void);
