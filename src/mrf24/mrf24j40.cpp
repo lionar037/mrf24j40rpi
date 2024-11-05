@@ -60,7 +60,6 @@ namespace MRF24J40{
         const uint8_t msb_address = (address << 5) & 0xE0;
         const uint32_t comp = ( (0x80 | lsb_address) | ( (msb_address | 0x10) << 8 ) | (data<<16) ) & 0xffffff;
         prt_spi->Transfer3bytes(comp);
-        //return;
     }
 
     const uint16_t 
@@ -99,7 +98,7 @@ namespace MRF24J40{
         return (a16h << 8 | read_short(MRF_SADRL));
     }
 
-    //lee la direccion mac de 64 bits
+    //  lee la direccion mac de 64 bits
     const uint64_t 
     Mrf24j::address64_read(void){
         uint64_t address64 ;
@@ -114,19 +113,19 @@ namespace MRF24J40{
     return  address64;
     }
 
-    /**
-     * Simple send 16, with acks, not much of anything.. assumes src16 and local pan only.
-        * @param data
-    */
+    // 
+    //  Simple send 16, with acks, not much of anything.. assumes src16 and local pan only.
+    //  @param data
+    //
 
     void 
     Mrf24j::set_interrupts(void) {
-        // interrupts for rx and tx normal complete
+    //  interrupts for rx and tx normal complete
         write_short(MRF_INTCON, 0b11110110);
     }
 
-    /** use the 802.15.4 channel numbers..
-    */
+    //  use the 802.15.4 channel numbers..
+    //
     void 
     Mrf24j::set_channel(const uint8_t channel) {
         write_long(MRF_RFCON0, (((channel - 11) << 4) | 0x03));
