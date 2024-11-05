@@ -46,20 +46,19 @@ namespace MRF24J40{
 
     const uint8_t 
     Mrf24j::read_long(const uint16_t address) {
-
         const uint8_t lsb_address = (address >> 3 )& 0x7F;//0x7f
         const uint8_t msb_address = (address << 5) & 0xE0;//0xe0
 
-        const uint32_t tmp = ( (0x80 | lsb_address) | (msb_address <<8) ) &  0x0000ffff;
-       return prt_spi->Transfer3bytes(tmp);
+        const uint32_t cmd = ( (0x80 | lsb_address) | (msb_address <<8) ) &  0x0000ffff;
+       return prt_spi->Transfer3bytes(cmd);
     }
 
     void 
     Mrf24j::write_long(const uint16_t address,const uint8_t data) {
         const uint8_t lsb_address = (address >> 3) & 0x7F;
         const uint8_t msb_address = (address << 5) & 0xE0;
-        const uint32_t comp = ( (0x80 | lsb_address) | ( (msb_address | 0x10) << 8 ) | (data<<16) ) & 0xffffff;
-        prt_spi->Transfer3bytes(comp);
+        const uint32_t cmd = ( (0x80 | lsb_address) | ( (msb_address | 0x10) << 8 ) | (data<<16) ) & 0xffffff;
+        prt_spi->Transfer3bytes(cmd);
     }
 
     const uint16_t 
@@ -75,21 +74,21 @@ namespace MRF24J40{
     }
 
     void 
-    Mrf24j::address16_write(const uint16_t address16) {
-        write_short(MRF_SADRH, (address16 >> 8)& 0xff);
-        write_short(MRF_SADRL, address16 & 0xff);
+    Mrf24j::address16_write(const uint16_t address) {
+        write_short(MRF_SADRH, (address >> 8)& 0xff);
+        write_short(MRF_SADRL, address & 0xff);
     }
 
     void 
-    Mrf24j::address64_write(const uint64_t addressLong){
-        write_short(MRF_EADR7,(addressLong>>56)&0xff);
-        write_short(MRF_EADR6,(addressLong>>48)&0xff);
-        write_short(MRF_EADR5,(addressLong>>40)&0xff);
-        write_short(MRF_EADR4,(addressLong>>32)&0xff);
-        write_short(MRF_EADR3,(addressLong>>24)&0xff);
-        write_short(MRF_EADR2,(addressLong>>16)&0xff);
-        write_short(MRF_EADR1,(addressLong>>8 )&0xff);
-        write_short(MRF_EADR0,(addressLong)&0xff);
+    Mrf24j::address64_write(const uint64_t address){
+        write_short(MRF_EADR7,(address>>56)&0xff);
+        write_short(MRF_EADR6,(address>>48)&0xff);
+        write_short(MRF_EADR5,(address>>40)&0xff);
+        write_short(MRF_EADR4,(address>>32)&0xff);
+        write_short(MRF_EADR3,(address>>24)&0xff);
+        write_short(MRF_EADR2,(address>>16)&0xff);
+        write_short(MRF_EADR1,(address>>8 )&0xff);
+        write_short(MRF_EADR0,(address)&0xff);
     }
 
     const  uint16_t 
