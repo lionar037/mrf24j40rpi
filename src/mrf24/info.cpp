@@ -1,6 +1,6 @@
 #include <mrf24/radio.hpp>
 #include <work/data_analisis.hpp>
-#include <mrf24j40.hpp>
+#include <mrf24/mrf24j40.hpp>
 
 #include <iostream>
 #include <vector>
@@ -16,7 +16,7 @@
 namespace MRF24J40{
 
 extern std::unique_ptr<Mrf24j> zigbee ;
-    
+
     // Función auxiliar para imprimir en formato hexadecimal
     void 
     print_hex(const uint8_t* data, size_t size) {
