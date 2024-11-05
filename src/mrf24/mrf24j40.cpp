@@ -543,10 +543,10 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
-    uint8_t 
-    set_intcon_value(const SETINTCON& config) {
-        return *reinterpret_cast<const uint8_t*>(&config);
-    }
+  //  uint8_t 
+  //  set_intcon_value(const SETINTCON& config) {
+  //      return *reinterpret_cast<const uint8_t*>(&config);
+  //  }
 
  
     
