@@ -107,7 +107,7 @@
 
 
 #ifdef USE_MAC_ADDRESS_LONG
-    #define MAX_PACKET_TX 100//size packet max : 127 - buffer extra : 23 - buffer vect add : 4 
+    #define MAX_PACKET_TX 90//size packet max : 127 - buffer extra : 23 - buffer vect add : 4 
 #else
     #define MAX_PACKET_TX 112//size packet max : 127 - buffer extra : 11 - buffer vect add : 4 
 #endif
