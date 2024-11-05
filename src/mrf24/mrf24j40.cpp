@@ -548,9 +548,7 @@ namespace MRF24J40{
         return *reinterpret_cast<const uint8_t*>(&config);
     }
 
-
-    write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);        
-    }
+ 
     
     void 
     Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)

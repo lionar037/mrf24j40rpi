@@ -12,6 +12,10 @@
 #include <cstddef>
 
 namespace MRF24J40{
+    uint8_t 
+    set_intcon_value(const SETINTCON& config) {
+        return *reinterpret_cast<const uint8_t*>(&config);
+    }
 
 
     void
@@ -223,9 +227,10 @@ namespace MRF24J40{
     const uint8_t intcon_value = set_intcon_value(intcon_config);
     #endif
 
+    write_short(MRF_INTCON, intcon_value);//write_short(MRF_INTCON, 0b11110110);        
+    }
 
 
-}
 
 
 
