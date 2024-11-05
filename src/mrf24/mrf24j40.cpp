@@ -436,7 +436,8 @@ namespace MRF24J40{
                 //2 bytes on FCS appended by TXMAC
          i+=ignoreBytes;
 
-        for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
+//        for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
+        for(const auto& byte : pf) write_long(i++,byte);
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
