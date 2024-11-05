@@ -158,8 +158,11 @@ extern DATA::PACKET_RX buffer_receiver;
 
         uint64_t mac_address;
         zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+
         std::cout<<"local address mac: " ;  print_to_hex(mac_address);
+
         zigbee->send64(ADDRESS_LONG_SLAVE,bufferTransReceiver);            
+        
         return vect;
     }
 

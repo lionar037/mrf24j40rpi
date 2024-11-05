@@ -9,7 +9,7 @@ namespace DATA{
         uint8_t ignore;
     }MACADDRESS;
 
-    // 4 + 2 + 8+ 8 +1+ 2 + 1 + 100 or 112
+    // 4 + 2 + 8+ 8 + 1 + 2 + 1 + 100 or 112
     typedef struct packet_rx{
         uint8_t ignore[4];
         uint16_t panid;                         

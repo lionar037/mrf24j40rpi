@@ -376,42 +376,43 @@ namespace MRF24J40{
 
 
     void 
-    Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> pf) 
+    Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> vect) 
     {
-        const auto len = pf.size();
-        int i = 0;
-        write_long(i++, m_bytes_MHR); // header length
-                        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
-                        // default: ignoreBytes = 0;
-        write_long(i++, m_bytes_MHR+ignoreBytes+len);
+        const auto size = vect.size();
+        int incr = 0;
+        write_long(incr++, m_bytes_MHR); // header length
+        // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
+        // default: ignoreBytes = 0;
+        write_long(incr++, m_bytes_MHR+ignoreBytes+size);
 
-                        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
-        write_long(i++, 0b01100001); // first byte of Frame Control
-                        // 16 bit source, 802.15.4 (2003), 16 bit dest,
-        write_long(i++, 0b10001000); // second byte of frame control
-        write_long(i++, 1);  // sequence number 1
+        // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
+        write_long(incr++, 0b01100001); // first byte of Frame Control
+        
+        // 16 bit source, 802.15.4 (2003), 16 bit dest,
+        write_long(incr++, 0b10001000); // second byte of frame control
+        write_long(incr++, 1);  // sequence number 1
 
         const uint16_t panid = get_pan();
         #ifdef DBG
             printf("\npanid : 0x%X\n",panid);
         #endif
 
-        write_long(i++, panid & 0xff);  // dest panid
-        write_long(i++, panid >> 8);
+        write_long(incr++, panid & 0xff);  // dest panid
+        write_long(incr++, panid >> 8);
 
-        write_long(i++, dest & 0xff);  // dest16 low
-        write_long(i++, dest >> 8); // dest16 high
+        write_long(incr++, dest & 0xff);  // dest16 low
+        write_long(incr++, dest >> 8); // dest16 high
 
         if(sizeof(dest)>2){
             #ifdef DBG_MRF
                 std::cout <<"es un mac de 64 bytes\n";
             #endif
-        write_long(i++, (dest >> 16 ) & 0xff);
-        write_long(i++, (dest >> 24 ) & 0xff);
-        write_long(i++, (dest >> 32 ) & 0xff);
-        write_long(i++, (dest >> 40 ) & 0xff);
-        write_long(i++, (dest >> 48 ) & 0xff);
-        write_long(i++, (dest >> 56 ) & 0xff);
+        write_long(incr++, (dest >> 16 ) & 0xff);
+        write_long(incr++, (dest >> 24 ) & 0xff);
+        write_long(incr++, (dest >> 32 ) & 0xff);
+        write_long(incr++, (dest >> 40 ) & 0xff);
+        write_long(incr++, (dest >> 48 ) & 0xff);
+        write_long(incr++, (dest >> 56 ) & 0xff);
         }
         else{
             #ifdef DBG_MRF
@@ -419,25 +420,25 @@ namespace MRF24J40{
             #endif
         }
  
-        const uint64_t src = address64_read();
-        write_long(i++, src & 0xff); // src16 low
-        write_long(i++, src >> 8); // src16 high
+        const uint64_t src64 = address64_read();
+        write_long(incr++, src64 & 0xff); // src16 low
+        write_long(incr++, src64 >> 8); // src16 high
 
     // si lee una direccion mac de 64 bits la envia
-       if(sizeof(src)>2){
-            write_long(i++, (src >> 16 ) & 0xff); 
-            write_long(i++, (src >> 24 ) & 0xff); 
-            write_long(i++, (src >> 32 ) & 0xff); 
-            write_long(i++, (src >> 40 ) & 0xff); 
-            write_long(i++, (src >> 48 ) & 0xff); 
-            write_long(i++, (src >> 56 ) & 0xff); 
+       if(sizeof(src64)>2){
+            write_long(incr++, (src64 >> 16 ) & 0xff); 
+            write_long(incr++, (src64 >> 24 ) & 0xff); 
+            write_long(incr++, (src64 >> 32 ) & 0xff); 
+            write_long(incr++, (src64 >> 40 ) & 0xff); 
+            write_long(incr++, (src64 >> 48 ) & 0xff); 
+            write_long(incr++, (src64 >> 56 ) & 0xff); 
         }
                 // All testing seems to indicate that the next two bytes are ignored.
                 //2 bytes on FCS appended by TXMAC
-         i+=ignoreBytes;
+         incr+=ignoreBytes;
 
-//        for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
-        for(const auto& byte : pf) write_long(i++,byte);
+        //for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
+        for(const auto& byte : vect) write_long(incr++,byte);
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
@@ -485,7 +486,7 @@ namespace MRF24J40{
         // All testing seems to indicate that the next two bytes are ignored.
         //2 bytes on FCS appended by TXMAC
         
-        //i+=ignoreBytes;
+        i+=ignoreBytes;
 
         std::vector<uint8_t> vect(sizeof(packet_tx));
         std::memcpy(vect.data(), &packet_tx, sizeof(packet_tx)); // Copiar los datos de la estructura al vector
