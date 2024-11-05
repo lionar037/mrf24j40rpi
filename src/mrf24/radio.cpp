@@ -144,7 +144,7 @@ extern DATA::PACKET_RX buffer_receiver;
 
         std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
 
-        std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
+        std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.crc8);
 
         std::cout<<"\nBuffer Send : \n";
 
@@ -178,7 +178,7 @@ extern DATA::PACKET_RX buffer_receiver;
             #endif
             
                 #ifdef MACADDR64
-            zigbee->send(ADDRESS_LONG_SLAVE,getVectorZigbee());            
+            zigbee->(ADDRESS_LONG_SLAVE,getVectorZigbee());            
                 #elif defined(MACADDR16)
             zigbee->send(ADDR_SLAVE, getVectorZigbee());                                
                 #endif
