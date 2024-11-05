@@ -158,6 +158,7 @@ std::vector<uint8_t> Radio_t::getVectorZigbee(){
     }
     std::cout << "\n";         
 
+
     uint64_t mac_address;
     zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
 

@@ -96,7 +96,6 @@ DATA::PACKET_RX buffer_receiver{};
             oss_zigbee.str("");   // Limpiar el contenido
             oss_zigbee.clear();   // Restablecer el estado
             
-
         #ifdef DBG_PRINT_GET_INFO                     
           std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
           //std::memcpy (  &buffer_receiver , zigbee->get_rxinfo() , sizeof(DATA::packet_rx));          
