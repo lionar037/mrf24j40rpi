@@ -298,7 +298,7 @@ namespace MRF24J40{
     }
 
     void 
-    Mrf24j::set_ignoreBytes(int ib) {
+    Mrf24j::set_ignoreBytes(const int ib) {
         // some modules behaviour
         ignoreBytes = ib;
     }
@@ -307,7 +307,7 @@ namespace MRF24J40{
      * Set bufPHY flag to buffer all bytes in PHY Payload, or not
      */
     void 
-    Mrf24j::set_bufferPHY(bool bp) {
+    Mrf24j::set_bufferPHY(const bool bp) {
         bufPHY = bp;
     }
 
@@ -433,16 +433,15 @@ namespace MRF24J40{
             write_long(incr++, (src64 >> 48 ) & 0xff); 
             write_long(incr++, (src64 >> 56 ) & 0xff); 
         }
-                // All testing seems to indicate that the next two bytes are ignored.
-                //2 bytes on FCS appended by TXMAC
+        
+        // All testing seems to indicate that the next two bytes are ignored.        
+        //2 bytes on FCS appended by TXMAC
          incr+=ignoreBytes;
 
-        //for(const auto& byte : pf) write_long(i++,static_cast<uint8_t>(byte));
         for(const auto& byte : vect) write_long(incr++,byte);
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
-
         mode_turbo();
     }
 
@@ -480,7 +479,7 @@ namespace MRF24J40{
 
         set_macaddress64(i, address64_read() );
 
-#include <mrf24/mrf24j40._microchip.hpp>
+        #include <mrf24/mrf24j40._microchip.hpp>
         write_long(RFCTRL2,0x80);
 
         // All testing seems to indicate that the next two bytes are ignored.
@@ -533,9 +532,9 @@ namespace MRF24J40{
     void
     Mrf24j::reset_rf_state_machine(void)
     {
-      /*
-       * Reset RF state machine
-       */
+    //
+    //Reset RF state machine
+    //
       const uint8_t rfctl = read_short(MRF_RFCTL);
 
       write_short(MRF_RFCTL, rfctl | 0b00000100);
@@ -543,12 +542,6 @@ namespace MRF24J40{
       //TYME::delay_us(2500);
     }
 
-  //  uint8_t 
-  //  set_intcon_value(const SETINTCON& config) {
-  //      return *reinterpret_cast<const uint8_t*>(&config);
-  //  }
-
- 
     
     void 
     Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)
@@ -580,4 +573,5 @@ namespace MRF24J40{
       //write_long(MRF_RFCON3, pwr);
       pwr = read_long(MRF_RFCON3);
     }
-}//END NAMESPACE MRF24
+
+}//END namespace MRF24

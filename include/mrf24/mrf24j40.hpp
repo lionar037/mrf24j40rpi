@@ -76,18 +76,18 @@ struct Mrf24j
         tx_info_t *         get_txinfo(void) ;
         uint8_t *           get_rxbuf(void) ;
         const int           rx_datalength(void);
-        void                set_ignoreBytes(int );
+        void                set_ignoreBytes(const int );
                     /**
                      * Set bufPHY flag to buffer all bytes in PHY Payload, or not
                      */
-        void                 set_bufferPHY(bool);
+        void                 set_bufferPHY(const bool);
         bool                 get_bufferPHY(void);
                     /**
                     * Set PA/LNA external control
                     */
         void                 set_palna(const bool);
         template <typename T>
-        void                    send_template(uint64_t, const T&) ;
+        void                    send_template(const uint64_t, const T&) ;
 
         void                    send(const uint64_t , const std::vector<uint8_t>) ;
         void                    send64(const uint64_t , const struct DATA::packet_tx);
