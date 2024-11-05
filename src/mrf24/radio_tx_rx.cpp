@@ -97,8 +97,8 @@ DATA::PACKET_RX buffer_receiver{};
             
 
         #ifdef DBG_PRINT_GET_INFO                     
-          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
-          std::memcpy (  &buffer_receiver , zigbee->get_rxinfo() , sizeof(DATA::packet_rx));          
+          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
+          //std::memcpy (  &buffer_receiver , zigbee->get_rxinfo() , sizeof(DATA::packet_rx));          
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
