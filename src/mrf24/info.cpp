@@ -13,34 +13,37 @@
 #define HEAD 0xA5 // Ejemplo de valor para el encabezado
 
 namespace MRF24J40{
-// Función auxiliar para imprimir en formato hexadecimal
-void print_hex(const uint8_t* data, size_t size) {
-    std::cout << "0x";
-    for (size_t i = 0; i < size; ++i) {
-        std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)data[i];
+    // Función auxiliar para imprimir en formato hexadecimal
+    void 
+    print_hex(const uint8_t* data, size_t size) {
+        std::cout << "0x";
+        for (size_t i = 0; i < size; ++i) {
+            std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)data[i];
+        }
+        std::cout << std::dec << std::endl; // Volver al formato decimal
     }
-    std::cout << std::dec << std::endl; // Volver al formato decimal
-}
 
-// Función auxiliar para calcular CRC8 (implementación de ejemplo)
-uint8_t calculate_crc8(const uint8_t* data, size_t size) {
-    uint8_t crc = 0xFF;
-    for (size_t i = 0; i < size; ++i) {
-        crc ^= data[i];
-        for (uint8_t j = 0; j < 8; ++j) {
-            if (crc & 0x80) {
-                crc = (crc << 1) ^ 0x07; // Polinomio CRC-8
-            } else {
-                crc <<= 1;
+    // Función auxiliar para calcular CRC8 (implementación de ejemplo)
+    const uint8_t 
+    calculate_crc8(const uint8_t* data, size_t size) {
+        uint8_t crc = 0xFF;
+        for (size_t i = 0; i < size; ++i) {
+            crc ^= data[i];
+            for (uint8_t j = 0; j < 8; ++j) {
+                if (crc & 0x80) {
+                    crc = (crc << 1) ^ 0x07; // Polinomio CRC-8
+                } else {
+                    crc <<= 1;
+                }
             }
         }
+        return crc;
     }
-    return crc;
-}
 
 
     // Función para imprimir el contenido de un buffer en formato hexadecimal
-    void print_buffer(const std::vector<uint8_t>& buffer) {
+    void 
+    print_buffer(const std::vector<uint8_t>& buffer) {
         std::cout << "\nBuffer Send (in Hex): ";
         for (const auto& byte : buffer) {
             std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)byte << " ";
@@ -48,21 +51,23 @@ uint8_t calculate_crc8(const uint8_t* data, size_t size) {
         std::cout << std::dec << "\n";
     }
 
-// Función para imprimir los detalles del paquete (header, size, crc, data)
-void print_packet_details(const DATA::packet_tx& packet, const std::vector<uint8_t>& data) {
-    std::cout << "\n---- Packet Details ----\n";
-    std::cout << "Head: 0x" << std::hex << std::setw(2) << std::setfill('0') << (int)packet.head << std::dec << std::endl;
-    std::cout << "Size: " << packet.size << " bytes" << std::endl;
-    std::cout << "CRC8: 0x" << std::hex << std::setw(2) << std::setfill('0') << (int)packet.crc8 << std::dec << std::endl;
-    std::cout << "Data size: " << data.size() << " bytes" << std::endl;
-    std::cout << "Data: ";
-    print_hex(data.data(), data.size());
-    std::cout << "------------------------\n";
-}
+    // Función para imprimir los detalles del paquete (header, size, crc, data)
+    void 
+    print_packet_details(const DATA::packet_tx& packet, const std::vector<uint8_t>& data) {
+        std::cout << "\n---- Packet Details ----\n";
+        std::cout << "Head: 0x" << std::hex << std::setw(2) << std::setfill('0') << (int)packet.head << std::dec << std::endl;
+        std::cout << "Size: " << packet.size << " bytes" << std::endl;
+        std::cout << "CRC8: 0x" << std::hex << std::setw(2) << std::setfill('0') << (int)packet.crc8 << std::dec << std::endl;
+        std::cout << "Data size: " << data.size() << " bytes" << std::endl;
+        std::cout << "Data: ";
+        print_hex(data.data(), data.size());
+        std::cout << "------------------------\n";
+    }
 
 
     // Función para generar el vector de datos de Zigbee
-    std::vector<uint8_t> Radio_t::getVectorZigbee() {
+    std::vector<uint8_t> 
+    Radio_t::getVectorZigbee() {
         // Mensaje a transmitir (ejemplo)
         const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@56789abcdefghijklmnopqrstuv";
 
@@ -106,5 +111,4 @@ void print_packet_details(const DATA::packet_tx& packet, const std::vector<uint8
         // Retornar el vector con los datos del paquete
         return vect;
     }
-
-}
+}//end namespace MRF24J40

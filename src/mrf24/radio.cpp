@@ -89,6 +89,7 @@ extern DATA::PACKET_RX buffer_receiver;
         }
     }
 
+/*
     const uint32_t calculate_crc32(const std::string& data) {
         // CRC32 necesita un valor inicial (0xFFFFFFFF es el más común)
         uint32_t crc = crc32(0L, Z_NULL, 0);
@@ -121,7 +122,7 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
 
-/*
+
 std::vector<uint8_t> Radio_t::getVectorZigbee(){
     const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@56789abcdefghijklmnopqrstuv";
 
