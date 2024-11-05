@@ -89,86 +89,8 @@ extern DATA::PACKET_RX buffer_receiver;
         }
     }
 
-/*
-    const uint32_t calculate_crc32(const std::string& data) {
-        // CRC32 necesita un valor inicial (0xFFFFFFFF es el más común)
-        uint32_t crc = crc32(0L, Z_NULL, 0);
-        crc = crc32(crc, reinterpret_cast<const unsigned char*>(data.c_str()), data.size());
-        return crc;
-    }
-
-    const uint32_t calculate_crc32(const uint8_t* data, size_t length) {
-        uint32_t crc = crc32(0L, Z_NULL, 0);  // Inicialización de CRC32
-        crc = crc32(crc, data, length);       // Calcular CRC para el buffer de bytes
-        return crc;
-    }
 
 
-    const uint8_t calculate_crc8(const uint8_t* data, size_t length) {
-        uint8_t crc = 0x00;  // Inicialización del CRC
-
-        for (size_t i = 0; i < length; ++i) {
-            crc ^= data[i];  // XOR el byte actual con el CRC
-
-            for (uint8_t j = 0; j < 8; ++j) {  // Procesar cada bit del byte
-                if (crc & 0x80) {  // Si el bit más alto está encendido
-                    crc = (crc << 1) ^ 0x07;  // Desplazar y aplicar polinomio (0x07 es común para CRC-8)
-                } else {
-                    crc <<= 1;  // Solo desplazar si no es necesario aplicar el polinomio
-                }
-            }
-        }
-        return crc;  // Retornar el CRC de 8 bits
-    }
-
-
-
-std::vector<uint8_t> Radio_t::getVectorZigbee(){
-    const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@56789abcdefghijklmnopqrstuv";
-
-    // Acortar a los primeros 100 caracteres
-    const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
-
-    auto crc8 = calculate_crc8(reinterpret_cast<const uint8_t*>(msj_to_zb_short.c_str()), msj_to_zb_short.size()); 
-
-    // Copiar los caracteres al buffer
-    std::vector<uint8_t> buffer_zb(msj_to_zb_short.begin(), msj_to_zb_short.end());
-
-    auto max = buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
-
-    DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(max), { }, crc8 };
-
-    // Copiar los datos del mensaje a bufferTransReceiver
-    std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
-
-    std::cout << "\nstrlen(MSJ) + strlen(head) + strlen(checksum) = total : ( " << std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
-
-    std::cout << "bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size()) << "\n";
-    std::cout << "hex checksum : " << hex_to_text(bufferTransReceiver.crc8);        
-
-    // Crear un vector de tamaño adecuado
-    std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
-
-    // Usar memcpy para copiar la estructura completa a vect
-    std::memcpy(vect.data(), &bufferTransReceiver, sizeof(bufferTransReceiver));
-
-    std::cout << "\nSIZE vect : " << vect.size() << "\n";
-    std::cout << "\nBuffer Send : \n";
-    for (const auto& byte : vect) {
-        std::cout << byte;
-    }
-    std::cout << "\n";         
-
-    uint64_t mac_address;
-    zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-
-    std::cout << "local address mac: ";  
-    print_to_hex(mac_address);
-
-    return vect;
-}
-
-*/
     //initcializacion 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
