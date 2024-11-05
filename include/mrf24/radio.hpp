@@ -52,22 +52,23 @@ namespace MRF24J40{
             void                RunProccess(void);
             friend void                update();  
             //void                print_to_hex(uint64_t*);
+
+        protected:            
+            const std::vector<uint8_t>& getVectorZigbee();
+
         private :
             unsigned long       last_time{0};
             unsigned long       tx_interval{1000}; 
             bool                status{false};
-            bool                flag {false};
-            
-            
+            bool                flag {false};            
+        
         #ifdef ENABLE_INTERRUPT_MRF24 // rx
             std::unique_ptr<DATABASE::Database_t>   database{};
-            //std::unique_ptr<WORK::Work_t>           fs{};                        
-            
+            //std::unique_ptr<WORK::Work_t>           fs{};                                    
         #else    
             std::unique_ptr<WORK::Work_t> qr{};
             struct DATA::packet_tx                  buffer_transmiter{};
-        #endif             
-        
+        #endif                     
         std::unique_ptr<GPIO::Gpio_t> gpio{};                           
     };
 

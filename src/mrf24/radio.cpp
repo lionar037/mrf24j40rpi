@@ -120,8 +120,45 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-//#define MRF24_TRANSMITER_ENABLE
+#define MRF24_TRANSMITER_ENABLE
 
+
+    const std::vector<uint8_t>& Radio_t::getVectorZigbee(){
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQ@STUVWXYZ0123456789abcdefghijklmnopqrstuv";
+
+        // Acortar a los primeros 100 caracteres
+        const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
+
+        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
+
+        std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
+
+        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
+
+        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , checksum ,{ } };
+
+        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
+
+        std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
+        std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
+        std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
+        std::cout<<"\nBuffer Send : \n";
+
+        //imprime lo que tendria en la salida del dispositivo zigbee                    
+        std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
+
+        std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
+
+        for(const auto& byte : vect) std::cout << byte ; 
+            std::cout<<"\n" ;         
+
+        uint64_t mac_address;
+        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
+        std::cout<<"local address mac: " ;  print_to_hex(mac_address);
+        return vect;
+    }
+
+    //initcializacion 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
         const unsigned long current_time = 100000;//1000000 original
@@ -135,40 +172,9 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQ@STUVWXYZ0123456789abcdefghijklmnopqrstuv";
-
-        // Acortar a los primeros 100 caracteres
-        const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
-
-        auto checksum = calculate_crc8 ( reinterpret_cast<const uint8_t *>(msj_to_zb_short.c_str() ) , msj_to_zb_short.size()); 
-
-        std::vector <uint8_t> buffer_zb (msj_to_zb_short.begin() , msj_to_zb_short.end());
-        
-        auto max =  buffer_zb.size() + sizeof(HEAD) + sizeof(checksum);
-
-        struct DATA::packet_tx bufferTransReceiver{ HEAD , static_cast<uint16_t>(max) , checksum ,{ } };
-        
-        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
-        
-        std::cout<<"\n strlen(MSJ) + strlen(head) + strlen(checksum) = total : ( "<< std::to_string(bufferTransReceiver.size) << " ) , budeffer size :  \n";                            
-        std::cout<<"bufferTransReceiver.data size :  " << std::to_string(buffer_zb.size())<<"\n";
-        std::cout<<"hex checksum : " <<hex_to_text(bufferTransReceiver.checksum);
-        std::cout<<"\nBuffer Send : \n";
-
-        //imprime lo que tendria en la salida del dispositivo zigbee                    
-        std::vector<uint8_t> vect(sizeof(bufferTransReceiver));
-
-        std::memcpy(vect.data(),&bufferTransReceiver,vect.size());
-
-        for(const auto& byte : vect) std::cout << byte ; 
-            std::cout<<"\n" ;         
-            
-        uint64_t mac_address;
-        zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-        std::cout<<"local address mac: " ;  print_to_hex(mac_address);
             
             #ifdef MACADDR64
-            zigbee->send(ADDRESS_LONG_SLAVE,vect);            
+            zigbee->send(ADDRESS_LONG_SLAVE,getVectorZigbee());            
             #elif defined(MACADDR16)
                 zigbee->send(ADDR_SLAVE, vect);                                
             #endif
