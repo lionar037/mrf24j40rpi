@@ -54,7 +54,7 @@ namespace MRF24J40{
             //void                print_to_hex(uint64_t*);
 
         protected:            
-            const std::vector<uint8_t>& getVectorZigbee();
+            std::vector<uint8_t> getVectorZigbee();
 
         private :
             unsigned long       last_time{0};
