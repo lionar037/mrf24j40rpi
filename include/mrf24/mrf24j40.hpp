@@ -41,7 +41,10 @@ struct Mrf24j
 
         void                init                (void);
         void                mrf24j40_init       (void);
+        void                    send(const uint64_t , const std::vector<uint8_t>) ;
+        void                    send64(const uint64_t , const struct DATA::packet_tx);
 
+protected:
         const uint8_t       read_short          (const uint8_t);            //address
         const uint8_t       read_long           (const uint16_t);            //address
         void                write_short         (const uint8_t ,const uint8_t );   //address ,data
@@ -69,7 +72,8 @@ struct Mrf24j
         void                delay               (const uint16_t);
         void                interrupts          (void);
         void                noInterrupts        (void);
-        
+    
+    public:        
                     /** If you want to throw away rx data */
         void                rx_flush(void);
         rx_info_t *         get_rxinfo(void) ;
@@ -77,6 +81,8 @@ struct Mrf24j
         uint8_t *           get_rxbuf(void) ;
         const int           rx_datalength(void);
         void                set_ignoreBytes(const int );
+
+    protected:        
                     /**
                      * Set bufPHY flag to buffer all bytes in PHY Payload, or not
                      */
@@ -86,16 +92,16 @@ struct Mrf24j
                     * Set PA/LNA external control
                     */
         void                 set_palna(const bool);
-        template <typename T>
-        void                    send_template(const uint64_t, const T&) ;
+        //template <typename T>
+        //void                    send_template(const uint64_t, const T&) ;
 
-        void                    send(const uint64_t , const std::vector<uint8_t>) ;
-        void                    send64(const uint64_t , const struct DATA::packet_tx);
+
+
         void                    interrupt_handler(void);
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
         void                    settings_mrf(void);
 
-    protected:
+    
         void                    mode_turbo();
         void                    set_macaddress64(int&,const uint64_t);
         void                    reset_rf_state_machine(void);
