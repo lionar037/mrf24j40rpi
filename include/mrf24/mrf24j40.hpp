@@ -82,26 +82,25 @@ protected:
         uint8_t *           get_rxbuf(void) ;
         const int           rx_datalength(void);
         void                set_ignoreBytes(const int );
-
-    protected:        
-                    /**
-                     * Set bufPHY flag to buffer all bytes in PHY Payload, or not
-                     */
+           
+        //
+        // Set bufPHY flag to buffer all bytes in PHY Payload, or not
+        // 
         void                 set_bufferPHY(const bool);
         bool                 get_bufferPHY(void);
-                    /**
-                    * Set PA/LNA external control
-                    */
+
+        protected: 
+
+        //
+        //Set PA/LNA external control
+        //
         void                 set_palna(const bool);
+
         //template <typename T>
         //void                    send_template(const uint64_t, const T&) ;
 
-
-
-
         bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
         void                    settings_mrf(void);
-
     
         void                    mode_turbo();
         void                    set_macaddress64(int&,const uint64_t);
