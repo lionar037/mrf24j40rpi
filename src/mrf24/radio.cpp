@@ -120,7 +120,7 @@ extern DATA::PACKET_RX buffer_receiver;
         return crc;  // Retornar el CRC de 8 bits
     }
 
-//#define MRF24_TRANSMITER_ENABLE
+#define MRF24_TRANSMITER_ENABLE
 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
@@ -135,7 +135,7 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv";
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQ@STUVWXYZ0123456789abcdefghijklmnopqrstuv";
 
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
