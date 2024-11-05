@@ -60,11 +60,12 @@ namespace MRF24J40{
         oss_zigbee.clear(); 
 
         if(zigbee->get_bufferPHY()){
-            monitor->insert(" Packet data (PHY Payload) :");
+            monitor->insert(" Packet data (PHY Payload) :" +  " frame_length : ( " + frame_length + " ) : ");
             #ifdef DBG_PRINT_GET_INFO               
 
-            for (uint8_t i = 0; i < frame_length; i++){
-                oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];
+            for (uint8_t i = 0; i < frame_length; ++i){
+                //oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];//imprime en hexadecimal
+                oss_zigbee << zigbee->get_rxbuf()[i];
             }
 
             monitor->insert(oss_zigbee.str());
