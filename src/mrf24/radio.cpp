@@ -121,7 +121,7 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
 
-
+/*
 std::vector<uint8_t> Radio_t::getVectorZigbee(){
     const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@56789abcdefghijklmnopqrstuv";
 
@@ -158,7 +158,6 @@ std::vector<uint8_t> Radio_t::getVectorZigbee(){
     }
     std::cout << "\n";         
 
-
     uint64_t mac_address;
     zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
 
@@ -168,7 +167,7 @@ std::vector<uint8_t> Radio_t::getVectorZigbee(){
     return vect;
 }
 
-
+*/
     //initcializacion 
     void Radio_t::Init(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx);
