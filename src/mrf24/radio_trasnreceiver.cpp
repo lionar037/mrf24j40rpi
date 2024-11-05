@@ -60,7 +60,7 @@ namespace MRF24J40{
         oss_zigbee.clear(); 
 
         if(zigbee->get_bufferPHY()){
-            monitor->insert(" Packet data (PHY Payload) :" +  " frame_length : ( " + frame_length + " ) : ");
+            monitor->insert(" Packet data (PHY Payload) :" +  std::to_string( frame_length  ));
             #ifdef DBG_PRINT_GET_INFO               
 
             for (uint8_t i = 0; i < frame_length; ++i){
