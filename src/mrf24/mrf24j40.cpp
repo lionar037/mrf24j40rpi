@@ -169,13 +169,13 @@ namespace MRF24J40{
         delay(192);                           // delay at least 192usec
     }
 
-    /**
-     * Call this from within an interrupt handler connected to the MRFs output
-     * interrupt pin.  It handles reading in any data from the module, and letting it
-     * continue working.
-     * Only the most recent data is ever kept.
-     */
-            
+
+    //
+    //Call this from within an interrupt handler connected to the MRFs output
+    //interrupt pin.  It handles reading in any data from the module, and letting it
+    //continue working.
+    //Only the most recent data is ever kept.
+    //            
     void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
@@ -202,7 +202,7 @@ namespace MRF24J40{
             // printf(" frame length : %d \n",frame_length);
             // printf(" rx datalength : %d \n",rx_datalength());
 
-            for(uint16_t i = 0; i < frame_length ; i++) {//original
+            for(uint16_t i = 0; i < 127 ; i++) {//original
             //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
@@ -276,7 +276,7 @@ namespace MRF24J40{
         write_short(MRF_RXMCR, *reinterpret_cast<uint8_t*>(&rxmcr));
         return;
     }
-    
+
 
     rx_info_t* 
     Mrf24j::get_rxinfo(void) {
