@@ -161,8 +161,6 @@ extern DATA::PACKET_RX buffer_receiver;
 
         std::cout<<"local address mac: " ;  print_to_hex(mac_address);
 
-        //zigbee->send64(ADDRESS_LONG_SLAVE,bufferTransReceiver);            
-
         return vect;
     }
 
@@ -180,7 +178,6 @@ extern DATA::PACKET_RX buffer_receiver;
                     std::cout<<"send msj 16() ... \n";
                 #endif
             #endif
-            //getVectorZigbee();
                 #ifdef MACADDR64
             zigbee->send(ADDRESS_LONG_SLAVE,getVectorZigbee());            
             //zigbee->send64(ADDRESS_LONG_SLAVE,bufferTransReceiver);            
