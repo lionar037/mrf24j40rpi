@@ -94,8 +94,9 @@ endif
 
 
 LIBS += -pthread -lbcm2835 -lcrypto -lmysqlcppconn -lqrencode -lpng -lz
+#Libraries Encript AES
+#LIBS += -lssl -lcrypto
 #LIBS += -lmosquitto -lrt 
-
 # Detectar la arquitectura del sistema
 
 
