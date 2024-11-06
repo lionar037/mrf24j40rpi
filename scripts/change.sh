@@ -3,28 +3,39 @@
 # Directorios raíz
 DIRECTORIOS=("src" "include")
 
-# Comando para detectar cambios usando 'find' y 'stat'
-# 'find' busca archivos dentro del directorio especificado
-# 'stat' obtiene la última fecha de modificación para detectar cambios
+# Archivo de backup donde se guardarán los hashes (checksum) de los archivos
+BACKUP_FILE="backup_hashes.txt"
 
-# Mantenemos un registro de los archivos previamente procesados
-declare -A archivos_previos
+# Comando para detectar cambios usando 'find' y 'sha256sum'
+# 'find' busca archivos dentro del directorio especificado
+# 'sha256sum' genera un hash único para cada archivo
 
 # Función para detectar archivos modificados
 detectar_cambios() {
+    # Si el archivo de backup no existe, lo creamos
+    if [[ ! -f "$BACKUP_FILE" ]]; then
+        echo "Creando archivo de backup..."
+        touch "$BACKUP_FILE"
+    fi
+    
     # Recorremos cada uno de los directorios especificados
     for DIRECTORIO in "${DIRECTORIOS[@]}"; do
         # Buscar todos los archivos en el directorio y sus subdirectorios
         find "$DIRECTORIO" -type f | while read archivo; do
-            # Obtener la última fecha de modificación del archivo
-            fecha_modificacion=$(stat --format=%Y "$archivo")
+            # Generamos el checksum (hash SHA256) del archivo
+            hash_actual=$(sha256sum "$archivo" | cut -d " " -f 1)
             
-            # Verificar si el archivo ya ha sido procesado antes
-            if [[ -z "${archivos_previos[$archivo]}" || "${archivos_previos[$archivo]}" != "$fecha_modificacion" ]]; then
-                # Si el archivo no ha sido procesado o su fecha ha cambiado, mostrarlo
+            # Verificamos si el archivo ya existe en el backup
+            # Si existe, lo comparamos con el hash almacenado
+            hash_guardado=$(grep -E "^$archivo" "$BACKUP_FILE" | cut -d " " -f 1)
+            
+            # Si el hash ha cambiado o el archivo no está en el backup
+            if [[ "$hash_actual" != "$hash_guardado" ]]; then
+                # Mostramos el archivo modificado
                 echo "Archivo modificado: $archivo"
-                # Actualizamos la fecha de modificación para el archivo
-                archivos_previos["$archivo"]=$fecha_modificacion
+                # Actualizamos o agregamos el hash del archivo al backup
+                grep -v -E "^$archivo" "$BACKUP_FILE" > "$BACKUP_FILE.tmp" && mv "$BACKUP_FILE.tmp" "$BACKUP_FILE"
+                echo "$hash_actual  $archivo" >> "$BACKUP_FILE"
             fi
         done
     done
