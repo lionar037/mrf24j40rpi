@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directorios raíz
-DIRECTORIOS=("src" "include")
+DIRECTORIOS=("src" "include" "files")
 
 # Archivo de backup donde se guardarán los hashes (checksum) de los archivos
 BACKUP_FILE="backup_hashes.txt"
@@ -53,6 +53,9 @@ detectar_cambios() {
                     # Si no ha cambiado, mantenemos la línea original del archivo de backup
                     echo "$backup_line" >> "$TEMP_FILE"
                 fi
+            else
+                # Si el archivo no existe, lo eliminamos del archivo de backup
+                echo "Archivo eliminado: $archivo_backup"
             fi
         done < "$BACKUP_FILE"
 
