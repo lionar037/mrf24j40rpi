@@ -186,12 +186,12 @@ namespace MRF24J40{
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
             const uint8_t frame_length = read_long(0x300);
-            rx_buf[0]=read_long(0x300);
+            //rx_buf[0]=read_long(0x300);
                 // buffer all bytes in PHY Payload
             if(bufPHY){// bool bufPHY 
                 uint8_t rb_ptr = 0;
                 
-                for (uint8_t i = 0x1; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
+                for (uint8_t i = 0; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }

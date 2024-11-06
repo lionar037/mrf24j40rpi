@@ -71,7 +71,7 @@ extern std::unique_ptr<Mrf24j> zigbee ;
     std::vector<uint8_t> 
     Radio_t::getVectorZigbee() {
         // Mensaje a transmitir (ejemplo)
-        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@56789abcdefghijklmnopqrstuv";
+        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";
 
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
