@@ -12,7 +12,8 @@
 namespace MRF24J40{
 
 extern std::unique_ptr<Mrf24j> zigbee ;
-//extern uint8_t rx_buf;
+
+extern uint8_t rx_buf[127];
 
     // Función auxiliar para imprimir en formato hexadecimal
     void 

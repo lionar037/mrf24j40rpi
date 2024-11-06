@@ -19,6 +19,8 @@ namespace MRF24J40{
     std::unique_ptr<Mrf24j> zigbee = nullptr ;
     DATA::PACKET_RX buffer_receiver{};
 
+extern uint8_t rx_buf[127];
+
     void 
     handle_tx() {
     #ifdef MRF24_TRANSMITER_ENABLE
@@ -135,7 +137,7 @@ namespace MRF24J40{
             
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-                        
+            monitor->insert( "ZigeBee : "     +    rx_buf   );
         //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
