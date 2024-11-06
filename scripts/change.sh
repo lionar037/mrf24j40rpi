@@ -34,6 +34,9 @@ detectar_cambios() {
         # Si el archivo de backup ya existe, solo mostramos los archivos modificados
         echo "Detectando archivos modificados..."
 
+        # Creamos un archivo temporal para actualizar los hashes
+        TEMP_FILE=$(mktemp)
+
         # Recorremos cada uno de los directorios especificados
         for DIRECTORIO in "${DIRECTORIOS[@]}"; do
             # Buscar todos los archivos en el directorio y sus subdirectorios
@@ -49,13 +52,17 @@ detectar_cambios() {
                     # Mostramos el archivo modificado
                     echo "Archivo modificado: $archivo"
                     
-                    # Actualizamos o agregamos el hash del archivo al backup
-                    # Eliminar la línea antigua (si existe) y agregar la nueva
-                    grep -v -E "^$archivo" "$BACKUP_FILE" > "$BACKUP_FILE.tmp" && mv "$BACKUP_FILE.tmp" "$BACKUP_FILE"
-                    echo "$hash_actual  $archivo" >> "$BACKUP_FILE"
+                    # Agregar el nuevo hash y archivo al archivo temporal
+                    echo "$hash_actual  $archivo" >> "$TEMP_FILE"
+                else
+                    # Si el archivo no ha cambiado, lo agregamos al archivo temporal
+                    echo "$hash_guardado  $archivo" >> "$TEMP_FILE"
                 fi
             done
         done
+
+        # Reemplazamos el archivo de backup original con el temporal
+        mv "$TEMP_FILE" "$BACKUP_FILE"
     fi
 }
 
