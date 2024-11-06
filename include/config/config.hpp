@@ -128,3 +128,12 @@
 
 //aMaxPHYPacketSize
 #define A_MAX_PHY_PACKET_SIZE 127
+
+
+#ifdef USE_MRF24_TX
+    #define COORDINATOR
+#elif defined(MODULE_RX)
+    #define ROUTER
+#else 
+    #define END
+#endif 

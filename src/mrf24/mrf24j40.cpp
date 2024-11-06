@@ -264,9 +264,24 @@ namespace MRF24J40{
     //configuracion MRF24J40
     void 
     Mrf24j::settings_mrf(void){
+        #ifdef COORDINATOR
         rxmcr.PANCOORD=true;
+        #else
+        rxmcr.PANCOORD=false;
+        #endif
+
+        #ifdef ROUTER
+        rxmcr.COORD=true;
+        #else 
         rxmcr.COORD=false;
+        #endif
+
+        #ifdef END
         rxmcr.PROMI=true;
+        #else
+        rxmcr.PROMI=false;
+        #endif
+        
         #ifdef DBG_MRF
             printf("*reinterpret_cast : 0x%x\n",*reinterpret_cast<uint8_t*>(&rxmcr));
         #endif
