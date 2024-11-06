@@ -92,7 +92,7 @@ extern uint8_t rx_buf[127];
         for (auto& byte : zigbee->get_rxinfo()->rx_data){                
                 oss_zigbee << byte;
             }
-
+ 
             monitor->insert(" " );
             monitor->insert(" " );
             monitor->insert("info_zigbee : " );
@@ -101,7 +101,8 @@ extern uint8_t rx_buf[127];
             oss_zigbee.clear();   // Restablecer el estado
             
         #ifdef DBG_PRINT_GET_INFO                     
-          std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
+        std::memcpy (  &buffer_receiver , rx_buf , 127);          
+          //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
           //std::memcpy (  &buffer_receiver , zigbee->get_rxinfo() , sizeof(DATA::packet_rx));          
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;

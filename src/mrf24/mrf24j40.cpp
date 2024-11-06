@@ -173,7 +173,7 @@ namespace MRF24J40{
     //interrupt pin.  It handles reading in any data from the module, and letting it
     //continue working.
     //Only the most recent data is ever kept.
-    //            
+    ///            
     void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
