@@ -13,3 +13,4 @@ echo ${commit_message}
 #git add . && git commit -m "$commit_message" && git push -u origin main
 git add . && git commit -m "$commit_message" && git push -u origin $VERSION
 
+#git branch --set-upstream-to=origin/main $VERSION
