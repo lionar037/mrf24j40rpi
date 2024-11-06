@@ -6,10 +6,6 @@ DIRECTORIOS=("src" "include" "files")
 # Archivo de backup donde se guardarán los hashes (checksum) de los archivos
 BACKUP_FILE="backup_hashes.txt"
 
-# Comando para detectar cambios usando 'find' y 'sha256sum'
-# 'find' busca archivos dentro del directorio especificado
-# 'sha256sum' genera un hash único para cada archivo
-
 # Función para detectar archivos modificados
 detectar_cambios() {
     # Si el archivo de backup no existe, lo creamos
@@ -37,26 +33,41 @@ detectar_cambios() {
         # Creamos un archivo temporal para actualizar los hashes
         TEMP_FILE=$(mktemp)
 
-        # Recorremos cada uno de los directorios especificados
+        # Leemos el archivo de backup y comparamos los hashes
+        while read -r backup_line; do
+            # Extraemos el hash guardado y el archivo desde el backup
+            hash_guardado=$(echo "$backup_line" | cut -d " " -f 1)
+            archivo_backup=$(echo "$backup_line" | cut -d " " -f 2-)
+
+            # Verificamos si el archivo existe en el sistema
+            if [[ -f "$archivo_backup" ]]; then
+                # Generamos el checksum (hash SHA256) del archivo actual
+                hash_actual=$(sha256sum "$archivo_backup" | cut -d " " -f 1)
+
+                # Si el hash ha cambiado, mostramos el archivo modificado
+                if [[ "$hash_actual" != "$hash_guardado" ]]; then
+                    echo "Archivo modificado: $archivo_backup"
+                fi
+
+                # Agregar el nuevo hash y archivo al archivo temporal
+                echo "$hash_actual  $archivo_backup" >> "$TEMP_FILE"
+            fi
+        done < "$BACKUP_FILE"
+
+        # Recorremos cada uno de los directorios especificados para encontrar archivos nuevos
         for DIRECTORIO in "${DIRECTORIOS[@]}"; do
             # Buscar todos los archivos en el directorio y sus subdirectorios
             find "$DIRECTORIO" -type f | while read archivo; do
-                # Generamos el checksum (hash SHA256) del archivo
-                hash_actual=$(sha256sum "$archivo" | cut -d " " -f 1)
-                
-                # Verificamos si el archivo ya existe en el backup
-                hash_guardado=$(grep -E "^$archivo" "$BACKUP_FILE" | cut -d " " -f 1)
-                
-                # Si el hash ha cambiado o el archivo no está en el backup
-                if [[ "$hash_actual" != "$hash_guardado" ]]; then
-                    # Mostramos el archivo modificado
-                    echo "Archivo modificado: $archivo"
+                # Verificamos si el archivo ya está en el archivo de backup
+                if ! grep -q "$archivo" "$BACKUP_FILE"; then
+                    # Generamos el checksum (hash SHA256) del archivo nuevo
+                    hash_actual=$(sha256sum "$archivo" | cut -d " " -f 1)
                     
-                    # Agregar el nuevo hash y archivo al archivo temporal
+                    # Imprimimos que es un archivo nuevo
+                    echo "Archivo nuevo: $archivo"
+                    
+                    # Agregar el nuevo archivo y su hash al archivo temporal
                     echo "$hash_actual  $archivo" >> "$TEMP_FILE"
-                else
-                    # Si el archivo no ha cambiado, lo agregamos al archivo temporal
-                    echo "$hash_guardado  $archivo" >> "$TEMP_FILE"
                 fi
             done
         done
