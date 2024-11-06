@@ -6,8 +6,6 @@
 #include <work/data_analisis.hpp>
 #include <spi/spi.hpp>
 
-//aMaxPHYPacketSize
-#define A_MAX_PHY_PACKET_SIZE 127
 
 namespace MRF24J40{
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.
@@ -116,6 +114,7 @@ namespace MRF24J40{
     //  Simple send 16, with acks, not much of anything.. assumes src16 and local pan only.
     //  @param data
     //
+
     void 
     Mrf24j::set_interrupts(void) {
     //  interrupts for rx and tx normal complete
@@ -172,7 +171,7 @@ namespace MRF24J40{
     //interrupt pin.  It handles reading in any data from the module, and letting it
     //continue working.
     //Only the most recent data is ever kept.
-    ///            
+    //            
     void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
@@ -185,20 +184,23 @@ namespace MRF24J40{
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
             const size_t frame_length = read_long(0x300);
+
                 // buffer all bytes in PHY Payload
-            if(bufPHY){// bool bufPHY 
-                size_t rb_ptr = 0;
-                
-                for (size_t i = 0; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
+            if(bufPHY){
+                int rb_ptr = 0;
+                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
 
             // buffer data bytes
-            size_t rd_ptr = 0;
+            int rd_ptr = 0;
+            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
+            // printf(" frame length : %d \n",frame_length);
+            // printf(" rx datalength : %d \n",rx_datalength());
 
-            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)                                    
-            for(size_t i = 0; i < frame_length ; ++i) {//original        
+            for(size_t i = 0; i < frame_length ; ++i) {//original
+            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
@@ -211,10 +213,10 @@ namespace MRF24J40{
             rx_enable();
             interrupts();
         }
-        if (last_interrupt & MRF_I_TXNIF) {            
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//es igual a //m_flag_got_tx++;
+        if (last_interrupt & MRF_I_TXNIF) {
+            //m_flag_got_tx++;
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
             const uint8_t tmp = read_short(MRF_TXSTAT);
-
             // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
             tx_info.retries = tmp >> 6;
@@ -263,7 +265,7 @@ namespace MRF24J40{
     void 
     Mrf24j::settings_mrf(void){
         rxmcr.PANCOORD=true;
-        rxmcr.COORD=false;//coordinator  es false , pero probar con true
+        rxmcr.COORD=false;
         rxmcr.PROMI=true;
         #ifdef DBG_MRF
             printf("*reinterpret_cast : 0x%x\n",*reinterpret_cast<uint8_t*>(&rxmcr));
@@ -290,8 +292,7 @@ namespace MRF24J40{
 
     const int 
     Mrf24j::rx_datalength(void) {
-        //return rx_info.frame_length - m_bytes_nodata;
-        return rx_info.frame_length ;
+        return rx_info.frame_length - m_bytes_nodata;
     }
 
     void 
@@ -433,15 +434,10 @@ namespace MRF24J40{
         
         // All testing seems to indicate that the next two bytes are ignored.        
         //2 bytes on FCS appended by TXMAC
-        //set_ignoreBytes(2);// no se encontraba este aparado , quitar si no funciona
          incr+=ignoreBytes;
 
         for(const auto& byte : vect) write_long(incr++,byte);
         
-
-        //prueba , quitar luego
-        //for(int i =0 ;i<6;++i)write_long(incr++,0xff);
-
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
         mode_turbo();
