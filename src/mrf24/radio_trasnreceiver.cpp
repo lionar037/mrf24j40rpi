@@ -1,9 +1,6 @@
-//radio_tx_rx.cpp
 #include <mrf24/radio.hpp>
 #include <mrf24/mrf24j40.hpp>
 #include <mrf24/mrf24j40_template.tpp>
-//#include <qr/qr.hpp>
-//#include <file/file.hpp>
 #include <display/color.hpp>
 #include <work/rfflush.hpp>
 #ifdef USE_OLED

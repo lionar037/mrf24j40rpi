@@ -15,8 +15,6 @@
 #include <cstdint>
 #include <cstddef>
 
-
-
 namespace MRF24J40{ 
 extern std::unique_ptr<Mrf24j> zigbee ;
 extern DATA::PACKET_RX buffer_receiver;
@@ -51,7 +49,6 @@ extern DATA::PACKET_RX buffer_receiver;
         std::cout << "Size msj : ( "<<std::dec<<sizeof(MSJ)<<" )\n";
         #endif
         zigbee = std::make_unique<Mrf24j>();        
-        //zigbee->mrf24j40_init(); 
         zigbee->init();
         zigbee->interrupt_handler();
         zigbee->set_pan(PAN_ID);
