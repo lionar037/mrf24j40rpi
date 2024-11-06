@@ -50,6 +50,7 @@ detectar_cambios() {
                     echo "Archivo modificado: $archivo"
                     
                     # Actualizamos o agregamos el hash del archivo al backup
+                    # Eliminar la línea antigua (si existe) y agregar la nueva
                     grep -v -E "^$archivo" "$BACKUP_FILE" > "$BACKUP_FILE.tmp" && mv "$BACKUP_FILE.tmp" "$BACKUP_FILE"
                     echo "$hash_actual  $archivo" >> "$BACKUP_FILE"
                 fi
