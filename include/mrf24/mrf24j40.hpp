@@ -20,7 +20,7 @@ namespace MRF24J40{
         //max data length = (124 aMaxPHYPacketSize - 2 Frame control - 1 sequence number - 2 panid - 8 longAddr Destination - 8 longAddr Source - 2 FCS)    //8+8+2+2+1+2=23
         uint8_t         rx_data         [124]; //original 116 o 127-3-23
         uint8_t         lqi                  ;
-        uint8_t         rssi                 ;//3+116
+        uint8_t         rssi                 ;//3+116 
     } rx_info_t;
 
     //

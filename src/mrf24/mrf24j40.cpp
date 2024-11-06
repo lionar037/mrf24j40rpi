@@ -185,27 +185,22 @@ namespace MRF24J40{
             rx_disable();
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const int frame_length = read_long(0x300);
-
+            const uint8_t frame_length = read_long(0x300);
+            rx_buf[0]=read_long(0x300);
                 // buffer all bytes in PHY Payload
             if(bufPHY){// bool bufPHY 
-                int rb_ptr = 0;
+                uint8_t rb_ptr = 0;
                 
-                for (int i = 0; i < MAX_PACKET_TX; ++i) { 
-                //for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                for (uint8_t i = 0x1; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
 
             // buffer data bytes
-            int rd_ptr = 0;
-            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
-            // printf(" frame length : %d \n",frame_length);
-            // printf(" rx datalength : %d \n",rx_datalength());
+            uint8_t rd_ptr = 0;
 
-            for(int i = 0; i < MAX_PACKET_TX ; ++i) {
-            //for(size_t i = 0; i < frame_length ; ++i) {//original
-            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
+            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)                                    
+            for(uint8_t i = 0; i < frame_length ; ++i) {//original        
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
@@ -218,10 +213,10 @@ namespace MRF24J40{
             rx_enable();
             interrupts();
         }
-        if (last_interrupt & MRF_I_TXNIF) {
-            //m_flag_got_tx++;
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
+        if (last_interrupt & MRF_I_TXNIF) {            
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//es igual a //m_flag_got_tx++;
             const uint8_t tmp = read_short(MRF_TXSTAT);
+
             // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
             tx_info.retries = tmp >> 6;
@@ -270,7 +265,7 @@ namespace MRF24J40{
     void 
     Mrf24j::settings_mrf(void){
         rxmcr.PANCOORD=true;
-        rxmcr.COORD=false;
+        rxmcr.COORD=false;//coordinator  es false , pero probar con true
         rxmcr.PROMI=true;
         #ifdef DBG_MRF
             printf("*reinterpret_cast : 0x%x\n",*reinterpret_cast<uint8_t*>(&rxmcr));
@@ -439,10 +434,13 @@ namespace MRF24J40{
         
         // All testing seems to indicate that the next two bytes are ignored.        
         //2 bytes on FCS appended by TXMAC
+        set_ignoreBytes(2);
          incr+=ignoreBytes;
 
         for(const auto& byte : vect) write_long(incr++,byte);
         
+        for(int i =0 ;i<10;++i)write_long(incr++,0xff);
+
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
         mode_turbo();
