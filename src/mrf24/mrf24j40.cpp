@@ -439,6 +439,8 @@ namespace MRF24J40{
 
         for(const auto& byte : vect) write_long(incr++,byte);
         
+
+        //prueba , quitar luego
         for(int i =0 ;i<10;++i)write_long(incr++,0xff);
 
         // ack on, and go!
