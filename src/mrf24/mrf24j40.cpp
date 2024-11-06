@@ -116,7 +116,6 @@ namespace MRF24J40{
     //  Simple send 16, with acks, not much of anything.. assumes src16 and local pan only.
     //  @param data
     //
-
     void 
     Mrf24j::set_interrupts(void) {
     //  interrupts for rx and tx normal complete
@@ -291,7 +290,8 @@ namespace MRF24J40{
 
     const int 
     Mrf24j::rx_datalength(void) {
-        return rx_info.frame_length - m_bytes_nodata;
+        //return rx_info.frame_length - m_bytes_nodata;
+        return rx_info.frame_length ;
     }
 
     void 

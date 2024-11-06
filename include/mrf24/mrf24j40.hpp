@@ -121,7 +121,7 @@ namespace MRF24J40{
                 //const int m_bytes_MHR {17};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
 
                 const int m_bytes_FCS {2}; // FCS length = 2
-                const int m_bytes_nodata { }; // no_data bytes in PHY payload,  header length + FCS
+                const int m_bytes_nodata { SIZE_HEAD_PACKET_DATA }; // no_data bytes in PHY payload,  header length + FCS
 
                 // Cambia el tipo de m_flag_got_rx a std::atomic
                 std::atomic<uint8_t> m_flag_got_rx{};
