@@ -14,3 +14,5 @@ echo ${commit_message}
 git add . && git commit -m "$commit_message" && git push -u origin $VERSION
 
 #git branch --set-upstream-to=origin/main $VERSION
+#git push origin nueva_rama:nueva_rama_remota
+#git push origin version1.1:version1.1
