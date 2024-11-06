@@ -434,14 +434,14 @@ namespace MRF24J40{
         
         // All testing seems to indicate that the next two bytes are ignored.        
         //2 bytes on FCS appended by TXMAC
-        set_ignoreBytes(2);// no se encontraba este aparado , quitar si no funciona
+        //set_ignoreBytes(2);// no se encontraba este aparado , quitar si no funciona
          incr+=ignoreBytes;
 
         for(const auto& byte : vect) write_long(incr++,byte);
         
 
         //prueba , quitar luego
-        for(int i =0 ;i<10;++i)write_long(incr++,0xff);
+        for(int i =0 ;i<6;++i)write_long(incr++,0xff);
 
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
