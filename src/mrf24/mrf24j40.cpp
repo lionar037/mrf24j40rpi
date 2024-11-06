@@ -185,22 +185,21 @@ namespace MRF24J40{
             rx_disable();
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const uint8_t frame_length = read_long(0x300);
-            //rx_buf[0]=read_long(0x300);
+            const size_t frame_length = read_long(0x300);
                 // buffer all bytes in PHY Payload
             if(bufPHY){// bool bufPHY 
-                uint8_t rb_ptr = 0;
+                size_t rb_ptr = 0;
                 
-                for (uint8_t i = 0; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
+                for (size_t i = 0; i < frame_length; ++i) {// from 0x301 to (0x301 + frame_length -1)                 
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
 
             // buffer data bytes
-            uint8_t rd_ptr = 0;
+            size_t rd_ptr = 0;
 
             // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)                                    
-            for(uint8_t i = 0; i < frame_length ; ++i) {//original        
+            for(size_t i = 0; i < frame_length ; ++i) {//original        
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
@@ -441,7 +440,7 @@ namespace MRF24J40{
         
 
         //prueba , quitar luego
-        for(int i =0 ;i<6;++i)write_long(incr++,0xff);
+        //for(int i =0 ;i<6;++i)write_long(incr++,0xff);
 
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
