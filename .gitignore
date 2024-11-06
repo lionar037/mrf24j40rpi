@@ -5,8 +5,6 @@ obj/.DS_Store
 obj/
 .vscode/
 olds/
-move/
-examples/
 bin/
 
 obj/.DS_Store
