@@ -137,7 +137,7 @@ extern uint8_t rx_buf[127];
             
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-            std::string rx_b = rx_buf;
+            std::string rx_b = {rx_buf};
             monitor->insert( "ZigeBee : "     +    rx_b.data()   );
         //imprime todo los datos obtenidos
         monitor->print_all();
