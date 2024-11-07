@@ -131,7 +131,7 @@
 
 
 #ifdef USE_MRF24_TX
-    #define ROUTER //or ROUTER
+    #define PROMISCUE //or ROUTER
 #elif defined(MODULE_RX)
     //#define PROMISCUE //
     #define COORDINATOR
