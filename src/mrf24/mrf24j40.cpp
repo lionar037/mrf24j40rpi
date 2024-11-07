@@ -356,6 +356,7 @@ namespace MRF24J40{
         rxmcr.PROMI=false;
         #endif
         
+        
         #ifdef DBG_MRF
             printf("*reinterpret_cast : 0x%x\n",*reinterpret_cast<uint8_t*>(&rxmcr));
         #endif
