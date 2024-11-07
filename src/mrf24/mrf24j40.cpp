@@ -341,11 +341,11 @@ namespace MRF24J40{
         #ifdef COORDINATOR
         rxmcr.PANCOORD=true;
         #else
-        rxmcr.PANCOORD=false;
+        rxmcr.PANCOORD=true;
         #endif
 
         #ifdef ROUTER
-        rxmcr.COORD=true;//original false
+        rxmcr.COORD=false;//original false
         #else 
         rxmcr.COORD=false;
         #endif
@@ -353,7 +353,7 @@ namespace MRF24J40{
         #ifdef PROMISCUE
         rxmcr.PROMI=true;
         #else
-        rxmcr.PROMI=false;
+        rxmcr.PROMI=true;
         #endif
         
         
