@@ -239,7 +239,7 @@ namespace MRF24J40{
             rx_disable();
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const size_t frame_length = read_long(0x300)+2;//mas 2 bytes
+            const size_t frame_length = read_long(0x300);//mas 2 bytes
 
         if(MAX_PACKET_TX<frame_length)
         {
