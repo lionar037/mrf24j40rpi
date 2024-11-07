@@ -226,6 +226,8 @@ namespace MRF24J40{
         }
     }
 */
+
+#include <mrf24/mrf24j40._microchip.hpp>
     void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
