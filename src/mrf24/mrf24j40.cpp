@@ -241,8 +241,8 @@ namespace MRF24J40{
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
             const size_t frame_length = read_long(0x300)+2;//mas 2 bytes
 
-if(MAX_PACKET_TX<frame_length)
-{
+        if(MAX_PACKET_TX<frame_length)
+        {
                 // buffer all bytes in PHY Payload
             if(bufPHY){
                 int rb_ptr = 0;
@@ -252,12 +252,12 @@ if(MAX_PACKET_TX<frame_length)
                 
             }
             else{
-                    write_short(WRITE_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
+                    write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
                 }
-                write_short(WRITE_BBREG1, 0x00);            
+                write_short(MRF_BBREG1, 0x00);            
             }
             else{
-                write_short(WRITE_RXFLUSH,0x01);
+                write_short(MRF_RXFLUSH,0x01);
             }
 
             #ifdef ENABLE_SECURITY
