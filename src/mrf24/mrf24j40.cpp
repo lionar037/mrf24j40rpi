@@ -350,7 +350,7 @@ namespace MRF24J40{
         rxmcr.COORD=false;
         #endif
 
-        #ifdef PROMI
+        #ifdef PROMISCUE
         rxmcr.PROMI=true;
         #else
         rxmcr.PROMI=false;
