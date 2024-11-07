@@ -267,19 +267,19 @@ namespace MRF24J40{
         #ifdef COORDINATOR
         rxmcr.PANCOORD=true;
         #else
-        rxmcr.PANCOORD=false;
+        rxmcr.PANCOORD=true;
         #endif
 
         #ifdef ROUTER
-        rxmcr.COORD=true;
+        rxmcr.COORD=false;
         #else 
         rxmcr.COORD=false;
         #endif
 
-        #ifdef END
+        #ifdef PROMI
         rxmcr.PROMI=true;
         #else
-        rxmcr.PROMI=false;
+        rxmcr.PROMI=true;
         #endif
         
         #ifdef DBG_MRF
