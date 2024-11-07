@@ -74,7 +74,7 @@ extern std::unique_ptr<Mrf24j> zigbee ;
         const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";
 
         // Acortar a los primeros 100 caracteres
-        const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
+        const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX+15);
 
         // Calcular CRC8 para el mensaje
         auto crc8 = calculate_crc8(reinterpret_cast<const uint8_t*>(msj_to_zb_short.c_str()), msj_to_zb_short.size());

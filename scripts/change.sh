@@ -4,7 +4,7 @@
 DIRECTORIOS=("src" "include")
 
 # Archivo de backup donde se guardarán los hashes (checksum) de los archivos
-BACKUP_FILE="backup_hashes.txt"
+BACKUP_FILE="files/backup_hashes.txt"
 
 # Función para detectar archivos modificados
 detectar_cambios() {
