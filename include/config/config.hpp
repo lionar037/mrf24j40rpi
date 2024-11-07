@@ -131,9 +131,9 @@
 
 
 #ifdef USE_MRF24_TX
-    #define COORDINATOR
+    #define COORDINATOR //or ROUTER
 #elif defined(MODULE_RX)
-    #define ROUTER
+    #define PROMI
 #else 
     #define END
 #endif 
