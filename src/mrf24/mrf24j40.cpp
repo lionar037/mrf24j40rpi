@@ -172,7 +172,7 @@ namespace MRF24J40{
     //continue working.
     //Only the most recent data is ever kept.
     //            
-    void 
+/*    void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
         if(last_interrupt & MRF_I_RXIF) {            
@@ -183,12 +183,12 @@ namespace MRF24J40{
             rx_disable();
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const size_t frame_length = read_long(0x300);
+            const size_t frame_length = read_long(0x300)+2;//mas 2 bytes
 
                 // buffer all bytes in PHY Payload
             if(bufPHY){
                 int rb_ptr = 0;
-                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                for (size_t i = 0; i < frame_length+2; ++i) { // from 0x301 to (0x301 + frame_length -1)
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
@@ -203,6 +203,8 @@ namespace MRF24J40{
             //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
+
+             //write_short(WRITE_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
 
             rx_info.frame_length = frame_length;
                     // same as datasheet 0x301 + (m + n + 2) <-- frame_length
@@ -223,6 +225,76 @@ namespace MRF24J40{
             tx_info.channel_busy = (tmp & (1 << CCAFAIL));
         }
     }
+*/
+    void 
+    Mrf24j::interrupt_handler(void) {
+        const uint8_t last_interrupt = read_short(MRF_INTSTAT);
+        if(last_interrupt & MRF_I_RXIF) {            
+            m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_rx++;//fue reemplazado por ++
+
+            // read out the packet data...
+            noInterrupts();
+            rx_disable();
+            
+            // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
+            const size_t frame_length = read_long(0x300)+2;//mas 2 bytes
+
+if(MAX_PACKET_TX<frame_length)
+{
+                // buffer all bytes in PHY Payload
+            if(bufPHY){
+                int rb_ptr = 0;
+                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                    rx_buf[++rb_ptr] = read_long(0x301 + i);
+                }
+                
+            }
+            else{
+                    write_short(WRITE_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
+                }
+                write_short(WRITE_BBREG1, 0x00);            
+            }
+            else{
+                write_short(WRITE_RXFLUSH,0x01);
+            }
+
+            #ifdef ENABLE_SECURITY
+            write_short(WRITE_SECCR0, 0x80);
+            write_short(WRITE_RXFLUSH,0x01);
+            #endif
+
+            // buffer data bytes
+            int rd_ptr = 0;
+            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
+            // printf(" frame length : %d \n",frame_length);
+            // printf(" rx datalength : %d \n",rx_datalength());
+
+            for(size_t i = 0; i < frame_length ; ++i) {//original
+            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
+                rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
+            }
+
+             //
+            rx_info.frame_length = frame_length;
+                    // same as datasheet 0x301 + (m + n + 2) <-- frame_length
+            rx_info.lqi = read_long(0x301 + frame_length);
+                    // same as datasheet 0x301 + (m + n + 3) <-- frame_length + 1
+            rx_info.rssi = read_long(0x301 + frame_length + 1);
+
+            rx_enable();
+            interrupts();
+        }
+        if (last_interrupt & MRF_I_TXNIF) {
+            //m_flag_got_tx++;
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
+            const uint8_t tmp = read_short(MRF_TXSTAT);
+            // 1 means it failed, we want 1 to mean it worked.
+            tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
+            tx_info.retries = tmp >> 6;
+            tx_info.channel_busy = (tmp & (1 << CCAFAIL));
+        }
+    }
+
 
     //
     //Call this function periodically, it will invoke your nominated handlers
@@ -271,9 +343,9 @@ namespace MRF24J40{
         #endif
 
         #ifdef ROUTER
-        rxmcr.COORD=false;
+        rxmcr.COORD=true;
         #else 
-        rxmcr.COORD=false;
+        rxmcr.COORD=true;
         #endif
 
         #ifdef PROMI
