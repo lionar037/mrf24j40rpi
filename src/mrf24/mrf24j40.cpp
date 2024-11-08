@@ -184,16 +184,16 @@ namespace MRF24J40{
             rx_disable();
             
             // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const size_t frame_length = read_long(0x300)+2;//mas 2 bytes
+            const size_t frame_length = read_long(0x300);//mas 2 bytes
 
                 // buffer all bytes in PHY Payload
             if(bufPHY){
                 int rb_ptr = 0;
-                for (size_t i = 0; i < frame_length+2; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
-            write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
+            //write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
 
             // buffer data bytes
             int rd_ptr = 0;
@@ -215,9 +215,8 @@ namespace MRF24J40{
             rx_enable();
             interrupts();
         }
-        if (last_interrupt & MRF_I_TXNIF) {
-            //m_flag_got_tx++;
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
+        if (last_interrupt & MRF_I_TXNIF) {            
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_tx++;
             const uint8_t tmp = read_short(MRF_TXSTAT);
             // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
@@ -255,17 +254,16 @@ namespace MRF24J40{
             else{
                     write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
                 }
-                write_short(MRF_BBREG1, 0x00);            
+                    write_short(MRF_BBREG1, 0x00);            
             }
             else{
-                write_short(MRF_RXFLUSH,0x01);
+                    write_short(MRF_RXFLUSH,0x01);
             }
 
             #ifdef ENABLE_SECURITY
             write_short(WRITE_SECCR0, 0x80);
             write_short(WRITE_RXFLUSH,0x01);
             #endif
-
 
             // buffer data bytes
             int rd_ptr = 0;
@@ -278,19 +276,17 @@ namespace MRF24J40{
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
-             //
             rx_info.frame_length = frame_length;
-                    // same as datasheet 0x301 + (m + n + 2) <-- frame_length
+            // same as datasheet 0x301 + (m + n + 2) <-- frame_length
             rx_info.lqi = read_long(0x301 + frame_length);
-                    // same as datasheet 0x301 + (m + n + 3) <-- frame_length + 1
+            // same as datasheet 0x301 + (m + n + 3) <-- frame_length + 1
             rx_info.rssi = read_long(0x301 + frame_length + 1);
 
             rx_enable();
             interrupts();
         }
-        if (last_interrupt & MRF_I_TXNIF) {
-            //m_flag_got_tx++;
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
+        if (last_interrupt & MRF_I_TXNIF) {            
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_tx++;
             const uint8_t tmp = read_short(MRF_TXSTAT);
             // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
@@ -300,6 +296,8 @@ namespace MRF24J40{
     }
 
 #endif
+
+
     //
     //Call this function periodically, it will invoke your nominated handlers
     //

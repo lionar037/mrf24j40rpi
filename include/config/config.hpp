@@ -133,8 +133,8 @@
 #ifdef USE_MRF24_TX
     #define PROMISCUE //or ROUTER
 #elif defined(MODULE_RX)
-    //#define PROMISCUE //
-    #define COORDINATOR // en modo cordinador solo recibe de la direccion que se configuro
+    #define PROMISCUE //
+    //#define COORDINATOR // en modo cordinador solo recibe de la direccion que se configuro
 #else 
     #define END
 #endif 
