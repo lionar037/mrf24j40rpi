@@ -193,6 +193,7 @@ namespace MRF24J40{
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
+            write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
 
             // buffer data bytes
             int rd_ptr = 0;
@@ -203,9 +204,7 @@ namespace MRF24J40{
             for(size_t i = 0; i < frame_length ; ++i) {//original
             //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
-            }
-
-             //write_short(WRITE_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
+            }            
 
             rx_info.frame_length = frame_length;
                     // same as datasheet 0x301 + (m + n + 2) <-- frame_length
@@ -226,7 +225,7 @@ namespace MRF24J40{
             tx_info.channel_busy = (tmp & (1 << CCAFAIL));
         }
     }
-    
+
 #else
 
 #include <mrf24/mrf24j40._microchip.hpp>
