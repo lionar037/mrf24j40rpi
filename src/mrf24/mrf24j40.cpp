@@ -171,131 +171,74 @@ namespace MRF24J40{
     //interrupt pin.  It handles reading in any data from the module, and letting it
     //continue working.
     //Only the most recent data is ever kept.
-    //            
-#ifdef USE_MAC_ADDRESS_LONG
-    void 
-    Mrf24j::interrupt_handler(void) {
+    //                    
+    void Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
-        if(last_interrupt & MRF_I_RXIF) {            
-            m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_rx++;//fue reemplazado por ++
 
-            // read out the packet data...
+        if (last_interrupt & MRF_I_RXIF) {
+            m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);
+
+            // Desactivar interrupciones y deshabilitar RX temporalmente
             noInterrupts();
             rx_disable();
-            
-            // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const size_t frame_length = read_long(0x300);//mas 2 bytes
 
-                // buffer all bytes in PHY Payload
-            if(bufPHY){
+            // Leer longitud del frame desde el registro de inicio del RX FIFO
+            const size_t frame_length = read_long(0x300);
+
+    #ifdef USE_MAC_ADDRESS_LONG
+            // Caso en el que `USE_MAC_ADDRESS_LONG` está definido
+            if (bufPHY) {
                 int rb_ptr = 0;
-                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
+                for (size_t i = 0; i < frame_length; ++i) {
                     rx_buf[++rb_ptr] = read_long(0x301 + i);
                 }
             }
-            //write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
-
-            // buffer data bytes
-            int rd_ptr = 0;
-            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
-            // printf(" frame length : %d \n",frame_length);
-            // printf(" rx datalength : %d \n",rx_datalength());
-
-            for(size_t i = 0; i < frame_length ; ++i) {//original
-            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
-                rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
-            }            
-
-            rx_info.frame_length = frame_length;
-                    // same as datasheet 0x301 + (m + n + 2) <-- frame_length
-            rx_info.lqi = read_long(0x301 + frame_length);
-                    // same as datasheet 0x301 + (m + n + 3) <-- frame_length + 1
-            rx_info.rssi = read_long(0x301 + frame_length + 1);
-
-            rx_enable();
-            interrupts();
-        }
-        if (last_interrupt & MRF_I_TXNIF) {            
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_tx++;
-            const uint8_t tmp = read_short(MRF_TXSTAT);
-            // 1 means it failed, we want 1 to mean it worked.
-            tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
-            tx_info.retries = tmp >> 6;
-            tx_info.channel_busy = (tmp & (1 << CCAFAIL));
-        }
-    }
-
-#else
-
-#include <mrf24/mrf24j40._microchip.hpp>
-    void 
-    Mrf24j::interrupt_handler(void) {
-        const uint8_t last_interrupt = read_short(MRF_INTSTAT);
-        if(last_interrupt & MRF_I_RXIF) {            
-            m_flag_got_rx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_rx++;//fue reemplazado por ++
-
-            // read out the packet data...
-            noInterrupts();
-            rx_disable();
-            
-            // read start of rxfifo for, has 2 bytes more added by FCS. frame_length = m + n + 2
-            const size_t frame_length = read_long(0x300);//mas 2 bytes
-
-        if(MAX_PACKET_TX<frame_length)
-        {
-                // buffer all bytes in PHY Payload
-            if(bufPHY){
-                int rb_ptr = 0;
-                for (size_t i = 0; i < frame_length; ++i) { // from 0x301 to (0x301 + frame_length -1)
-                    rx_buf[++rb_ptr] = read_long(0x301 + i);
+    #else
+            // Caso en el que `USE_MAC_ADDRESS_LONG` NO está definido
+            if (MAX_PACKET_TX < frame_length) {
+                if (bufPHY) {
+                    int rb_ptr = 0;
+                    for (size_t i = 0; i < frame_length; ++i) {
+                        rx_buf[++rb_ptr] = read_long(0x301 + i);
+                    }
+                } else {
+                    write_short(MRF_RXFLUSH, 0x01);
                 }
-                
-            }
-            else{
-                    write_short(MRF_RXFLUSH, 0x01);//nueva ejecucion //MRF_RXFLUSH
-                }
-                    write_short(MRF_BBREG1, 0x00);            
-            }
-            else{
-                    write_short(MRF_RXFLUSH,0x01);
+                write_short(MRF_BBREG1, 0x00);
+            } else {
+                write_short(MRF_RXFLUSH, 0x01);
             }
 
-            #ifdef ENABLE_SECURITY
+    #ifdef ENABLE_SECURITY
             write_short(WRITE_SECCR0, 0x80);
-            write_short(WRITE_RXFLUSH,0x01);
-            #endif
+            write_short(WRITE_RXFLUSH, 0x01);
+    #endif
+    #endif
 
-            // buffer data bytes
+            // Bufferizar datos específicos en rx_info
             int rd_ptr = 0;
-            // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
-            // printf(" frame length : %d \n",frame_length);
-            // printf(" rx datalength : %d \n",rx_datalength());
-
-            for(size_t i = 0; i < frame_length ; ++i) {//original
-            //for (uint16_t i = 0; i < frame_length + rx_datalength(); i++) {
+            for (size_t i = 0; i < frame_length; ++i) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
+            // Completar información en `rx_info`
             rx_info.frame_length = frame_length;
-            // same as datasheet 0x301 + (m + n + 2) <-- frame_length
             rx_info.lqi = read_long(0x301 + frame_length);
-            // same as datasheet 0x301 + (m + n + 3) <-- frame_length + 1
             rx_info.rssi = read_long(0x301 + frame_length + 1);
 
+            // Rehabilitar RX e interrupciones
             rx_enable();
             interrupts();
         }
-        if (last_interrupt & MRF_I_TXNIF) {            
-            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);//m_flag_got_tx++;
+
+        if (last_interrupt & MRF_I_TXNIF) {
+            m_flag_got_tx.fetch_add(1, std::memory_order_relaxed);
             const uint8_t tmp = read_short(MRF_TXSTAT);
-            // 1 means it failed, we want 1 to mean it worked.
             tx_info.tx_ok = !(tmp & ~(1 << TXNSTAT));
             tx_info.retries = tmp >> 6;
             tx_info.channel_busy = (tmp & (1 << CCAFAIL));
         }
     }
-
-#endif
 
 
     //
@@ -537,7 +480,7 @@ namespace MRF24J40{
     Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
         //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         //const uint8_t len = strlen(packet_tx); // get the length of the char* array
-        const uint8_t len =sizeof(packet_tx.data);
+        const uint8_t len =sizeof(packet_tx);// const uint8_t len =sizeof(packet_tx.data);
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
 
@@ -617,8 +560,7 @@ namespace MRF24J40{
 
     //static void
     void
-    Mrf24j::reset_rf_state_machine(void)
-    {
+    Mrf24j::reset_rf_state_machine(void){
     //
     //Reset RF state machine
     //
@@ -631,8 +573,7 @@ namespace MRF24J40{
 
     
     void 
-    Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address)
-    {
+    Mrf24j::mrf24j40_get_extended_mac_addr(uint64_t *address){
         uint8_t* addr_ptr = reinterpret_cast<uint8_t*>(address);
         addr_ptr[7] = read_short(MRF_EADR7);
         addr_ptr[6] = read_short(MRF_EADR6);
@@ -655,8 +596,7 @@ namespace MRF24J40{
     }
     
     void
-    Mrf24j::mrf24j40_set_tx_power(uint8_t& pwr)
-    {
+    Mrf24j::mrf24j40_set_tx_power(uint8_t& pwr){
       //write_long(MRF_RFCON3, pwr);
       pwr = read_long(MRF_RFCON3);
     }

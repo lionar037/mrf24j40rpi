@@ -109,7 +109,7 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
             monitor->insert (" " );
-            monitor->insert (" " );
+            //monitor->insert (" " );
             //compara la direccion de mac "slave" con la mac de "entrada"
         if(ADDRESS_LONG_SLAVE == mac_address_rx){
             monitor->insert ("mac aceptada" ); }
@@ -140,7 +140,7 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
             monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
             std::string rx_b(rx_buf, rx_buf + sizeof(rx_buf));            
-            monitor->insert( "ZigeBee : "     +    rx_b  );
+            //monitor->insert( "ZigeBee : "     +    rx_b  );
         //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
