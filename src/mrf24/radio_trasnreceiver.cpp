@@ -183,30 +183,25 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
                 //oss_zigbee <<std::hex<< zigbee->get_rxbuf()[i];//imprime en hexadecimal
                 oss_zigbee << zigbee->get_rxbuf()[i];
             }
-
             monitor->insert(oss_zigbee.str());
             oss_zigbee.str("");   // Limpiar el contenido
             oss_zigbee.clear();   // Restablecer el estado
-
             #endif
         }            
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->insert("ASCII data (relevant data) :");
             monitor->insert("data_length : " + std::to_string(zigbee->rx_datalength()) );        
-
         for (auto& byte : zigbee->get_rxinfo()->rx_data){
                 if(byte!=0x00)oss_zigbee << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte) << ":";
             }
             monitor->insert("info_zigbee : " );
             monitor->insert( oss_zigbee.str());        
             oss_zigbee.str("");   // Limpiar el contenido
-            oss_zigbee.clear();   // Restablecer el estado
-            
+            oss_zigbee.clear();   // Restablecer el estado            
         for (auto& byte : zigbee->get_rxinfo()->rx_data){                
                 oss_zigbee << byte;
             }
- 
-            //monitor->insert(" " );
+            
             monitor->insert(" " );
             monitor->insert("info_zigbee : " );
             monitor->insert( oss_zigbee.str());        
@@ -214,8 +209,7 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             oss_zigbee.clear();   // Restablecer el estado
             
         #ifdef DBG_PRINT_GET_INFO                                     
-        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(rx_buf));          
-        
+        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(rx_buf));                  
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
             monitor->insert (" " );

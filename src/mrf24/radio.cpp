@@ -88,7 +88,6 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
 
-
     //initcializacion 
     void 
     Radio_t::Init(bool& flag) {
