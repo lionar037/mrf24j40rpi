@@ -50,8 +50,9 @@ extern DATA::PACKET_RX buffer_receiver;
         #endif
         zigbee = std::make_unique<Mrf24j>();        
         zigbee->init();
-        zigbee->interrupt_handler();
+        
         zigbee->set_pan(PAN_ID);
+        
         // This is _our_ address
 
         #ifdef MACADDR16
@@ -70,8 +71,11 @@ extern DATA::PACKET_RX buffer_receiver;
         // uncomment if you want to buffer all PHY Payload
         zigbee->set_bufferPHY(true);
 
+    //zigbee->interrupt_handler();//verifica si llegaron datos
+
         //attachInterrupt(0, interrupt_routine, CHANGE); // interrupt 0 equivalent to pin 2(INT0) on ATmega8/168/328
         flag=true;                        
+
     }
 
     void 

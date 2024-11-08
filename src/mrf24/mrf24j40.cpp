@@ -208,10 +208,7 @@ namespace MRF24J40{
             } else {
                 write_short(MRF_RXFLUSH, 0x01);
             }
-
-
     #endif
-
 
     #ifdef ENABLE_SECURITY
             write_short(WRITE_SECCR0, 0x80);
