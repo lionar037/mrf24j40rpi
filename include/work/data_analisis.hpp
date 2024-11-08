@@ -2,9 +2,10 @@
 #include <cstdint>
 #include <config/config.hpp>
 
+namespace DATA{
 
 #ifdef USE_MAC_ADDRESS_LONG
-namespace DATA{
+
 #pragma pack(push, 1)
     typedef struct MacAdress
     {
@@ -36,13 +37,11 @@ namespace DATA{
     }PACKET_TX;
 
 #pragma pack(pop)
-}//END name space MRF24J40
-
-#endif
 
 
-#ifdef USE_MAC_ADDRESS_SHORT
-namespace DATA{
+#else
+
+
 #pragma pack(push, 1)
     typedef struct MacAdress
     {
@@ -57,8 +56,6 @@ namespace DATA{
         uint8_t crc8;
     }PACKET_RX;
 
-//total 104 Max de para  long Address //100
-//total 116 Max de para  short Address //112
 
     typedef struct packet_tx{
             uint8_t head;                   //1 : byte   
@@ -68,9 +65,10 @@ namespace DATA{
     }PACKET_TX;
 
 #pragma pack(pop)
-}//END name space MRF24J40
 
 #endif
+
+}//END name space MRF24J40
 
 namespace MRF24J40{
 
