@@ -51,10 +51,10 @@ namespace DATA{
     typedef struct packet_rx{
         //uint8_t ignore[4];
         //uint16_t panid;                         
-        uint32_t mac_lsb;
-        uint32_t mac_msb;
-        //uint32_t mac_lsb_rx;
-        //uint32_t mac_msb_rx;     
+        //uint32_t mac_lsb;
+        //uint32_t mac_msb;
+        uint32_t mac_lsb_rx;
+        uint32_t mac_msb_rx;     
         //uint8_t head;
         //uint16_t size;                
         uint8_t data[MAX_PACKET_TX];                                                
