@@ -198,7 +198,7 @@ namespace MRF24J40{
             if (MAX_PACKET_TX < frame_length) {
                 if (bufPHY) {
                     int rb_ptr = 0;
-                    for (size_t i = 0; i < frame_length; ++i) {
+                    for (int i = 0; i < frame_length; ++i) {
                         rx_buf[++rb_ptr] = read_long(0x301 + i);
                     }
                 } else {
@@ -209,15 +209,17 @@ namespace MRF24J40{
                 write_short(MRF_RXFLUSH, 0x01);
             }
 
+
+    #endif
+
+
     #ifdef ENABLE_SECURITY
             write_short(WRITE_SECCR0, 0x80);
             write_short(WRITE_RXFLUSH, 0x01);
     #endif
-    #endif
-
             // Bufferizar datos específicos en rx_info
             int rd_ptr = 0;
-            for (size_t i = 0; i < frame_length; ++i) {
+            for (int i = 0; i < frame_length; ++i) {
                 rx_info.rx_data[++rd_ptr] = read_long(0x301 + m_bytes_MHR + i);
             }
 
