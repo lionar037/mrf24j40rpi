@@ -334,8 +334,7 @@ namespace MRF24J40{
         } else {
             write_short(MRF_RXMCR, 0x00);
         }
-    }
-    
+    }    
 
     //configuracion MRF24J40
     void 
