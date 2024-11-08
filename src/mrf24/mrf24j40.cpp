@@ -342,7 +342,7 @@ namespace MRF24J40{
         #ifdef COORDINATOR
         rxmcr.PANCOORD=true;
         #else
-        rxmcr.PANCOORD=true;
+        rxmcr.PANCOORD=false;
         #endif
 
         #ifdef ROUTER

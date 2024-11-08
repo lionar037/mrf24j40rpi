@@ -18,8 +18,8 @@
 #endif
 
 
-//#define USE_MAC_ADDRESS_LONG
-#define USE_MAC_ADDRESS_SHORT
+#define USE_MAC_ADDRESS_LONG
+//#define USE_MAC_ADDRESS_SHORT
 
 
 #define HEAD 0x40
@@ -134,7 +134,7 @@
     #define PROMISCUE //or ROUTER
 #elif defined(MODULE_RX)
     //#define PROMISCUE //
-    #define COORDINATOR
+    #define COORDINATOR // en modo cordinador solo recibe de la direccion que se configuro
 #else 
     #define END
 #endif 
