@@ -1,7 +1,7 @@
 #pragma once 
 #include <cstdint>
 #include <config/config.hpp>
-
+#ifdef USE_MAC_ADDRESS_LONG
 namespace DATA{
 #pragma pack(push, 1)
     typedef struct MacAdress
@@ -36,6 +36,45 @@ namespace DATA{
 #pragma pack(pop)
 }//END name space MRF24J40
 
+#endif
+
+
+#ifdef USE_MAC_ADDRESS_SHORT
+namespace DATA{
+#pragma pack(push, 1)
+    typedef struct MacAdress
+    {
+        uint8_t ignore;
+    }MACADDRESS;
+
+    // 4 + 2 + 8+ 8 + 1 + 2 + 1 + 100 or 112
+    typedef struct packet_rx{
+        //uint8_t ignore[4];
+        //uint16_t panid;                         
+        uint32_t mac_lsb;
+        uint32_t mac_msb;
+        //uint32_t mac_lsb_rx;
+        //uint32_t mac_msb_rx;     
+        //uint8_t head;
+        //uint16_t size;                
+        uint8_t data[MAX_PACKET_TX];                                                
+        //uint8_t crc8;
+    }PACKET_RX;
+
+//total 104 Max de para  long Address //100
+//total 116 Max de para  short Address //112
+
+    typedef struct packet_tx{
+            uint8_t head;                   //1 : byte   
+            uint16_t size;                  //2 : byte                    
+            uint8_t data[MAX_PACKET_TX];    //100 : byte               
+            uint8_t crc8;               //1 : byte                      
+    }PACKET_TX;
+
+#pragma pack(pop)
+}//END name space MRF24J40
+
+#endif
 
 namespace MRF24J40{
 
@@ -51,3 +90,11 @@ namespace MRF24J40{
     } SETINTCON;
     
 }
+
+
+
+
+
+
+
+
