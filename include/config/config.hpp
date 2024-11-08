@@ -18,8 +18,8 @@
 #endif
 
 
-#define USE_MAC_ADDRESS_LONG
-//#define USE_MAC_ADDRESS_SHORT
+//#define USE_MAC_ADDRESS_LONG
+#define USE_MAC_ADDRESS_SHORT
 
 
 #define HEAD 0x40
