@@ -213,16 +213,12 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             oss_zigbee.str("");   // Limpiar el contenido
             oss_zigbee.clear();   // Restablecer el estado
             
-        #ifdef DBG_PRINT_GET_INFO                     
-        //std::memcpy (  &buffer_receiver , rx_buf , 127);          
-        //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(DATA::packet_rx));          
+        #ifdef DBG_PRINT_GET_INFO                                     
         std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(rx_buf));          
-        //std::memcpy (  &buffer_receiver , zigbee->get_rxinfo() , sizeof(DATA::packet_rx));          
+        
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
-        //const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
             monitor->insert (" " );
-            //monitor->insert (" " );
             //compara la direccion de mac "slave" con la mac de "entrada"
         if(ADDRESS_LONG_SLAVE == mac_address_rx)
             {
@@ -231,11 +227,6 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
         else { //muestra una direcion mac diferente a la configurada
             monitor->insert ("mac no es aceptada" );}
             monitor->insert( "rx data_receiver->mac : "         + hex_to_text( mac_address_rx )); 
-            //monitor->insert( "tx data_receiver->mac : "         + hex_to_text( mac_address_tx )); 
-            //monitor->insert( "buffer_receiver->head : "         + hex_to_text( buffer_receiver.head ));
-            //monitor->insert( "buffer_receiver->size : "         + std::to_string( buffer_receiver.size )); 
-            //monitor->insert( "buffer_receiver->panid : "        + hex_to_text( buffer_receiver.panid ));
-            //monitor->insert( "buffer_receiver->checksum : "     + hex_to_text( buffer_receiver.crc8 ));            
 
             std::string txt_tmp ;
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
