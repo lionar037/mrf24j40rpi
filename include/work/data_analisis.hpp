@@ -1,6 +1,8 @@
 #pragma once 
 #include <cstdint>
 #include <config/config.hpp>
+
+
 #ifdef USE_MAC_ADDRESS_LONG
 namespace DATA{
 #pragma pack(push, 1)
@@ -49,16 +51,10 @@ namespace DATA{
 
     // 4 + 2 + 8+ 8 + 1 + 2 + 1 + 100 or 112
     typedef struct packet_rx{
-        //uint8_t ignore[4];
-        //uint16_t panid;                         
-        //uint32_t mac_lsb;
-        //uint32_t mac_msb;
         uint32_t mac_lsb_rx;
         uint32_t mac_msb_rx;     
-        //uint8_t head;
-        //uint16_t size;                
         uint8_t data[MAX_PACKET_TX];                                                
-        //uint8_t crc8;
+        uint8_t crc8;
     }PACKET_RX;
 
 //total 104 Max de para  long Address //100

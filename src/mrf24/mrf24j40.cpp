@@ -172,7 +172,8 @@ namespace MRF24J40{
     //continue working.
     //Only the most recent data is ever kept.
     //            
-/*    void 
+#ifdef USE_MAC_ADDRESS_LONG
+    void 
     Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
         if(last_interrupt & MRF_I_RXIF) {            
@@ -225,7 +226,8 @@ namespace MRF24J40{
             tx_info.channel_busy = (tmp & (1 << CCAFAIL));
         }
     }
-*/
+    
+#else
 
 #include <mrf24/mrf24j40._microchip.hpp>
     void 
@@ -298,7 +300,7 @@ namespace MRF24J40{
         }
     }
 
-
+#endif
     //
     //Call this function periodically, it will invoke your nominated handlers
     //
