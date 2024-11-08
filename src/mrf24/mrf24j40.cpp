@@ -265,6 +265,7 @@ namespace MRF24J40{
             write_short(WRITE_RXFLUSH,0x01);
             #endif
 
+
             // buffer data bytes
             int rd_ptr = 0;
             // from (0x301 + bytes_MHR) to (0x301 + frame_length - bytes_nodata - 1)
