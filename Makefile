@@ -17,7 +17,6 @@ $(2) : $(3) $(4)
 	$(1) -c -o $(2) $(3) $(filter-out -I$(SRC),$(5)) $(INCDIRS)
 endef
 
-
 define C2O
 $(patsubst %.c,%.o,$(patsubst %.cpp,%.o,$(patsubst $(SRC)%,$(OBJ)%,$(1))))
 endef
@@ -93,13 +92,15 @@ else
 endif
 
 
-LIBS += -pthread -lbcm2835 -lcrypto -lmysqlcppconn -lqrencode -lpng -lz
-#Libraries Encript AES
+LIBS += -pthread -lbcm2835  -lz
+#	Libraries Encript AES
 #LIBS += -lssl -lcrypto
+#	librerias Mosquitto
 #LIBS += -lmosquitto -lrt 
+#	libreria de base de datos
+#LIBS += -lmysqlcppconn -lqrencode -lpng
+
 # Detectar la arquitectura del sistema
-
-
 ifeq ($(ARCH),x86_64)
     # Si es de 64 bits (x86_64), utilizar la biblioteca SSD1306_OLED_RPI
 #   LIBS += -lSSD1306_OLED_RPI  
