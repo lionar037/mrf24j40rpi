@@ -70,8 +70,8 @@ extern std::unique_ptr<Mrf24j> zigbee ;
     std::vector<uint8_t> 
     Radio_t::getVectorZigbee() {
         // Mensaje a transmitir (ejemplo)
-        const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";
-
+        //const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";
+        const std::string msj_to_zb = "ABCDEFGHIJ0123456789@KLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";
         // Acortar a los primeros 100 caracteres
         const std::string msj_to_zb_short = msj_to_zb.substr(0, MAX_PACKET_TX);
 
@@ -82,13 +82,15 @@ extern std::unique_ptr<Mrf24j> zigbee ;
         std::vector<uint8_t> buffer_zb(msj_to_zb_short.begin(), msj_to_zb_short.end());
 
         // Calcular el tamaño total del paquete (encabezado + datos + CRC)
-        size_t max = buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
+        uint16_t max = buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
 
         // Crear la estructura de paquete para transmisión
-        DATA::packet_tx bufferTransReceiver{ HEAD, static_cast<uint16_t>(max), { }, crc8 };
+        DATA::packet_tx bufferTransReceiver{ HEAD, max, buffer_zb.data() , crc8 };
 
         // Copiar los datos del mensaje al buffer de transmisión
-        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
+        //std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
+        
+        //std::memcpy(bufferTransReceiver.data, buffer_zb.data(), buffer_zb.size());
 
         // Imprimir los detalles del paquete
         print_packet_details(bufferTransReceiver, buffer_zb);
