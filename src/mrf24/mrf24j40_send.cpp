@@ -38,9 +38,10 @@ extern size_t ignoreBytes;
             printf("\npanid : 0x%X\n",panid);
         #endif
 
-        write_long(++incr, panid & 0xff);  // dest panid
+        
         write_long(++incr, panid >> 8);
-
+        write_long(++incr, panid & 0xff);  // dest panid
+        
         set_macaddress(incr, mac_address_dest );
         set_macaddress(incr, address64_read() );
   
