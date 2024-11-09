@@ -100,17 +100,19 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             
         #ifdef DBG_PRINT_GET_INFO                                     
         //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(rx_buf));                  
-
-        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , zigbee->rx_datalength()+23);                  
+        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , zigbee->rx_datalength() + BYTES_MHR); //haciendo ajustes recibe todos los paquetes                 
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
         monitor->insert (" " );            
-            //compara la direccion de mac "slave" con la mac de "entrada"
-        if(ADDRESS_LONG_SLAVE == mac_address_rx){
-            monitor->insert ("mac aceptada" ); }
-        else { //muestra una direcion mac diferente a la configurada
-            monitor->insert ("mac no es aceptada" );}
+        //  obtiene la direccion de mac seteada en el mrf24j40
+        uint64_t mac_address_local;
+        zigbee->mrf24j40_get_extended_mac_addr(&mac_address_local);
+        //  compara la direccion de mac "slave" con la mac de "entrada"
+        if(mac_address_local == mac_address_rx){
+            monitor->insert ("mac recibida es aceptada" ); }
+        else { //   muestra una direcion mac diferente a la configurada
+            monitor->insert ("mac recibida no es aceptada" );}
             monitor->insert( "rx data_receiver->mac : 0x"         + hex_to_text( mac_address_rx )); 
             monitor->insert( "tx data_receiver->mac : 0x"         + hex_to_text( mac_address_tx )); 
             monitor->insert( "buffer_receiver->head : 0x"         + hex_to_text( buffer_receiver.head ));
@@ -122,10 +124,8 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             txt_tmp.assign(reinterpret_cast<const char*>(buffer_receiver.data), sizeof(buffer_receiver.data));
             monitor->insert( "data_receiver->data ( "   + std::to_string(sizeof(buffer_receiver.data))+ " ) : "      + txt_tmp );
 
-            //obtiene la direccion de mac seteada en el mrf24j40
-            uint64_t mac_address;
-            zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-            monitor->insert("get address mac : 0x"               + hex_to_text(mac_address));            
+            //  imprime mac adress local
+            monitor->insert("get address mac : 0x"               + hex_to_text(mac_address_local));            
         #endif        
             RST_COLOR() ; 
             SET_COLOR(SET_COLOR_CYAN_TEXT);
