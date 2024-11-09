@@ -345,9 +345,9 @@ namespace MRF24J40{
         return bufPHY;
     }
 
-    /**
-     * Set PA/LNA external control
-     */
+    //
+    //Set PA/LNA external control
+    //
     void 
     Mrf24j::set_palna(const bool enabled) {
         if (enabled) {

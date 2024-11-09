@@ -115,7 +115,9 @@ extern size_t ignoreBytes;
         write_long(i++, m_bytes_MHR); // header length
 
         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
-        // default: ignoreBytes = 0;
+        // default: ignoreBytes = 2;
+        // m_bytes_MHR 23
+        // len packet = 69
         write_long(i++, m_bytes_MHR + ignoreBytes + len);//9 + 2 + tamaño del paquete
 
         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
