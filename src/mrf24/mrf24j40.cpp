@@ -433,39 +433,42 @@ namespace MRF24J40{
         write_long(++incr, panid & 0xff);  // dest panid
         write_long(++incr, panid >> 8);
 
-        write_long(++incr, mac_address_dest & 0xff);  // dest16 low
-        write_long(++incr, mac_address_dest >> 8); // dest16 high
+        set_macaddress(i, mac_address_dest );
+        set_macaddress(i, address64_read() );
 
-        if(sizeof(mac_address_dest)>2){
-            #ifdef DBG_MRF
-                std::cout <<"es un mac de 64 bytes\n";
-            #endif
-        write_long(++incr, (mac_address_dest >> 16 ) & 0xff);
-        write_long(++incr, (mac_address_dest >> 24 ) & 0xff);
-        write_long(++incr, (mac_address_dest >> 32 ) & 0xff);
-        write_long(++incr, (mac_address_dest >> 40 ) & 0xff);
-        write_long(++incr, (mac_address_dest >> 48 ) & 0xff);
-        write_long(++incr, (mac_address_dest >> 56 ) & 0xff);
-        }
-        else{
-            #ifdef DBG_MRF
-            std::cout <<"es un mac de 16 bytes\n";
-            #endif
-        }
+        //write_long(++incr, mac_address_dest & 0xff);  // dest16 low
+        //write_long(++incr, mac_address_dest >> 8); // dest16 high
+//
+        //if(sizeof(mac_address_dest)>2){
+        //    #ifdef DBG_MRF
+        //        std::cout <<"es un mac de 64 bytes\n";
+        //    #endif
+        //write_long(++incr, (mac_address_dest >> 16 ) & 0xff);
+        //write_long(++incr, (mac_address_dest >> 24 ) & 0xff);
+        //write_long(++incr, (mac_address_dest >> 32 ) & 0xff);
+        //write_long(++incr, (mac_address_dest >> 40 ) & 0xff);
+        //write_long(++incr, (mac_address_dest >> 48 ) & 0xff);
+        //write_long(++incr, (mac_address_dest >> 56 ) & 0xff);
+        //}
+        //else{
+        //    #ifdef DBG_MRF
+        //    std::cout <<"es un mac de 16 bytes\n";
+        //    #endif
+        //}
  
-        const uint64_t src64 = address64_read();
-        write_long(++incr, src64 & 0xff); // src16 low
-        write_long(++incr, src64 >> 8); // src16 high
+        //const uint64_t src64 = address64_read();
+        //write_long(++incr, src64 & 0xff); // src16 low
+        //write_long(++incr, src64 >> 8); // src16 high
 
     // si lee una direccion mac de 64 bits la envia
-       if(sizeof(src64)>2){
-            write_long(++incr, (src64 >> 16 ) & 0xff); 
-            write_long(++incr, (src64 >> 24 ) & 0xff); 
-            write_long(++incr, (src64 >> 32 ) & 0xff); 
-            write_long(++incr, (src64 >> 40 ) & 0xff); 
-            write_long(++incr, (src64 >> 48 ) & 0xff); 
-            write_long(++incr, (src64 >> 56 ) & 0xff); 
-        }
+        //if(sizeof(src64)>2){
+        //     write_long(++incr, (src64 >> 16 ) & 0xff); 
+        //     write_long(++incr, (src64 >> 24 ) & 0xff); 
+        //     write_long(++incr, (src64 >> 32 ) & 0xff); 
+        //     write_long(++incr, (src64 >> 40 ) & 0xff); 
+        //     write_long(++incr, (src64 >> 48 ) & 0xff); 
+        //     write_long(++incr, (src64 >> 56 ) & 0xff); 
+        // }
         
         // All testing seems to indicate that the next two bytes are ignored.        
         //2 bytes on FCS appended by TXMAC
@@ -505,21 +508,22 @@ namespace MRF24J40{
         write_long(i++, panid & 0xff);  // dest panid
         
         //direccion de destino a enviar el mensaje
-        set_macaddress64(i, dest64 );
+        set_macaddress(i, dest64 );
 
         //lee la direccion mac de 64 bits obtenida
         //const uint64_t origin_64 = address64_read();
 
-        set_macaddress64(i, address64_read() );
+        set_macaddress(i, address64_read() );
 
         #include <mrf24/mrf24j40._microchip.hpp>
-        write_long(RFCTRL2,0x80);
+        write_long(RFCTRL2,0x80);// que hace ?
 
         // All testing seems to indicate that the next two bytes are ignored.
         //2 bytes on FCS appended by TXMAC
         
-        i+=ignoreBytes;
+        i+=ignoreBytes;//iggnora 2 bytes
 
+        //genera un paquete
         std::vector<uint8_t> vect(sizeof(packet_tx));
         std::memcpy(vect.data(), &packet_tx, sizeof(packet_tx)); // Copiar los datos de la estructura al vector
 
@@ -544,16 +548,21 @@ namespace MRF24J40{
     }
 
     void 
-    Mrf24j::set_macaddress64( int& i , const uint64_t origin_64 ){                
-            
-            write_long(i++, (origin_64 >> 56 ) & 0xff); 
-            write_long(i++, (origin_64 >> 48 ) & 0xff); 
-            write_long(i++, (origin_64 >> 40 ) & 0xff); 
-            write_long(i++, (origin_64 >> 32 ) & 0xff); 
-            write_long(i++, (origin_64 >> 24 ) & 0xff); 
-            write_long(i++, (origin_64 >> 16 ) & 0xff); 
-            write_long(i++, (origin_64 >> 8  ) & 0xff); 
-            write_long(i++, origin_64  & 0xff ); // uint64_t
+    Mrf24j::set_macaddress( int& i , const uint64_t mac_adress ){                
+            if(sizeof(mac_adress)>2)
+            {
+            #ifdef DBG_MRF
+                std::cout <<"es un mac de 64 bytes\n";
+            #endif
+            write_long(i++, (mac_adress >> 56 ) & 0xff); 
+            write_long(i++, (mac_adress >> 48 ) & 0xff); 
+            write_long(i++, (mac_adress >> 40 ) & 0xff); 
+            write_long(i++, (mac_adress >> 32 ) & 0xff); 
+            write_long(i++, (mac_adress >> 24 ) & 0xff); 
+            write_long(i++, (mac_adress >> 16 ) & 0xff); 
+            }
+            write_long(i++, (mac_adress >> 8  ) & 0xff); 
+            write_long(i++, mac_adress  & 0xff ); // uint64_t
     }
 
     void

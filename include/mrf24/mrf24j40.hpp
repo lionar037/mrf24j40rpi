@@ -104,7 +104,7 @@ namespace MRF24J40{
             const bool              check_flags(void (*rx_handler)(), void (*tx_handler)());
     protected:        
             void                    mode_turbo();
-            void                    set_macaddress64(int&,const uint64_t);
+            void                    set_macaddress(int&,const uint64_t);
             void                    reset_rf_state_machine(void);
             void                    flush_rx_fifo(void);
             void                    mrf24j40_set_tx_power(uint8_t&);
@@ -116,12 +116,13 @@ namespace MRF24J40{
             std::unique_ptr<SPI::Spi_t> prt_spi {};
 
                 // essential for obtaining the data frame only
+                
                 // bytes_MHR = 2 Frame control + 1 sequence number + 2 panid + 2 shortAddr Destination + 2 shortAddr Source
-                const int m_bytes_MHR {9};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
-                //const int m_bytes_MHR {17};
+                //const int m_bytes_MHR {9};// 
+                const int m_bytes_MHR {SIZE_HEAD_PACKET_DATA};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
 
                 const int m_bytes_FCS {2}; // FCS length = 2
-                const int m_bytes_nodata { SIZE_HEAD_PACKET_DATA }; // no_data bytes in PHY payload,  header length + FCS
+                const int m_bytes_nodata { 0 }; // no_data bytes in PHY payload,  header length + FCS
 
                 // Cambia el tipo de m_flag_got_rx a std::atomic
                 std::atomic<uint8_t> m_flag_got_rx{};
