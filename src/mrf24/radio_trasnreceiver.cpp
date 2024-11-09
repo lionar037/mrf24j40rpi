@@ -101,7 +101,7 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
         #ifdef DBG_PRINT_GET_INFO                                     
         //std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , sizeof(rx_buf));                  
 
-        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , zigbee->rx_datalength());                  
+        std::memcpy (  &buffer_receiver , zigbee->get_rxbuf() , zigbee->rx_datalength()+23);                  
 
         const uint64_t mac_address_rx = (static_cast<uint64_t>(buffer_receiver.mac_msb_rx) << 32) | buffer_receiver.mac_lsb_rx;
         const uint64_t mac_address_tx = (static_cast<uint64_t>(buffer_receiver.mac_msb) << 32) | buffer_receiver.mac_lsb;
