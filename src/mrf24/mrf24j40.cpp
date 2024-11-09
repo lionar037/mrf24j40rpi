@@ -405,7 +405,7 @@ namespace MRF24J40{
 
 
     void 
-    Mrf24j::send(const uint64_t dest, const std::vector<uint8_t> vect) 
+    Mrf24j::send(const uint64_t mac_address_dest, const std::vector<uint8_t> vect) 
     {
         const auto size = vect.size();
         int incr = 0;
@@ -415,8 +415,8 @@ namespace MRF24J40{
         //m_bytes_MHR 9 + 2 + 2 
         //size  = 16
         //ignoreBytes =2 
-        
-        write_long(++incr, m_bytes_MHR+ ignoreBytes + size);
+
+        write_long(++incr, m_bytes_MHR + ignoreBytes + size);
 
         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
         write_long(++incr, 0b01100001); // first byte of Frame Control
@@ -430,22 +430,22 @@ namespace MRF24J40{
             printf("\npanid : 0x%X\n",panid);
         #endif
 
-        write_long(incr++, panid & 0xff);  // dest panid
-        write_long(incr++, panid >> 8);
+        write_long(++incr, panid & 0xff);  // dest panid
+        write_long(++incr, panid >> 8);
 
-        write_long(incr++, dest & 0xff);  // dest16 low
-        write_long(incr++, dest >> 8); // dest16 high
+        write_long(++incr, mac_address_dest & 0xff);  // dest16 low
+        write_long(++incr, mac_address_dest >> 8); // dest16 high
 
-        if(sizeof(dest)>2){
+        if(sizeof(mac_address_dest)>2){
             #ifdef DBG_MRF
                 std::cout <<"es un mac de 64 bytes\n";
             #endif
-        write_long(++incr, (dest >> 16 ) & 0xff);
-        write_long(++incr, (dest >> 24 ) & 0xff);
-        write_long(++incr, (dest >> 32 ) & 0xff);
-        write_long(++incr, (dest >> 40 ) & 0xff);
-        write_long(++incr, (dest >> 48 ) & 0xff);
-        write_long(++incr, (dest >> 56 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 16 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 24 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 32 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 40 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 48 ) & 0xff);
+        write_long(++incr, (mac_address_dest >> 56 ) & 0xff);
         }
         else{
             #ifdef DBG_MRF
