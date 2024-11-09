@@ -85,12 +85,12 @@ extern std::unique_ptr<Mrf24j> zigbee ;
         uint16_t max = buffer_zb.size() + sizeof(HEAD) + sizeof(crc8);
 
         // Crear la estructura de paquete para transmisión
-        DATA::packet_tx bufferTransReceiver{ HEAD, max, buffer_zb.data() , crc8 };
+        DATA::packet_tx bufferTransReceiver{ HEAD, max, { } , crc8 };
 
         // Copiar los datos del mensaje al buffer de transmisión
         //std::memcpy(bufferTransReceiver.data, buffer_zb.data(), std::min(buffer_zb.size(), sizeof(bufferTransReceiver.data)));
         
-        //std::memcpy(bufferTransReceiver.data, buffer_zb.data(), buffer_zb.size());
+        std::memcpy(bufferTransReceiver.data, buffer_zb.data(), buffer_zb.size());
 
         // Imprimir los detalles del paquete
         print_packet_details(bufferTransReceiver, buffer_zb);
