@@ -276,7 +276,7 @@ namespace MRF24J40{
         }
     }    
 
-    //  configuracion MRF24J40
+    //  configuracion MRF24J40MA
     void 
     Mrf24j::settings_mrf(void){
         #ifdef COORDINATOR
