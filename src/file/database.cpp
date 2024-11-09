@@ -5,7 +5,8 @@
 
 namespace DATABASE{
 
-    void Database_t::fetchData(int idToRetrieve) {
+    void 
+    Database_t::fetchData(int idToRetrieve) {
         try {
         sql::mysql::MySQL_Driver *driver;
         sql::Connection *con;
@@ -61,19 +62,20 @@ namespace DATABASE{
     }
 }
 
-void Database_t::init() {
-std::string host = "tcp://192.168.1.45:3306";
-std::string user = "user1";
-std::string password = "passwd";
-std::string database = "databaseMDB";
+    void 
+    Database_t::init() {
+        std::string host = "tcp://192.168.1.45:3306";
+        std::string user = "user1";
+        std::string password = "passwd";
+        std::string database = "databaseMDB";
 
-std::unique_ptr<Database_t> databaseInstance{std::make_unique<Database_t>(host, user, password, database)};
+        std::unique_ptr<Database_t> databaseInstance{std::make_unique<Database_t>(host, user, password, database)};
 
-int idToRetrieve = 64;
-databaseInstance->fetchData(idToRetrieve);
+        int idToRetrieve = 64;
+        databaseInstance->fetchData(idToRetrieve);
 
-return ;
-}
+    return ;
+    }
 }
 
 
