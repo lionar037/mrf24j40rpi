@@ -27,7 +27,8 @@ namespace GPIO{
             settings( m_gpio_out , DIR_OUT ,filenameGpio);
       }
 
-        void Gpio_t::set(){        
+        void 
+        Gpio_t::set(){        
                 gpio_set_edge (m_gpio_in,EDGE_FALLING);
                 #ifdef USE_MRF24_RX
                 gpio_set_value(m_gpio_out,VALUE_LOW);
@@ -38,8 +39,8 @@ namespace GPIO{
 
     /*      HELPER FUNCTIONS       */
     // FILE OPERATION
-    int Gpio_t::file_open_and_write_value(const std::string_view fname, const std::string_view wdata)
-    {
+    int 
+    Gpio_t::file_open_and_write_value(const std::string_view fname, const std::string_view wdata){
         //@params : verifica que exista el pin . Si no existe ,retorna -1 .
         const int fd = open(fname.data(), O_WRONLY | O_NONBLOCK);        
         if (fd < 0)
@@ -53,8 +54,8 @@ namespace GPIO{
 
 
     // GPIO EXPORT
-    int Gpio_t::gpio_export(const int gpio_num)
-    {
+    int 
+    Gpio_t::gpio_export(const int gpio_num){
         char gpio_str[4];
         sprintf(gpio_str, "%d", gpio_num);
           //std::cout<<"gpio_export\n";
@@ -62,8 +63,8 @@ namespace GPIO{
     }
 
     // GPIO UNEXPORT
-    int Gpio_t::gpio_unexport(const int gpio_num)
-    {
+    int 
+    Gpio_t::gpio_unexport(const int gpio_num){
         char gpio_str[6];
         //    char gpio_str[4];
         sprintf(gpio_str, "%d", gpio_num);
@@ -72,8 +73,8 @@ namespace GPIO{
     }
 
     // GPIO DIRECTION
-    int Gpio_t::gpio_set_direction(const int gpio_num, const std::string_view dir)
-    {
+    int 
+    Gpio_t::gpio_set_direction(const int gpio_num, const std::string_view dir){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_DIRECTION);
         //std::cout<<"gpio_set_direction\n";
@@ -81,8 +82,8 @@ namespace GPIO{
     }
 
     // GPIO SET VALUE
-    int Gpio_t::gpio_set_value(const int gpio_num, const std::string_view value)
-    {
+    int 
+    Gpio_t::gpio_set_value(const int gpio_num, const std::string_view value){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_VALUE);
         //std::cout<<"gpio_set_value\n";
@@ -91,23 +92,20 @@ namespace GPIO{
     }
 
     // GPIO SET EDGE
-    int Gpio_t::gpio_set_edge(const int gpio_num, const std::string_view edge)
-    {
+    int 
+    Gpio_t::gpio_set_edge(const int gpio_num, const std::string_view edge){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_EDGE);
         //std::cout<<"gpio_set_edge\n";
         return file_open_and_write_value(path_str, edge.data());
     }
 
-    int Gpio_t::gpio_get_fd_to_value(const int gpio_num)
-    {
-        //int fd;
+    int 
+    Gpio_t::gpio_get_fd_to_value(const int gpio_num){
         char fname[64];
         sprintf(fname, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_VALUE);
         const int fd = open(fname, O_RDONLY | O_NONBLOCK);
-        //printf("name : %s\n",fname);
-        if (fd < 0)
-        {
+        if (fd < 0){
             printf("Could not open file %s... %d\r\n", fname, fd);
         }
         return fd;
@@ -185,7 +183,7 @@ namespace GPIO{
             #else 
             gpio_set_value(m_gpio_out,VALUE_LOW);// pon el pinout en alto
             #endif 
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));            
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));            
         }
         #ifdef USE_MRF24_RX    
         
