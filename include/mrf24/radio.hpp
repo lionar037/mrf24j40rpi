@@ -48,7 +48,7 @@ namespace MRF24J40{
             void                verif(bool&);
             void                interrupt_routine();
             void                RunProccess(void);
-            friend void                update();  
+            friend void         update();  
             //void                print_to_hex(uint64_t*);
 
         protected:            

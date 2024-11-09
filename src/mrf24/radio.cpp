@@ -83,7 +83,8 @@ extern DATA::PACKET_RX buffer_receiver;
         system("clear"); 
         #ifdef MRF24_RECEIVER_ENABLE
             while(true)
-        #endif{           
+        #endif
+        {           
             gpio->app(flag);// la primera vez flag es true y ap retorna un false
             interrupt_routine();//es zigbee->interrupt_handler();
             verif(flag);        
