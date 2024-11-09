@@ -39,9 +39,10 @@ extern size_t ignoreBytes;
         #endif
 
         
-        write_long(++incr, panid >> 8);
-        write_long(++incr, panid & 0xff);  // dest panid
         
+        write_long(++incr, panid & 0xff);  // dest panid
+        write_long(++incr, panid >> 8);
+
         set_macaddress(incr, mac_address_dest );
         set_macaddress(incr, address64_read() );
   
@@ -127,9 +128,11 @@ extern size_t ignoreBytes;
         #ifdef DBG
             printf("\npanid: 0x%X\n",panid);
         #endif
-        write_long(i++, panid >> 8);
-        write_long(i++, panid & 0xff);  // dest panid
         
+        //send PANID
+        write_long(i++, panid & 0xff);  // dest panid
+        write_long(i++, panid >> 8);
+
         //direccion de destino a enviar el mensaje
         set_macaddress(i, dest64 );
 
