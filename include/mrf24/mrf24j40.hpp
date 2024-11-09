@@ -41,7 +41,9 @@ namespace MRF24J40{
             void                    init                    (void);
             void                    mrf24j40_init           (void);
             void                    send    (const uint64_t , const std::vector<uint8_t>) ;
-            void                    send64  (const uint64_t , const struct DATA::packet_tx);
+            void                    send64  (const uint64_t , const std::vector<uint8_t> );
+            void                    send64  (const uint64_t , const DATA::packet_tx );
+            
             void                    interrupt_handler       (void);
             void                    set_pan                 (const uint16_t);               //panid
             void                    address16_write     (const uint16_t);

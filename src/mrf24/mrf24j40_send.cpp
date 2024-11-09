@@ -56,7 +56,7 @@ extern size_t ignoreBytes;
     }
 
     void 
-    Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
+    Mrf24j::send64(const uint64_t dest64, const DATA::packet_tx packet_tx) {
         //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         //const uint8_t len = strlen(packet_tx); // get the length of the char* array
         const size_t len =sizeof(packet_tx);// const uint8_t len =sizeof(packet_tx.data);
@@ -107,7 +107,7 @@ extern size_t ignoreBytes;
    
 
     void 
-    Mrf24j::send64(uint64_t dest64 ,const std::vector<uint8_t> vect) {
+    Mrf24j::send64(const uint64_t dest64 ,const std::vector<uint8_t> vect) {
         //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         //const uint8_t len = strlen(packet_tx); // get the length of the char* array
         const auto len =vect.size();// const uint8_t len =sizeof(packet_tx.data);
