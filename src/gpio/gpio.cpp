@@ -27,15 +27,15 @@ namespace GPIO{
             settings( m_gpio_out , DIR_OUT ,filenameGpio);
       }
 
-        void 
-        Gpio_t::set(){        
-                gpio_set_edge (m_gpio_in,EDGE_FALLING);
-                #ifdef USE_MRF24_RX
-                gpio_set_value(m_gpio_out,VALUE_LOW);
-                #else
-                gpio_set_value(m_gpio_out,VALUE_HIGH);
-                #endif
-        }
+    void 
+    Gpio_t::set(){        
+            gpio_set_edge (m_gpio_in,EDGE_FALLING);
+            #ifdef USE_MRF24_RX
+            gpio_set_value(m_gpio_out,VALUE_LOW);
+            #else
+            gpio_set_value(m_gpio_out,VALUE_HIGH);
+            #endif
+    }
 
     /*      HELPER FUNCTIONS       */
     // FILE OPERATION
@@ -66,9 +66,7 @@ namespace GPIO{
     int 
     Gpio_t::gpio_unexport(const int gpio_num){
         char gpio_str[6];
-        //    char gpio_str[4];
         sprintf(gpio_str, "%d", gpio_num);
-        //std::cout<<"dbg gpio_unexport "<< gpio_num <<"\n";
         return file_open_and_write_value(SYSFS_GPIO_PATH SYSFS_GPIO_UNEXPORT_FN, std::to_string(gpio_num) /*gpio_str*/);
     }
 
@@ -113,7 +111,8 @@ namespace GPIO{
 
 
 
-    bool Gpio_t::settings(const int pin , const std::string_view str_v ,std::ifstream& fileTmp){
+    bool 
+    Gpio_t::settings(const int pin , const std::string_view str_v ,std::ifstream& fileTmp){
         const std::string filePathGpio = "/sys/class/gpio/gpio" + std::to_string(pin) + "/direction";                                
         const std::string fNameResult ="echo " + std::to_string(pin) + " > /sys/class/gpio/export";               
         fileTmp.open(filePathGpio.c_str());        
@@ -138,7 +137,8 @@ namespace GPIO{
         return true;
     }
 
-    const bool Gpio_t::app(bool& flag) {   // siempre retorna un bool false     
+    const bool 
+    Gpio_t::app(bool& flag) {   // siempre retorna un bool false     
         struct pollfd fdpoll;
         int m_num_fdpoll { 1 };        
         int m_looper { 0 };
@@ -196,7 +196,8 @@ namespace GPIO{
         return false;
     }
 
-    void Gpio_t::CloseGpios()
+    void 
+    Gpio_t::CloseGpios()
     {
         if(filenameGpio.is_open())filenameGpio.close();   
         close(m_gpio_in_fd);        

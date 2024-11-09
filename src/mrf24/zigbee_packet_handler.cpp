@@ -2,7 +2,6 @@
 #include <work/data_analisis.hpp>
 #include <mrf24/mrf24j40.hpp>
 #include <config/config.hpp>
-
 #include <iostream>
 #include <vector>
 #include <cstring>
