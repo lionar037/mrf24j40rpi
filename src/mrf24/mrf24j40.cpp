@@ -416,7 +416,7 @@ namespace MRF24J40{
         //size  = 16
         //ignoreBytes =2 
 
-        write_long(++incr,m_bytes_nodata + m_bytes_MHR + ignoreBytes + size);
+        write_long(++incr, m_bytes_MHR + ignoreBytes + size);
 
         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
         write_long(++incr, 0b01100001); // first byte of Frame Control
