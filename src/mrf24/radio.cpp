@@ -1,4 +1,7 @@
-//radio.cpp
+//
+//      radio.cpp
+//
+
 #include <mrf24/radio.hpp>
 #include <mrf24/mrf24j40.hpp>
 #include <mrf24/mrf24j40_template.tpp>
@@ -54,7 +57,6 @@ extern DATA::PACKET_RX buffer_receiver;
         zigbee->set_pan(PAN_ID);
         
         // This is _our_ address
-
         #ifdef MACADDR16
             zigbee->address16_write(ADDRESS); 
         #elif defined (MACADDR64)
