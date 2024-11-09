@@ -11,8 +11,8 @@ namespace MRF24J40{
             // aMaxPHYPacketSize = 127, from the 802.15.4-2006 standard.
     uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];// no es necesario declarar el static , ya que es static global 
 
-    size_t ignoreBytes { 0 }; // bytes to ignore, some modules behaviour.
-    bool bufPHY { false }; // flag to buffer all bytes in PHY Payload, or not
+    size_t ignoreBytes { 0 };   // bytes to ignore, some modules behaviour.
+    bool bufPHY { false };      // flag to buffer all bytes in PHY Payload, or not
     rx_info_t rx_info{};
     tx_info_t tx_info{};
     RXMCR rxmcr{0x00};
@@ -114,13 +114,13 @@ namespace MRF24J40{
     //  Simple send 16, with acks, not much of anything.. assumes src16 and local pan only.
     //  @param data
     //
-
     void 
     Mrf24j::set_interrupts(void) {
     //  interrupts for rx and tx normal complete
         write_short(MRF_INTCON, 0b11110110);
     }
 
+    //
     //  use the 802.15.4 channel numbers..
     //
     void 
@@ -167,10 +167,10 @@ namespace MRF24J40{
 
 
     //
-    //Call this from within an interrupt handler connected to the MRFs output
-    //interrupt pin.  It handles reading in any data from the module, and letting it
-    //continue working.
-    //Only the most recent data is ever kept.
+    //  Call this from within an interrupt handler connected to the MRFs output
+    //  interrupt pin.  It handles reading in any data from the module, and letting it
+    //  continue working.
+    //  Only the most recent data is ever kept.
     //                    
     void Mrf24j::interrupt_handler(void) {
         const uint8_t last_interrupt = read_short(MRF_INTSTAT);
@@ -239,9 +239,8 @@ namespace MRF24J40{
         }
     }
 
-
     //
-    //Call this function periodically, it will invoke your nominated handlers
+    //  Call this function periodically, it will invoke your nominated handlers
     //
     const bool 
     Mrf24j::check_flags(void (*rx_handler)(), void (*tx_handler)()){
@@ -266,7 +265,7 @@ namespace MRF24J40{
     }
 
     //
-    //Set RX mode to promiscuous, or normal
+    //  Set RX mode to promiscuous, or normal
     //
     void 
     Mrf24j::set_promiscuous(const bool enabled) {
@@ -277,7 +276,7 @@ namespace MRF24J40{
         }
     }    
 
-    //configuracion MRF24J40
+    //  configuracion MRF24J40
     void 
     Mrf24j::settings_mrf(void){
         #ifdef COORDINATOR
@@ -332,9 +331,9 @@ namespace MRF24J40{
         ignoreBytes = ib;
     }
 
-    /**
-     * Set bufPHY flag to buffer all bytes in PHY Payload, or not
-     */
+    //
+    //Set bufPHY flag to buffer all bytes in PHY Payload, or not
+    //
     void 
     Mrf24j::set_bufferPHY(const bool bp) {
         bufPHY = bp;
