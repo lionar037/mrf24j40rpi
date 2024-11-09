@@ -16,7 +16,7 @@ extern std::unique_ptr<Mrf24j> zigbee ;
     void 
     print_hex(const uint8_t* data, size_t size) {
         std::cout << "0x";
-        for (size_t i = size-1; i > 0; i--) {
+        for (size_t i = size-1; i > -1; i--) {
             std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)data[i];
         }
         std::cout << std::dec << std::endl; // Volver al formato decimal
