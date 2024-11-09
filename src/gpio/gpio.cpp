@@ -175,19 +175,19 @@ namespace GPIO{
             //std::this_thread::sleep_for(std::chrono::milliseconds(50));   
         }
         else{            
-            #ifdef USE_MRF24_RX
+            #ifdef USE_MRF24_TX
             gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
             #else 
             gpio_set_value(m_gpio_out,VALUE_LOW);// pon el pinout en alto
             #endif 
             std::this_thread::sleep_for(std::chrono::milliseconds(100));            
         }
-        #ifdef USE_MRF24_RX    
+        #ifdef USE_MRF24_TX    
         gpio_set_value(m_gpio_out,VALUE_LOW);           
         #else
         gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
         #endif
-        
+
         return false;
     }
 
