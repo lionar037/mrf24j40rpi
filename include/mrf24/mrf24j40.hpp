@@ -119,7 +119,7 @@ namespace MRF24J40{
                 
                 // bytes_MHR = 2 Frame control + 1 sequence number + 2 panid + 2 shortAddr Destination + 2 shortAddr Source
                 //const int m_bytes_MHR {9};// 
-                const int m_bytes_MHR {SIZE_HEAD_PACKET_DATA};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
+                const size_t m_bytes_MHR {SIZE_HEAD_PACKET_DATA};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
 
                 const int m_bytes_FCS {2}; // FCS length = 2
                 const int m_bytes_nodata { 0 }; // no_data bytes in PHY payload,  header length + FCS

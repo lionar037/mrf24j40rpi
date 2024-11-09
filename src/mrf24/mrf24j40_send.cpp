@@ -10,7 +10,7 @@
 
 
 namespace MRF24J40{
-extern int ignoreBytes;
+extern size_t ignoreBytes;
 
     void 
     Mrf24j::send(const uint64_t mac_address_dest, const std::vector<uint8_t> vect) 
@@ -110,7 +110,7 @@ extern int ignoreBytes;
     Mrf24j::send64(uint64_t dest64 ,const std::vector<uint8_t> vect) {
         //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         //const uint8_t len = strlen(packet_tx); // get the length of the char* array
-        const size_t len =sizeof(vect);// const uint8_t len =sizeof(packet_tx.data);
+        const auto len =vect.size();// const uint8_t len =sizeof(packet_tx.data);
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
 
