@@ -98,7 +98,7 @@ LIBS += -pthread -lbcm2835  -lz
 #	librerias Mosquitto
 #LIBS += -lmosquitto -lrt 
 #	libreria de base de datos
-#LIBS += -lmysqlcppconn -lqrencode -lpng
+LIBS += -lmysqlcppconn -lqrencode -lpng
 
 # Detectar la arquitectura del sistema
 ifeq ($(ARCH),x86_64)
