@@ -87,7 +87,7 @@ extern DATA::PACKET_RX buffer_receiver;
         {           
             gpio->app(flag);// la primera vez flag es true y ap retorna un false
             interrupt_routine();//es zigbee->interrupt_handler();
-            verif(flag);        
+            verif(flag); //si modulo recibe algo , flag es alto       
         }
     }
 
