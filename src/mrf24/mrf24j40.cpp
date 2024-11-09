@@ -433,8 +433,8 @@ namespace MRF24J40{
         write_long(++incr, panid & 0xff);  // dest panid
         write_long(++incr, panid >> 8);
 
-        set_macaddress(i, mac_address_dest );
-        set_macaddress(i, address64_read() );
+        set_macaddress(incr, mac_address_dest );
+        set_macaddress(incr, address64_read() );
 
         //write_long(++incr, mac_address_dest & 0xff);  // dest16 low
         //write_long(++incr, mac_address_dest >> 8); // dest16 high
