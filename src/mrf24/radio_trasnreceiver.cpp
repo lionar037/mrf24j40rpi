@@ -128,13 +128,9 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             RST_COLOR() ; 
             SET_COLOR(SET_COLOR_CYAN_TEXT);
             monitor->insert("LQI : " + std::to_string (zigbee->get_rxinfo()->lqi) );
-            monitor->insert("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) );
-            monitor->insert("Frame Length : " + std::to_string(zigbee->get_rxinfo()->frame_length) );
-            
-            monitor->insert( "sizeof - buffer_receiverRX : "  +  std::to_string(sizeof(buffer_receiver) ) );            
-            //monitor->insert( "sizeof - buffer_receiverRX.data : "  +  std::to_string(sizeof(buffer_receiver.data) ) );
-            std::string rx_b(rx_buf, rx_buf + sizeof(rx_buf));            
-            //monitor->insert( "ZigeBee : "     +    rx_b  );
+            monitor->insert("RSSI : " + std::to_string(zigbee->get_rxinfo()->rssi) );                                                
+            //std::string rx_b(rx_buf, rx_buf + sizeof(rx_buf));                       
+
         //imprime todo los datos obtenidos
         monitor->print_all();
         #endif
