@@ -29,7 +29,11 @@ namespace GPIO{
 
         void Gpio_t::set(){        
                 gpio_set_edge (m_gpio_in,EDGE_FALLING);
+                #ifdef USE_MRF24_RX
+                gpio_set_value(m_gpio_out,VALUE_LOW);
+                #else
                 gpio_set_value(m_gpio_out,VALUE_HIGH);
+                #endif
         }
 
     /*      HELPER FUNCTIONS       */
@@ -176,7 +180,7 @@ namespace GPIO{
         }
         else{            
             #ifdef USE_MRF24_RX
-            gpio_set_value(m_gpio_out,VALUE_LOW);// pon el pinout en alto
+            gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
             #else 
             gpio_set_value(m_gpio_out,VALUE_LOW);// pon el pinout en alto
             #endif 
