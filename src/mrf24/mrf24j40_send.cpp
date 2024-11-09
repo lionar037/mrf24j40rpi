@@ -107,9 +107,7 @@ extern size_t ignoreBytes;
    
 
     void 
-    Mrf24j::send64(const uint64_t dest64 ,const std::vector<uint8_t> vect) {
-        //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
-        //const uint8_t len = strlen(packet_tx); // get the length of the char* array
+    Mrf24j::send64(const uint64_t dest64 ,const std::vector<uint8_t> vect) {                
         const auto len =vect.size();// const uint8_t len =sizeof(packet_tx.data);
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length

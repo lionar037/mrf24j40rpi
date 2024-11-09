@@ -418,20 +418,23 @@ namespace MRF24J40{
 
     void 
     Mrf24j::set_macaddress( int& i , const uint64_t mac_adress ){                
-            if(sizeof(mac_adress)>2)
-            {
+            write_long(i++, mac_adress  & 0xff ); // uint64_t
+            write_long(i++, (mac_adress >> 8  ) & 0xff); 
+        if(sizeof(mac_adress)>2)
+        {
             #ifdef DBG_MRF
                 std::cout <<"es un mac de 64 bytes\n";
             #endif
-            write_long(i++, (mac_adress >> 56 ) & 0xff); 
-            write_long(i++, (mac_adress >> 48 ) & 0xff); 
-            write_long(i++, (mac_adress >> 40 ) & 0xff); 
-            write_long(i++, (mac_adress >> 32 ) & 0xff); 
-            write_long(i++, (mac_adress >> 24 ) & 0xff); 
             write_long(i++, (mac_adress >> 16 ) & 0xff); 
-            }
-            write_long(i++, (mac_adress >> 8  ) & 0xff); 
-            write_long(i++, mac_adress  & 0xff ); // uint64_t
+            write_long(i++, (mac_adress >> 24 ) & 0xff); 
+            write_long(i++, (mac_adress >> 32 ) & 0xff); 
+            write_long(i++, (mac_adress >> 40 ) & 0xff); 
+            write_long(i++, (mac_adress >> 48 ) & 0xff); 
+            write_long(i++, (mac_adress >> 56 ) & 0xff); 
+                    
+        }
+            
+            
     }
 
     void
