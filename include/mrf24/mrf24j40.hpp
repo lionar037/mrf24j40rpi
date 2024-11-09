@@ -98,10 +98,10 @@ namespace MRF24J40{
             //
             //Set PA/LNA external control
             //
-            void                 set_palna(const bool);
+            void                    set_palna(const bool);
 
 
-            bool                    check_flags(void (*rx_handler)(), void (*tx_handler)());
+            const bool              check_flags(void (*rx_handler)(), void (*tx_handler)());
     protected:        
             void                    mode_turbo();
             void                    set_macaddress64(int&,const uint64_t);

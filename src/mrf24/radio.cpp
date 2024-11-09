@@ -71,7 +71,7 @@ extern DATA::PACKET_RX buffer_receiver;
         // uncomment if you want to buffer all PHY Payload
         zigbee->set_bufferPHY(true);
 
-    //zigbee->interrupt_handler();//verifica si llegaron datos
+        //zigbee->interrupt_handler();//verifica si llegaron datos , solo por saber si quedo algo pendiente
 
         //attachInterrupt(0, interrupt_routine, CHANGE); // interrupt 0 equivalent to pin 2(INT0) on ATmega8/168/328
         flag=true;                        
@@ -83,19 +83,18 @@ extern DATA::PACKET_RX buffer_receiver;
         system("clear"); 
         #ifdef MRF24_RECEIVER_ENABLE
             while(true)
-        #endif
-        {           
-            gpio->app(flag);
-            zigbee->interrupt_handler();
-            Init(flag);        
+        #endif{           
+            gpio->app(flag);// la primera vez flag es true y ap retorna un false
+            interrupt_routine();//zigbee->interrupt_handler();
+            init(flag);        
         }
     }
 
 
     //initcializacion 
     void 
-    Radio_t::Init(bool& flag) {
-        flag = zigbee->check_flags(&handle_rx, &handle_tx);
+    Radio_t::init(bool& flag) {
+        flag = zigbee->check_flags(&handle_rx, &handle_tx); //checkea el flag
         const unsigned long current_time = 100000;//1000000 original
         if (current_time - last_time > tx_interval) {
             last_time = current_time;

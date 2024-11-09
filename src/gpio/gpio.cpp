@@ -27,13 +27,10 @@ namespace GPIO{
             settings( m_gpio_out , DIR_OUT ,filenameGpio);
       }
 
-void Gpio_t::set(){
-
-        
-        gpio_set_edge (m_gpio_in,EDGE_FALLING);
-        gpio_set_value(m_gpio_out,VALUE_HIGH);
-
-}
+        void Gpio_t::set(){        
+                gpio_set_edge (m_gpio_in,EDGE_FALLING);
+                gpio_set_value(m_gpio_out,VALUE_HIGH);
+        }
 
     /*      HELPER FUNCTIONS       */
     // FILE OPERATION
@@ -139,23 +136,21 @@ void Gpio_t::set(){
         return true;
     }
 
-    const bool Gpio_t::app(bool& flag) 
-    {        
+    const bool Gpio_t::app(bool& flag) {   // siempre retorna un bool false     
         struct pollfd fdpoll;
         int m_num_fdpoll { 1 };        
         int m_looper { 0 };
-        char *buf[64];        
-        set();
-        
-        m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);
+        char *buf[64];    
+
+        set();        
+        m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);//verifica como se encuentra pin in 
         // We will wait for button press here for 10s or exit anyway
-        if(m_state==true)
-        {
-        while(m_looper<READING_STEPS) {
-            memset((void *)&fdpoll,0,sizeof(fdpoll));
-            fdpoll.fd = m_gpio_in_fd;
-            fdpoll.events = POLLPRI;
-            m_res = poll(&fdpoll,m_num_fdpoll,POLL_TIMEOUT);
+        if(m_state==true){
+        while(m_looper<READING_STEPS) {//mientras m_looper sea menor a 2 
+            memset((void *)&fdpoll,0,sizeof(fdpoll));/// setea todo fdpoll a cero
+            fdpoll.fd = m_gpio_in_fd;//pone el resultado de fd
+            fdpoll.events = POLLPRI; // POLLPRI = 2 
+            m_res = poll(&fdpoll,m_num_fdpoll,POLL_TIMEOUT);//result
 
             if(m_res < 0) {
                 #ifdef DBG_GPIO
@@ -169,7 +164,7 @@ void Gpio_t::set(){
                 }
             if(fdpoll.revents & POLLPRI) {
                 lseek(fdpoll.fd, 0, SEEK_SET);
-                read(fdpoll.fd, buf, 64);
+                read(fdpoll.fd, buf, 64);// lee el fichero fd del pin 
                 #ifdef DBG_GPIO
                     std::cout<<"Standby reading msj mrf24j40...\n";
                 #endif
@@ -180,7 +175,7 @@ void Gpio_t::set(){
             //std::this_thread::sleep_for(std::chrono::milliseconds(50));   
         }
         else{            
-            gpio_set_value(m_gpio_out,VALUE_HIGH);
+            gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
             std::this_thread::sleep_for(std::chrono::milliseconds(100));            
         }    
         gpio_set_value(m_gpio_out,VALUE_LOW);           

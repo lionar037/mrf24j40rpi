@@ -243,7 +243,7 @@ namespace MRF24J40{
     //
     //Call this function periodically, it will invoke your nominated handlers
     //
-    bool 
+    const bool 
     Mrf24j::check_flags(void (*rx_handler)(), void (*tx_handler)()){
     // TODO - we could check whether the flags are > 1 here, indicating data was lost?
         if (m_flag_got_rx) {
@@ -252,7 +252,7 @@ namespace MRF24J40{
                 std::cout<< "recibe algo \n";
             #endif
             rx_handler();
-            return true;
+            return true;// si recibe algo , habilita 
         }
         if (m_flag_got_tx) {
             m_flag_got_tx = 0;
@@ -260,7 +260,7 @@ namespace MRF24J40{
                 std::cout<< "transmite algo \n";
             #endif
             tx_handler();
-            return false;
+            return false;// si transmite el modulo , no habilita flag
         }
         return false;
     }
