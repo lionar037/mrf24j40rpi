@@ -85,15 +85,15 @@ extern DATA::PACKET_RX buffer_receiver;
             while(true)
         #endif{           
             gpio->app(flag);// la primera vez flag es true y ap retorna un false
-            interrupt_routine();//zigbee->interrupt_handler();
-            init(flag);        
+            interrupt_routine();//es zigbee->interrupt_handler();
+            verif(flag);        
         }
     }
 
 
     //initcializacion 
     void 
-    Radio_t::init(bool& flag) {
+    Radio_t::verif(bool& flag) {
         flag = zigbee->check_flags(&handle_rx, &handle_tx); //checkea el flag
         const unsigned long current_time = 100000;//1000000 original
         if (current_time - last_time > tx_interval) {
