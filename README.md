@@ -1,3 +1,23 @@
+#version 1.3
+	-	ruteo , mapa o recorrido del mensaje
+	-	niveles de seguridad 
+	-	capas 
+	- 	modo sleep
+	
+#version 1.2
+	-	implementar ACK
+	-	implementar epapper
+	-	implementar envio y recepcion checkeo del envio de packetes 
+	-	utilizacion de seguridad encryptar de desencryptar
+	-	modo router , coordinador , end device
+	-	reduccion de tiempos para enviar y recibir paquetes
+
+#version 1.1
+	-	Envia datos correctamente 
+	-	envia header , size , buffer , checksum
+	-	Version exitosa 
+
+
 #vesion 1.0.1
 
 Codigo c++ para raspberry pi y mrf24j40ma
