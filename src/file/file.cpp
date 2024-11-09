@@ -28,7 +28,8 @@ namespace FILESYSTEM{
     }
 
 
-    unsigned char* File_t::loadFile(const std::string_view filename){
+    unsigned char* 
+    File_t::loadFile(const std::string_view filename){
         //unsigned char* File_t::loadFile(const char* filename){
 
             std::ifstream file(filename.data(), std::ios::binary);
@@ -63,9 +64,9 @@ namespace FILESYSTEM{
     file.read(reinterpret_cast<char*>(imgdata), dataSize);
 
     if (packet.panid != PAN_ID) {
-#ifdef DBG_FILES
+    #ifdef DBG_FILES
         std::cerr << SET_COLOR_RED_TEXT << "PAN_ID no  válido." << std::endl;
-#endif        
+    #endif        
         file.close();
         return nullptr;
     }
@@ -75,7 +76,8 @@ namespace FILESYSTEM{
     }
 
 
-    bool File_t::create(const std::string_view& tmp){
+    bool 
+    File_t::create(const std::string_view& tmp){
         const std::string name_files = "log/" + m_filename + tyme() +  ".bin";
         std::ofstream file(name_files, std::ios::binary);
         if (file.is_open()) {
@@ -96,7 +98,8 @@ namespace FILESYSTEM{
         return false;
     }
 
-    const std::string File_t::tyme()
+    const std::string 
+    File_t::tyme()
     {
 
         auto now = std::chrono::system_clock::now();
