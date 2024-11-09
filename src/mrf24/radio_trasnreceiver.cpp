@@ -129,7 +129,7 @@ extern uint8_t rx_buf[A_MAX_PHY_PACKET_SIZE];
             //obtiene la direccion de mac seteada en el mrf24j40
             uint64_t mac_address;
             zigbee->mrf24j40_get_extended_mac_addr(&mac_address);
-            monitor->insert("get address mac: "               + hex_to_text(mac_address));            
+            monitor->insert("get address mac : "               + hex_to_text(mac_address));            
         #endif        
             RST_COLOR() ; 
             SET_COLOR(SET_COLOR_CYAN_TEXT);
