@@ -67,7 +67,7 @@ extern std::unique_ptr<Mrf24j> zigbee ;
 
 
     // Función para generar el vector de datos de Zigbee
-    std::vector<uint8_t> 
+    const std::vector<uint8_t> 
     Radio_t::getVectorZigbee() {
         // Mensaje a transmitir (ejemplo)
         //const std::string msj_to_zb = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRST@VWXYZ0123@ABCDEFGHIJKLMNOPQ";

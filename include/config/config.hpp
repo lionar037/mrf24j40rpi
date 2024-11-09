@@ -110,6 +110,7 @@
     //#define MAX_PACKET_TX 101//size packet max : 127 - buffer extra : 23 - buffer vect add : 3 
     #define MAX_PACKET_TX 16//otra configuracion de prueba
     #define SIZE_HEAD_PACKET_DATA 23
+    #define BYTES_MHR SIZE_HEAD_PACKET_DATA // originalmente BYTES_MHR es 9 
 #else
     #define MAX_PACKET_TX 113//size packet max : 127 - buffer extra : 11 - buffer vect add : 3
     #define SIZE_HEAD_PACKET_DATA 11

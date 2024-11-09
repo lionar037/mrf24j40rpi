@@ -409,20 +409,20 @@ namespace MRF24J40{
     {
         const auto size = vect.size();
         int incr = 0;
-        write_long(incr++, m_bytes_MHR); // header length
+        write_long(++incr, m_bytes_MHR); // header length
         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
         // default: ignoreBytes = 0;
-        write_long(incr++, m_bytes_MHR+ignoreBytes+size);
+        write_long(++incr, m_bytes_MHR + ignoreBytes + size);
 
         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
-        write_long(incr++, 0b01100001); // first byte of Frame Control
+        write_long(++incr, 0b01100001); // first byte of Frame Control
         
         // 16 bit source, 802.15.4 (2003), 16 bit dest,
-        write_long(incr++, 0b10001000); // second byte of frame control
-        write_long(incr++, 1);  // sequence number 1
+        write_long(++incr, 0b10001000); // second byte of frame control
+        write_long(++incr, 1);  // sequence number 1
 
         const uint16_t panid = get_pan();
-        #ifdef DBG
+        #ifdef DBG_MRF
             printf("\npanid : 0x%X\n",panid);
         #endif
 
@@ -436,12 +436,12 @@ namespace MRF24J40{
             #ifdef DBG_MRF
                 std::cout <<"es un mac de 64 bytes\n";
             #endif
-        write_long(incr++, (dest >> 16 ) & 0xff);
-        write_long(incr++, (dest >> 24 ) & 0xff);
-        write_long(incr++, (dest >> 32 ) & 0xff);
-        write_long(incr++, (dest >> 40 ) & 0xff);
-        write_long(incr++, (dest >> 48 ) & 0xff);
-        write_long(incr++, (dest >> 56 ) & 0xff);
+        write_long(++incr, (dest >> 16 ) & 0xff);
+        write_long(++incr, (dest >> 24 ) & 0xff);
+        write_long(++incr, (dest >> 32 ) & 0xff);
+        write_long(++incr, (dest >> 40 ) & 0xff);
+        write_long(++incr, (dest >> 48 ) & 0xff);
+        write_long(++incr, (dest >> 56 ) & 0xff);
         }
         else{
             #ifdef DBG_MRF
@@ -450,24 +450,24 @@ namespace MRF24J40{
         }
  
         const uint64_t src64 = address64_read();
-        write_long(incr++, src64 & 0xff); // src16 low
-        write_long(incr++, src64 >> 8); // src16 high
+        write_long(++incr, src64 & 0xff); // src16 low
+        write_long(++incr, src64 >> 8); // src16 high
 
     // si lee una direccion mac de 64 bits la envia
        if(sizeof(src64)>2){
-            write_long(incr++, (src64 >> 16 ) & 0xff); 
-            write_long(incr++, (src64 >> 24 ) & 0xff); 
-            write_long(incr++, (src64 >> 32 ) & 0xff); 
-            write_long(incr++, (src64 >> 40 ) & 0xff); 
-            write_long(incr++, (src64 >> 48 ) & 0xff); 
-            write_long(incr++, (src64 >> 56 ) & 0xff); 
+            write_long(++incr, (src64 >> 16 ) & 0xff); 
+            write_long(++incr, (src64 >> 24 ) & 0xff); 
+            write_long(++incr, (src64 >> 32 ) & 0xff); 
+            write_long(++incr, (src64 >> 40 ) & 0xff); 
+            write_long(++incr, (src64 >> 48 ) & 0xff); 
+            write_long(++incr, (src64 >> 56 ) & 0xff); 
         }
         
         // All testing seems to indicate that the next two bytes are ignored.        
         //2 bytes on FCS appended by TXMAC
          incr+=ignoreBytes;
 
-        for(const auto& byte : vect) write_long(incr++,byte);
+        for(const auto& byte : vect) write_long(++incr,byte);
         
         // ack on, and go!
         write_short(MRF_TXNCON, (1<<MRF_TXNACKREQ | 1<<MRF_TXNTRIG));
@@ -479,7 +479,7 @@ namespace MRF24J40{
     Mrf24j::send64(uint64_t dest64, const struct DATA::packet_tx packet_tx) {
         //const uint8_t len = strlen(packet_tx.data); // get the length of the char* array
         //const uint8_t len = strlen(packet_tx); // get the length of the char* array
-        const uint8_t len =sizeof(packet_tx);// const uint8_t len =sizeof(packet_tx.data);
+        const size_t len =sizeof(packet_tx);// const uint8_t len =sizeof(packet_tx.data);
         int i = 0;
         write_long(i++, m_bytes_MHR); // header length
 
