@@ -11,7 +11,9 @@
 	-	utilizacion de seguridad encryptar de desencryptar
 	-	modo router , coordinador , end device
 	-	reduccion de tiempos para enviar y recibir paquetes
-
+	- 	REVISION de GPIOs configuracion y seteo del funcionamiento de las interrupciones
+	-	
+	
 #version 1.1
 	-	Envia datos correctamente 
 	-	envia header , size , buffer , checksum
