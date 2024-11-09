@@ -117,7 +117,7 @@ namespace MRF24J40{
 
                 // essential for obtaining the data frame only
                 // bytes_MHR = 2 Frame control + 1 sequence number + 2 panid + 2 shortAddr Destination + 2 shortAddr Source
-                const int m_bytes_MHR {BYTES_MHR};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
+                const int m_bytes_MHR {16};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
                 //const int m_bytes_MHR {17};//9 para direcciones de 2 bytes de recepcion y 2 de transmision 
 
                 const int m_bytes_FCS {2}; // FCS length = 2

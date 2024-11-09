@@ -412,6 +412,9 @@ namespace MRF24J40{
         write_long(++incr, m_bytes_MHR); // header length
         // +ignoreBytes is because some module seems to ignore 2 bytes after the header?!.
         // default: ignoreBytes = 0;
+        //m_bytes_MHR 9 + 2 + 2 
+        //size  = 16
+        //ignoreBytes =2 
         write_long(++incr, m_bytes_MHR + ignoreBytes + size);
 
         // 0 | pan compression | ack | no security | no data pending | data frame[3 bits]
