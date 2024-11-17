@@ -39,7 +39,7 @@ void Spi_t::init() {
     if (!bcm2835_spi_begin()) {
         fprintf(stderr, "No se pudo inicializar SPI\n");
         bcm2835_close();
-        return 1;
+        return ;
     }
     settings_spi();
 }
