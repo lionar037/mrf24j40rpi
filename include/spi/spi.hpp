@@ -7,7 +7,6 @@
 #include <linux/spi/spidev.h>
 #include <vector>
 
-
 //#include <sys/ioctl.h>
 //#include <sys/stat.h>
 //#include <linux/ioctl.h>
