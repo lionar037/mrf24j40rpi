@@ -51,12 +51,6 @@
 //#if !defined(_ZMRF24J40_H_) && defined(MRF24J40)
     #define _ZMRF24J40_H_
         
-    //#include "GenericTypeDefs.h"
-    //#include "SystemProfile.h"
-    //#include "Transceivers/Transceivers.h"
-    //#include "Transceivers/MCHP_MAC.h"    
-    //#include "Transceivers/MRF24J40/ConfigMRF24J40.h"
-
 
     #define SEC_LEVEL_CBC_MAC_32    7
     #define SEC_LEVEL_CBC_MAC_64    6

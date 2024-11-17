@@ -1,8 +1,13 @@
 #pragma once
+
 namespace MRF24J40{
 
-#define HIGH 1
-#define LOW 0
+//#define HIGH 1
+//#define LOW 0
+
+constexpr int HIGH = 1;
+constexpr int LOW = 0;
+
 
 #define MRF_RXMCR 0x00
 #define MRF_PANIDL 0x01
