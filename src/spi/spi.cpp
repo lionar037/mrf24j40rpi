@@ -50,13 +50,16 @@ void Spi_t::init() {
   }
 
   const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd) {
-      uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) };
+      //uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) };
+      uint8_t buffer[2] = { static_cast<uint8_t>(cmd & 0xFF) , static_cast<uint8_t>(cmd >> 8)};
       bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 2); // Transferencia de 2 bytes
       return buffer[1];
   }
+  
 
   const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd) {
-      uint8_t buffer[3] = { static_cast<uint8_t>(cmd >> 16), static_cast<uint8_t>((cmd >> 8) & 0xFF), static_cast<uint8_t>(cmd & 0xFF) };
+      //uint8_t buffer[3] = { static_cast<uint8_t>(cmd >> 16), static_cast<uint8_t>((cmd >> 8) & 0xFF), static_cast<uint8_t>(cmd & 0xFF) };
+      uint8_t buffer[3] = { static_cast<uint8_t>(cmd & 0xFF)  , static_cast<uint8_t>((cmd >> 8) & 0xFF) , static_cast<uint8_t>(cmd >> 16)};
       bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 3); // Transferencia de 3 bytes
       return buffer[2];
   }
