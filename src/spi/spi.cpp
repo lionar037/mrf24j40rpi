@@ -6,6 +6,11 @@
 
 namespace SPI {
 
+Spi_t::Spi_t()
+    : m_spi_speed(SPI_SPEED) {
+    init();
+}
+
 //void Spi_t::settings_spi() {
 //    // Configura SPI usando bcm2835
 //    if (!bcm2835_spi_begin()) {
@@ -30,39 +35,42 @@ void Spi_t::init() {
         std::cerr << "Error al inicializar bcm2835" << std::endl;
         exit(EXIT_FAILURE);
     }
+    
+    if (!bcm2835_spi_begin()) {
+        fprintf(stderr, "No se pudo inicializar SPI\n");
+        bcm2835_close();
+        return 1;
+    }
     settings_spi();
 }
 
-const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd) {
-    bcm2835_spi_transfer(cmd); // Transferencia de 1 byte
-    return m_rx_buffer[0];     // Retornar el valor recibido
-}
+  const uint8_t Spi_t::Transfer1bytes(const uint8_t cmd) {
+      bcm2835_spi_transfer(cmd); // Transferencia de 1 byte
+      return m_rx_buffer[0];     // Retornar el valor recibido
+  }
 
-const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd) {
-    uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) };
-    bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 2); // Transferencia de 2 bytes
-    return buffer[1];
-}
+  const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd) {
+      uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) };
+      bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 2); // Transferencia de 2 bytes
+      return buffer[1];
+  }
 
-const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd) {
-    uint8_t buffer[3] = { static_cast<uint8_t>(cmd >> 16), static_cast<uint8_t>((cmd >> 8) & 0xFF), static_cast<uint8_t>(cmd & 0xFF) };
-    bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 3); // Transferencia de 3 bytes
-    return buffer[2];
-}
+  const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd) {
+      uint8_t buffer[3] = { static_cast<uint8_t>(cmd >> 16), static_cast<uint8_t>((cmd >> 8) & 0xFF), static_cast<uint8_t>(cmd & 0xFF) };
+      bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 3); // Transferencia de 3 bytes
+      return buffer[2];
+  }
 
-void Spi_t::spi_close() {
-    bcm2835_spi_end();
-    bcm2835_close();
-}
+  void Spi_t::spi_close() {
+      bcm2835_spi_end();
+      bcm2835_close();
+  }
 
-Spi_t::Spi_t()
-    : m_spi_speed(SPI_SPEED) {
-    init();
-}
 
-Spi_t::~Spi_t() {
-    spi_close();
-}
+
+  Spi_t::~Spi_t() {
+      spi_close();
+  }
 
 } // namespace SPI
 
