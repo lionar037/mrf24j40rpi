@@ -2,6 +2,19 @@
 
 #include <spi/spi.hpp>
 #include <config/config.hpp>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+//#include <linux/ioctl.h>
+//#include <linux/types.h>
+//#include <linux/spi/spidev.h>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <bcm2835.h>
 
 namespace SPI {
@@ -11,16 +24,6 @@ Spi_t::Spi_t()
     init();
 }
 
-//void Spi_t::settings_spi() {
-//    // Configura SPI usando bcm2835
-//    if (!bcm2835_spi_begin()) {
-//        std::cerr << "Error al inicializar bcm2835 SPI" << std::endl;
-//        exit(EXIT_FAILURE);
-//    }
-//    bcm2835_spi_set_bit_order(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
-//    bcm2835_spi_set_data_mode(BCM2835_SPI_MODE0);              // Modo SPI
-//    bcm2835_spi_set_clock_divider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
-//}
 void Spi_t::settings_spi() {
     // Configura el SPI
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
@@ -51,7 +54,7 @@ void Spi_t::init() {
   }
 
   const uint8_t Spi_t::Transfer2bytes(const uint16_t cmd) {
-      //uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) };
+    //uint8_t buffer[2] = { static_cast<uint8_t>(cmd >> 8), static_cast<uint8_t>(cmd & 0xFF) ,0xff};
       uint8_t buffer[2] = { static_cast<uint8_t>(cmd & 0xFF) , static_cast<uint8_t>(cmd >> 8)};
       bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 2); // Transferencia de 2 bytes
       return buffer[1];
@@ -60,7 +63,7 @@ void Spi_t::init() {
 
   const uint8_t Spi_t::Transfer3bytes(const uint32_t cmd) {
       //uint8_t buffer[3] = { static_cast<uint8_t>(cmd >> 16), static_cast<uint8_t>((cmd >> 8) & 0xFF), static_cast<uint8_t>(cmd & 0xFF) };
-      uint8_t buffer[3] = { static_cast<uint8_t>(cmd & 0xFF)  , static_cast<uint8_t>((cmd >> 8) & 0xFF) , static_cast<uint8_t>(cmd >> 16)};
+      uint8_t buffer[3] = { static_cast<uint8_t>(cmd & 0xFF)  , static_cast<uint8_t>((cmd >> 8) & 0xFF) , static_cast<uint8_t>((cmd >> 16)& 0xFF)}s;
       bcm2835_spi_transfern(reinterpret_cast<char *>(buffer), 3); // Transferencia de 3 bytes
       return buffer[2];
   }
@@ -69,8 +72,6 @@ void Spi_t::init() {
       bcm2835_spi_end();
       bcm2835_close();
   }
-
-
 
   Spi_t::~Spi_t() {
       spi_close();

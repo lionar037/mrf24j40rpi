@@ -1,25 +1,27 @@
 //codigo spi.hpp
 
 #pragma once
-
 #include <cstdint>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <linux/ioctl.h>
+#include <memory>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 #include <vector>
-#include <memory>
 
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <bcm2835.h>
+
+//#include <sys/ioctl.h>
+//#include <sys/stat.h>
+//#include <linux/ioctl.h>
+//#include <linux/types.h>
+//#include <linux/spi/spidev.h>
+//#include <iostream>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <stdint.h>
+//#include <errno.h>
+//#include <fcntl.h>
+//#include <unistd.h>
+//#include <bcm2835.h>
 
 #define SPI_SPEED   100000 
 #define MAX_BUFFER 256
