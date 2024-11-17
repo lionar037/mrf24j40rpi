@@ -1,3 +1,5 @@
+//codigo spi.hpp
+
 #pragma once
 
 #include <cstdint>
@@ -17,6 +19,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <bcm2835.h>
 
 #define SPI_SPEED   100000 
 #define MAX_BUFFER 256
