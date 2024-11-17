@@ -6,15 +6,23 @@
 
 namespace SPI {
 
+//void Spi_t::settings_spi() {
+//    // Configura SPI usando bcm2835
+//    if (!bcm2835_spi_begin()) {
+//        std::cerr << "Error al inicializar bcm2835 SPI" << std::endl;
+//        exit(EXIT_FAILURE);
+//    }
+//    bcm2835_spi_set_bit_order(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
+//    bcm2835_spi_set_data_mode(BCM2835_SPI_MODE0);              // Modo SPI
+//    bcm2835_spi_set_clock_divider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
+//}
 void Spi_t::settings_spi() {
-    // Configura SPI usando bcm2835
-    if (!bcm2835_spi_begin()) {
-        std::cerr << "Error al inicializar bcm2835 SPI" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    bcm2835_spi_set_bit_order(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
-    bcm2835_spi_set_data_mode(BCM2835_SPI_MODE0);              // Modo SPI
-    bcm2835_spi_set_clock_divider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
+    // Configura el SPI
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
+    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);              // Modo SPI
+    bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
+    bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                 // Selección de chip
+    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW); // Polaridad CS
 }
 
 void Spi_t::init() {
