@@ -23,8 +23,8 @@ Spi_t::Spi_t()
 //}
 void Spi_t::settings_spi() {
     // Configura el SPI
-    //bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
-    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_LSBFIRST);
+    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
+    //bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_LSBFIRST);
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);              // Modo SPI
     bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
     bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                 // Selección de chip
