@@ -58,7 +58,9 @@ namespace GPIO{
     Gpio_t::gpio_export(const int gpio_num){
         char gpio_str[4];
         sprintf(gpio_str, "%d", gpio_num);
-          //std::cout<<"gpio_export\n";
+        #ifdef DBG_GPIO
+          std::cout<<"gpio_export\n";
+          #endif
         return file_open_and_write_value(SYSFS_GPIO_PATH SYSFS_GPIO_EXPORT_FN,std::to_string(gpio_num) /*gpio_str*/);
     }
 
@@ -75,7 +77,9 @@ namespace GPIO{
     Gpio_t::gpio_set_direction(const int gpio_num, const std::string_view dir){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_DIRECTION);
-        //std::cout<<"gpio_set_direction\n";
+        #ifdef DBG_GPIO
+        std::cout<<"gpio_set_direction\n";
+        #endif
         return file_open_and_write_value(path_str, dir.data());
     }
 
@@ -84,8 +88,10 @@ namespace GPIO{
     Gpio_t::gpio_set_value(const int gpio_num, const std::string_view value){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_VALUE);
-        //std::cout<<"gpio_set_value\n";
-        // DBG_GPIO_PRINT(8);
+        #ifdef DBG_GPIO
+        std::cout<<"gpio_set_value\n";
+         DBG_GPIO_PRINT(8);
+         #endif
         return file_open_and_write_value(path_str, value.data());
     }
 
@@ -94,7 +100,9 @@ namespace GPIO{
     Gpio_t::gpio_set_edge(const int gpio_num, const std::string_view edge){
         char path_str[64];
         sprintf(path_str, "%s/gpio%d%s", SYSFS_GPIO_PATH, gpio_num, SYSFS_GPIO_EDGE);
-        //std::cout<<"gpio_set_edge\n";
+        #ifdef DBG_GPIO
+        std::cout<<"gpio_set_edge\n";
+        #endif
         return file_open_and_write_value(path_str, edge.data());
     }
 
@@ -179,20 +187,17 @@ namespace GPIO{
         else{            
             #ifdef USE_MRF24_RX
             if(flag==true)gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
-
             #else 
             gpio_set_value(m_gpio_out,VALUE_LOW);// pon el pinout en alto
             #endif 
             std::this_thread::sleep_for(std::chrono::milliseconds(50));            
         }
-        #ifdef USE_MRF24_RX    
-        
+        #ifdef USE_MRF24_RX            
         if(flag==true){gpio_set_value(m_gpio_out,VALUE_HIGH);}        
         else {gpio_set_value(m_gpio_out,VALUE_LOW);   }
         #else
         gpio_set_value(m_gpio_out,VALUE_HIGH);// pon el pinout en alto
         #endif
-
         return false;
     }
 
