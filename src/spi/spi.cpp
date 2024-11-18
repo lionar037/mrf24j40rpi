@@ -4,9 +4,6 @@
 #include <config/config.hpp>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
-//#include <linux/ioctl.h>
-//#include <linux/types.h>
-//#include <linux/spi/spidev.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +13,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <bcm2835.h>
+//#include <linux/ioctl.h>
+//#include <linux/types.h>
+//#include <linux/spi/spidev.h>
 
 namespace SPI {
 
