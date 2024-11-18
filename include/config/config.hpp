@@ -138,7 +138,7 @@
 
 
 //SPI config 
-#ifdef MODULE_RX
+#ifdef MODULE_TX
     #define SPI_BCM2835
     #define LIBRARIES_BCM2835
 #else
