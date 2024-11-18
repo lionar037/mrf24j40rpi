@@ -39,11 +39,6 @@
 #ifdef USE_MAC_ADDRESS_SHORT
      #define MSJ "@ABCDE"
 #else 
-    //#define MSJ "ABCDEFGHIJKLMNOP@"
-    //#define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmno_____________@"    
-    //#define MSJ "ABCDEFGHIJKLMKNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456@" 
-    //107 char 
-    //#define MSJ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuv@"
 #define MSJ "ABCDEFGHIJ0123456789@ABCD"
 
 #endif
@@ -145,7 +140,9 @@
 //SPI config 
 #ifdef MODULE_TX
     #define SPI_BCM2835
+    #define LIBRARIES_BCM2835
 #else
 // se activa cuando "#define MODULE_RX"
     #define SPI_NO_BCM2835
+    #define LIBRARIES_NO_BCM2835
 #endif

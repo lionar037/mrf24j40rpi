@@ -1,3 +1,4 @@
+//codigo gpio.cpp
 extern "C"{
     #include <stdio.h>
     #include <stdlib.h>
@@ -17,7 +18,83 @@ extern "C"{
 #include <string_view>
 #include <string>
 
+#ifdef LIBRARIES_BCM2835
 
+    namespace GPIO {
+
+    Gpio_t::Gpio_t(bool& st) : m_state{st} {
+        if (!bcm2835_init()) {
+            std::cerr << "bcm2835_init failed. Are you running as root?\n";
+            throw std::runtime_error("Failed to initialize bcm2835");
+        }
+
+        configurePinAsInput(IN_INTERRUPT);
+        configurePinAsOutput(OUT_INTERRUPT);
+    }
+
+    void Gpio_t::configurePinAsInput(uint8_t pin) {
+        bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
+        bcm2835_gpio_set_pud(pin, BCM2835_GPIO_PUD_DOWN);
+    }
+
+    void Gpio_t::configurePinAsOutput(uint8_t pin) {
+        bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
+    }
+
+    void Gpio_t::setPinValue(uint8_t pin, bool value) {
+        bcm2835_gpio_write(pin, value ? HIGH : LOW);
+    }
+
+    bool Gpio_t::getPinValue(uint8_t pin) {
+        return bcm2835_gpio_lev(pin) == HIGH;
+    }
+
+    void Gpio_t::set() {
+    #ifdef USE_MRF24_RX
+        setPinValue(OUT_INTERRUPT, false);
+    #else
+        setPinValue(OUT_INTERRUPT, true);
+    #endif
+    }
+
+    void Gpio_t::waitForInterrupt(uint8_t pin) {
+        bcm2835_gpio_ren(pin); // Enable rising edge detection
+        while (!bcm2835_gpio_eds(pin)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        bcm2835_gpio_set_eds(pin); // Clear event detection status
+    }
+
+    const bool Gpio_t::app(bool& flag) {
+        int m_looper = 0;
+        set();
+
+        if (m_state) {
+            while (m_looper < READING_STEPS) {
+                waitForInterrupt(IN_INTERRUPT);
+                std::cout << "Interrupt detected on GPIO " << IN_INTERRUPT << "\n";
+                ++m_looper;
+            }
+        } else {
+    #ifdef USE_MRF24_RX
+            setPinValue(OUT_INTERRUPT, flag);
+    #else
+            setPinValue(OUT_INTERRUPT, false);
+    #endif
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+
+        return false;
+    }
+
+    Gpio_t::~Gpio_t() {
+        setPinValue(OUT_INTERRUPT, false);
+        bcm2835_close();
+    }
+
+} // namespace GPIO
+
+#else
 namespace GPIO{
 
       Gpio_t::Gpio_t(bool& st)
@@ -219,3 +296,5 @@ namespace GPIO{
         #endif       
     }
 }
+
+#endif

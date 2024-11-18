@@ -1,4 +1,6 @@
+//codigo gpio.hpp
 #pragma once
+#include <config/config.hpp>
 #include <fstream>
 
 #define IN_INTERRUPT    23      //GPIO INTERRUPT 
@@ -25,8 +27,29 @@
 
 #define DBG_GPIO_PRINT(x) std::cout<<"Step :"<<( x )<<"\n"
 
+
+
+
 namespace GPIO{
-struct Gpio_t{   
+
+#ifdef LIBRARIES_BCM2835
+    struct Gpio_t {
+            explicit Gpio_t(bool& st);
+            ~Gpio_t();
+            const bool app(bool& flag);
+            void set();
+
+        private:
+            void configurePinAsInput(uint8_t pin);
+            void configurePinAsOutput(uint8_t pin);
+            void setPinValue(uint8_t pin, bool value);
+            bool getPinValue(uint8_t pin);
+            void waitForInterrupt(uint8_t pin);
+            bool m_state{false};
+    };
+
+#else
+    struct Gpio_t{   
             explicit Gpio_t(bool& st);
             ~Gpio_t();
             const bool app(bool&) ;
@@ -50,4 +73,6 @@ struct Gpio_t{
             const int   m_gpio_in   { IN_INTERRUPT };
             std::ifstream filenameGpio;
     };
+
+#endif 
 }
