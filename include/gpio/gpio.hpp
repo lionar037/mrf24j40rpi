@@ -2,9 +2,16 @@
 #pragma once
 #include <config/config.hpp>
 #include <fstream>
+#include <cstdint>
 
+#ifdef LIBRARIES_BCM2835
+#define IN_INTERRUPT    RPI_GPIO_P1_16  // GPIO 23
+#define OUT_INTERRUPT   RPI_GPIO_P1_12  // GPIO 18
+#else
 #define IN_INTERRUPT    23      //GPIO INTERRUPT 
-#define OUT_INTERRUPT   12    //GPIO LED DBG
+#define OUT_INTERRUPT   12    //GPIO LED DBG    
+#endif
+
 #define READING_STEPS   2     //10 originalmente
 
 #define SYSFS_GPIO_PATH             "/sys/class/gpio"

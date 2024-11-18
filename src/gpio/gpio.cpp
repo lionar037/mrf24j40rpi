@@ -17,6 +17,11 @@ extern "C"{
 #include <thread>
 #include <string_view>
 #include <string>
+#include <bcm2835.h>
+#include <iostream>
+#include <thread>
+#include <chrono>
+
 
 #ifdef LIBRARIES_BCM2835
 
