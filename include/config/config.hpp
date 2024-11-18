@@ -139,3 +139,13 @@
 #else 
     #define END
 #endif 
+
+
+
+//SPI config 
+#ifdef MODULE_TX
+    #define SPI_BCM2835
+#else
+// se activa cuando "#define MODULE_RX"
+    #define SPI_NO_BCM2835
+#endif

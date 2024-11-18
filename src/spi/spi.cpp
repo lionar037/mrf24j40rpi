@@ -12,11 +12,15 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#ifdef SPI_BCM2835
 #include <bcm2835.h>
-//#include <linux/ioctl.h>
-//#include <linux/types.h>
-//#include <linux/spi/spidev.h>
+#else
+  #include <linux/ioctl.h>
+  #include <linux/types.h>
+  #include <linux/spi/spidev.h>
+#endif
 
+#ifdef SPI_BCM2835
 namespace SPI {
 
 Spi_t::Spi_t()
@@ -27,7 +31,6 @@ Spi_t::Spi_t()
 void Spi_t::settings_spi() {
     // Configura el SPI
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST); // Orden de bits
-    //bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_LSBFIRST);
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);              // Modo SPI
     bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_256); // Velocidad SPI
     bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                 // Selección de chip
@@ -79,7 +82,7 @@ void Spi_t::init() {
 
 } // namespace SPI
 
-/*
+#else
 #include <cstring>
 
 #define SPI_DEVICE  "/dev/spidev0.0"
@@ -226,4 +229,4 @@ namespace SPI {
       }
 
 }//end namespace SPI_H
-*/
+#endif
