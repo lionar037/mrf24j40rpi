@@ -8,10 +8,8 @@ extern "C"{
     #include <fcntl.h>
     #include <poll.h>
 }
-
 #include <gpio/gpio.hpp>
 #include <config/config.hpp>
-
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -31,7 +29,6 @@ extern "C"{
             std::cerr << "bcm2835_init failed. Are you running as root?\n";
             throw std::runtime_error("Failed to initialize bcm2835");
         }
-
         configurePinAsInput(IN_INTERRUPT);
         configurePinAsOutput(OUT_INTERRUPT);
     }
@@ -72,7 +69,6 @@ extern "C"{
     const bool Gpio_t::app(bool& flag) {
         int m_looper = 0;
         set();
-
         if (m_state) {
             while (m_looper < READING_STEPS) {
                 waitForInterrupt(IN_INTERRUPT);
@@ -80,11 +76,11 @@ extern "C"{
                 ++m_looper;
             }
         } else {
-    #ifdef USE_MRF24_RX
+        #ifdef USE_MRF24_RX
             setPinValue(OUT_INTERRUPT, flag);
-    #else
+        #else
             setPinValue(OUT_INTERRUPT, false);
-    #endif
+        #endif
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         return false;
@@ -94,7 +90,6 @@ extern "C"{
         setPinValue(OUT_INTERRUPT, false);
         bcm2835_close();
     }
-
 } // namespace GPIO
 
 #else
@@ -131,7 +126,6 @@ namespace GPIO{
         close(fd);
         return 0;
     }
-
 
     // GPIO EXPORT
     int 
@@ -196,8 +190,6 @@ namespace GPIO{
         }
         return fd;
     }
-
-
 
     bool 
     Gpio_t::settings(const int pin , const std::string_view str_v ,std::ifstream& fileTmp){

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #if defined(__SIZEOF_POINTER__) && (__SIZEOF_POINTER__ == 4)
     // Si es de 32 bits
     #define USE_MRF24_RX
@@ -54,7 +53,6 @@
     //#define ENABLE_INTERRUPT_MRF24
     #define CHANNEL 24
 
-
 #elif defined(MODULE_RX)
     #define ADDRESS_LONG        0x1122334455667702
     #define ADDRESS_LONG_SLAVE  0x1122334455667701
@@ -63,16 +61,12 @@
     #define ADDR_SLAVE          0x6001
     #define MRF24_RECEIVER_ENABLE
     #define ENABLE_INTERRUPT_MRF24
-    #define CHANNEL 24
-    
+    #define CHANNEL 24    
 #else
     #error "no se configuro el dispositivo"
 #endif
 
-
-
 #define LOG_FILENAME "log_mrf_"
-
 
 // Prints Debugger
 
@@ -100,7 +94,6 @@
     //#define USE_QR
 #endif
 
-
 #ifdef USE_MAC_ADDRESS_LONG
     //#define MAX_PACKET_TX 101//size packet max : 127 - buffer extra : 23 - buffer vect add : 3 
     #define MAX_PACKET_TX 64//otra configuracion de prueba
@@ -111,7 +104,6 @@
     #define SIZE_HEAD_PACKET_DATA 11
 #endif
 
-
 //config MRF24J40
 #define ADD_RSSI_AND_LQI_TO_PACKET
 #define MRF24J40_DISABLE_AUTOMATIC_ACK
@@ -121,10 +113,8 @@
 #define MRF24J40_PROMISCUOUS_MODE
 #define INT_POLARITY_HIGH
 
-
 //aMaxPHYPacketSize
 #define A_MAX_PHY_PACKET_SIZE 127
-
 
 #ifdef USE_MRF24_TX
     #define PROMISCUE //or ROUTER
@@ -134,8 +124,6 @@
 #else 
     #define END
 #endif 
-
-
 
 //SPI config 
 #ifdef MODULE_TX
