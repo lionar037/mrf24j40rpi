@@ -35,10 +35,8 @@
 #define DBG_GPIO_PRINT(x) std::cout<<"Step :"<<( x )<<"\n"
 
 
-
-
 namespace GPIO{
-
+/*
 #ifdef LIBRARIES_BCM2835
     struct Gpio_t {
             explicit Gpio_t(bool& st);
@@ -54,8 +52,8 @@ namespace GPIO{
             void waitForInterrupt       (const uint8_t pin);
             bool m_state{false};
     };
-
-#else
+*/
+//#else
     struct Gpio_t{   
             explicit Gpio_t(bool& st);
             ~Gpio_t();
@@ -81,5 +79,5 @@ namespace GPIO{
             std::ifstream filenameGpio;
     };
 
-#endif 
+//#endif 
 }

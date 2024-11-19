@@ -18,7 +18,7 @@ extern "C"{
 #include <iostream>
 #include <thread>
 #include <chrono>
-
+/*
 #ifdef LIBRARIES_BCM2835
 #include <bcm2835.h>
 
@@ -91,8 +91,8 @@ extern "C"{
         bcm2835_close();
     }
 } // namespace GPIO
-
-#else
+*/
+//#else
 namespace GPIO{
 
       Gpio_t::Gpio_t(bool& st)
@@ -292,4 +292,4 @@ namespace GPIO{
     }
 }
 
-#endif
+//#endif
