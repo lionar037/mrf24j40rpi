@@ -99,7 +99,7 @@ namespace GPIO {
     const bool Gpio_t::app(bool& flag) {
         struct pollfd fdpoll = {};
         char buf[64];
-
+        static uint16_t val_steps{0}; 
         set();
         m_gpio_in_fd = gpio_get_fd_to_value(m_gpio_in);
 
@@ -113,17 +113,21 @@ namespace GPIO {
                     #ifdef DBG_GPIO
                     std::cerr << "Poll failed... " << m_res << "\n";
                     #endif
+                    flag = false ;
+                    return flag;
                 }
                 if (m_res == 0) {// si no recibio datos 
-                    //#ifdef DBG_GPIO
                     system("clear"); 
-                    std::cout << "\nPoll timed out , esperando recibir datos ...\n";
+                    //#ifdef DBG_GPIO
+                    std::cout << "\nPoll timed out , esperando recibir datos ...  Step : ( "<< std::to_string(++val_steps)<< " )\n";
                     //#endif
-                    flag =0;
+                    flag =false;
+                    return flag;
                 }
                 if (fdpoll.revents & POLLPRI) {
                     lseek(fdpoll.fd, 0, SEEK_SET);
                     read(fdpoll.fd, buf, sizeof(buf));
+                    flag =true;
                 }
             }
         } else {
