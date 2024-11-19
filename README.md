@@ -1,8 +1,11 @@
-#version 1.3
-	-	ruteo , mapa o recorrido del mensaje
+#version 1.4
 	-	niveles de seguridad 
+	-	ruteo , mapa o recorrido del mensaje
 	-	capas 
 	- 	modo sleep
+
+#version 1.3
+	- spi por BCM2835 , reever codigo implementado junto con gpio a bcm2835
 	
 #version 1.2
 	-	implementar ACK

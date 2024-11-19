@@ -116,6 +116,7 @@ namespace GPIO {
                 }
                 if (m_res == 0) {// si no recibio datos 
                     //#ifdef DBG_GPIO
+                    system("clear"); 
                     std::cout << "\nPoll timed out , esperando recibir datos ...\n";
                     //#endif
                     flag =0;
@@ -131,7 +132,7 @@ namespace GPIO {
             #else
             gpio_set_value(m_gpio_out, VALUE_LOW);
             #endif
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
 
         #ifdef USE_MRF24_RX
