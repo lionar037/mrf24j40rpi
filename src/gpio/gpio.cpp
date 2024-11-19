@@ -114,7 +114,6 @@ namespace GPIO {
                     std::cerr << "Poll failed... " << m_res << "\n";
                     #endif
                     flag = false ;// new line ultimate
-                    val_steps=0;
                     return flag;// new line ultimate
                 }
                 if (m_res == 0) {// si no recibio datos 
@@ -128,9 +127,6 @@ namespace GPIO {
                 if (fdpoll.revents & POLLPRI) {
                     lseek(fdpoll.fd, 0, SEEK_SET);
                     read(fdpoll.fd, buf, sizeof(buf));
-                    flag =true;// new line 
-                    val_steps=0;
-                    //return flag;
                 }
             }
         } else {
