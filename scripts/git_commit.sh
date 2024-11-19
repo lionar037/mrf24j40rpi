@@ -26,4 +26,4 @@ fi
 # Imprimir la ruta del directorio actual
 echo "Ruta actual: $PWD"
 
-$PWD/sripts/pull_git_ssh_remote.sh
+$PWD/scripts/pull_git_ssh_remote.sh
