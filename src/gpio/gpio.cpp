@@ -130,7 +130,7 @@ namespace GPIO {
                     read(fdpoll.fd, buf, sizeof(buf));
                     flag =true;// new line 
                     val_steps=0;
-                    return flag;
+                    //return flag;
                 }
             }
         } else {
