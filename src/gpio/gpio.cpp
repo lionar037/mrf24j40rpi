@@ -110,10 +110,15 @@ namespace GPIO {
 
                 m_res = poll(&fdpoll, 1, POLL_TIMEOUT);
                 if (m_res < 0) {
+                    #ifdef DBG_GPIO
                     std::cerr << "Poll failed... " << m_res << "\n";
+                    #endif
                 }
-                if (m_res == 0) {
-                    std::cout << "\nPoll timed out or received button press...\n";
+                if (m_res == 0) {// si no recibio datos 
+                    //#ifdef DBG_GPIO
+                    std::cout << "\nPoll timed out , esperando recibir datos ...\n";
+                    //#endif
+                    flag =0;
                 }
                 if (fdpoll.revents & POLLPRI) {
                     lseek(fdpoll.fd, 0, SEEK_SET);

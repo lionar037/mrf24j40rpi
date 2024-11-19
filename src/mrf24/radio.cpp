@@ -94,10 +94,10 @@ extern DATA::PACKET_RX buffer_receiver;
     }
 
 
-    //initcializacion 
+    //verificacion del flag,si recibe algo 
     void 
     Radio_t::verif(bool& flag) {
-        flag = zigbee->check_flags(&handle_rx, &handle_tx); //checkea el flag
+        flag = zigbee->check_flags(&handle_rx, &handle_tx); //checkea el flag , si recibio algo es true
         const unsigned long current_time = 100000;//1000000 original
         if (current_time - last_time > tx_interval) {
             last_time = current_time;
