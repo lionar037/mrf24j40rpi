@@ -13,14 +13,14 @@ extern "C"{
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <string_view>
-#include <string>
 #include <iostream>
 #include <thread>
 #include <chrono>
 /*
 #ifdef LIBRARIES_BCM2835
 #include <bcm2835.h>
+#include <string_view>
+#include <string>
 
     namespace GPIO {
 

@@ -1,8 +1,16 @@
 //codigo gpio.hpp
 #pragma once
+#ifdef LIBRARIES_BCM2835
 #include <config/config.hpp>
-#include <fstream>
+#else
+#include <string_view> // Para usar std::string_view
+#include <fstream>     // Para usar std::ifstream
+#include <string>      // Para operaciones con cadenas
+//#include <iostream>    // Opcional, para depuración con std::cerr o std::cout
+#endif
+
 #include <cstdint>
+
 
 #ifdef LIBRARIES_BCM2835
 #define IN_INTERRUPT    RPI_GPIO_P1_16  // GPIO 23
