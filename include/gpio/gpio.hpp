@@ -40,7 +40,7 @@ namespace GPIO {
         explicit Gpio_t(bool& st);
         ~Gpio_t();
 
-        bool app(bool&);
+        const bool app(bool&);
         
     protected:
         int file_open_and_write_value(const std::string_view, const std::string_view);
