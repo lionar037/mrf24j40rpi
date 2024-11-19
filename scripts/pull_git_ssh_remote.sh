@@ -1,7 +1,9 @@
 #!/bin/bash
 
 LINK=/home/pi/src/mrf24j40/
-DEVICES=("pi@raspberrypi.local" "pi@moquitto.local" "pi@raspberry.local")
+#DEVICES=("pi@raspberrypi.local" "pi@moquitto.local" "pi@raspberry.local")
+
+DEVICES=("pi@raspberry.local")
 
 for DEVICE in "${DEVICES[@]}"; do
     ssh "$DEVICE" "cd $LINK && git pull"
