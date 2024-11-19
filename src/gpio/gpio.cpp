@@ -33,20 +33,20 @@ extern "C"{
         configurePinAsOutput(OUT_INTERRUPT);
     }
 
-    void Gpio_t::configurePinAsInput(uint8_t pin) {
+    void Gpio_t::configurePinAsInput(const uint8_t pin) {
         bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_INPT);
         bcm2835_gpio_set_pud(pin, BCM2835_GPIO_PUD_DOWN);
     }
 
-    void Gpio_t::configurePinAsOutput(uint8_t pin) {
+    void Gpio_t::configurePinAsOutput(const uint8_t pin) {
         bcm2835_gpio_fsel(pin, BCM2835_GPIO_FSEL_OUTP);
     }
 
-    void Gpio_t::setPinValue(uint8_t pin, bool value) {
+    void Gpio_t::setPinValue(const uint8_t pin, const bool value) {
         bcm2835_gpio_write(pin, value ? HIGH : LOW);
     }
 
-    bool Gpio_t::getPinValue(uint8_t pin) {
+    bool Gpio_t::getPinValue(const uint8_t pin) {
         return bcm2835_gpio_lev(pin) == HIGH;
     }
 
@@ -58,7 +58,7 @@ extern "C"{
     #endif
     }
 
-    void Gpio_t::waitForInterrupt(uint8_t pin) {
+    void Gpio_t::waitForInterrupt(const uint8_t pin) {
         bcm2835_gpio_ren(pin); // Enable rising edge detection
         while (!bcm2835_gpio_eds(pin)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));

@@ -125,8 +125,14 @@
     #define END
 #endif 
 
-//SPI config 
 #ifdef MODULE_TX
+//#define ENABLE_BCM2835
+#else
+//#define ENABLE_BCM2835
+#endif
+
+//SPI config 
+#ifdef ENABLE_BCM2835
     #define SPI_BCM2835
     #define LIBRARIES_BCM2835
 #else

@@ -47,11 +47,11 @@ namespace GPIO{
             void set();
 
         private:
-            void configurePinAsInput(uint8_t pin);
-            void configurePinAsOutput(uint8_t pin);
-            void setPinValue(uint8_t pin, bool value);
-            bool getPinValue(uint8_t pin);
-            void waitForInterrupt(uint8_t pin);
+            void configurePinAsInput    (const uint8_t pin);
+            void configurePinAsOutput   (const uint8_t pin);
+            void setPinValue            (const uint8_t pin,const bool value);
+            bool getPinValue            (const uint8_t pin);
+            void waitForInterrupt       (const uint8_t pin);
             bool m_state{false};
     };
 
