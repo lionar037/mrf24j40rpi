@@ -113,21 +113,21 @@ namespace GPIO {
                     #ifdef DBG_GPIO
                     std::cerr << "Poll failed... " << m_res << "\n";
                     #endif
-                    flag = false ;
-                    return flag;
+                    flag = false ;// new line ultimate
+                    return flag;// new line ultimate
                 }
                 if (m_res == 0) {// si no recibio datos 
                     system("clear"); 
                     //#ifdef DBG_GPIO
                     std::cout << "\nPoll timed out , esperando recibir datos ...  Step : ( "<< std::to_string(++val_steps)<< " )\n";
                     //#endif
-                    flag =false;
-                    return flag;
+                    flag =false;// new line ultimate
+                    return flag;// new line ultimate
                 }
                 if (fdpoll.revents & POLLPRI) {
                     lseek(fdpoll.fd, 0, SEEK_SET);
                     read(fdpoll.fd, buf, sizeof(buf));
-                    flag =true;
+                    flag =true;// new line 
                 }
             }
         } else {
